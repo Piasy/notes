@@ -1,4 +1,4 @@
-#使用Style修饰View
+#[使用Style修饰View](http://blog.danlew.net/2014/11/19/styles-on-android/?utm_source=Android+Weekly&utm_campaign=a94f126150-Android_Weekly_129&utm_medium=email&utm_term=0_4eb677ad19-a94f126150-337892465)
 +  当多个View语义上相同时：不仅样式相同，而且View的功能也相同；
   
 +  当某项数值在多处使用时，style中的数值使用引用方式定义（抽离为dimen，color等）；
