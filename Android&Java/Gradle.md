@@ -17,21 +17,21 @@
 +  工程结构：创建新工程时，自动会生成main和androidTest目录，分别存放工程文件和测试代码；androidTest目录下不需要manifest文件，将自动生成；
 +  可以通过配置，修改/重新指定各种文件的位置：
     ```gradle
-    android {
-        sourceSets {
-            main {
-                manifest.srcFile 'AndroidManifest.xml'
-                java.srcDirs = ['src']
-                resources.srcDirs = ['src']
-                aidl.srcDirs = ['src']
-                renderscript.srcDirs = ['src']
-                res.srcDirs = ['res']
-                assets.srcDirs = ['assets']
-            }
-    
-            androidTest.setRoot('tests')
-        }
-    }
+      android {
+          sourceSets {
+              main {
+                  manifest.srcFile 'AndroidManifest.xml'
+                  java.srcDirs = ['src']
+                  resources.srcDirs = ['src']
+                  aidl.srcDirs = ['src']
+                  renderscript.srcDirs = ['src']
+                  res.srcDirs = ['res']
+                  assets.srcDirs = ['assets']
+              }
+      
+              androidTest.setRoot('tests')
+          }
+      }
     ```
 +  tasks：apply plugin时，会自动添加plugin定义的task（java和android包括：assemble，check，build，clean。build包括assemble和check）；
 +  和make类似，上次执行之后没有改变的task下次将不会执行；
@@ -63,26 +63,28 @@
 +  声明依赖
   +  本地jar文件：  
     ```gradle
-    dependencies {
-        compile files('libs/foo.jar')
-    }
+    
+      dependencies {
+          compile files('libs/foo.jar')
+      }
     ```
   +  远程依赖：  
     ```gradle
-    repositories {
-        mavenCentral()
-    }
-    
-    
-    dependencies {
-        compile 'com.google.guava:guava:11.0.2'
-    }
+      repositories {
+          mavenCentral()
+      }
+      
+      
+      dependencies {
+          compile 'com.google.guava:guava:11.0.2'
+      }
     ```
   +  library project依赖：
     ```gradle
-    dependencies {
-        compile project(':libraries:lib1')
-    }
+    
+      dependencies {
+          compile project(':libraries:lib1')
+      }
     ```
 +  依赖类型
   +  compile：用于主应用程序的依赖编译，所有的内容都会加入到classpath中，并且打包到APK文件中；
