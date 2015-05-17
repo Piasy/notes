@@ -19,3 +19,4 @@
 +  onCreateView返回null；
 +  结合`setRetainInstance()`方法，让Fragment在应用程序配置发生变化（横竖屏、屏幕尺寸）时，不会被destroy，从而继续执行后台任务；
 +  通过为Fragment设置tag，可以在之后获取fragment实例；
++  效果类似于MVP中的ViewState；
