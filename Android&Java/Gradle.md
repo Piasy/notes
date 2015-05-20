@@ -96,3 +96,44 @@
   +  APK文件总是使用两种依赖类型：compile和&lt;buildtype&gt;Compile；
   +  创建新的build type，就可以使用对应的&lt;buildtype&gt;Compile声明依赖；
 +  library project最终将打包为.aar文件，包含编译后的代码、资源文件；library在被其他工程引用时，其依赖只有compile类型的才会被继承；
+
+##命令行运行
++  如果不clean，将采用递增式编译，即之前已编译、且无修改的部分，将不会编译；
++  第一次运行的时候加上`–daemon`选项，将让gradle后台运行，后续编译将节省gradle初始化的时间；
+
+##创建自定义task
++  添加task  
+    ```gradle  
+    
+    task custom(description: 'This is our custom task') << { task ->
+        println "Running task ${task.name}"
+    }
+    ```
++  添加task的依赖  
+    ```gradle  
+    
+      assemble.dependsOn 'custom'
+    
+    ```
+`assemble`将依赖于`custom`，即`custom`执行后才能执行`assemble`；这样是将`custom`添加到了`assemble`的最后一个依赖；
+
++  使用`rule`延迟创建task  
+    ```gradle
+    assemble.dependsOn(‘customAssemble’)
+    
+    tasks.addRule(“Pattern: customAssemble“) { taskName ->
+      println “Creating task ${taskName}”
+      if (taskName.equals(“customAssemble”)) {
+        android.applicationVariants.each { variant ->
+          println “Adding dependency to assemble${variant.name}”
+          def targetTask = project.tasks.findByName(“assemble${variant.name}”)
+          if(targetTask != null) {
+            targetTask.dependsOn(“customAssemble${variant.name}”)
+          }
+        }
+      }
+      task(taskName) << { task ->
+        println “Running custom task ${task.name}”
+      }
+    }
+    ```
