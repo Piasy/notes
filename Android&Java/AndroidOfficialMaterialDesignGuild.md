@@ -75,6 +75,20 @@ Material design中的元素和真实世界中的事物类似，可以叠起来�
     +  子元素从父元素继承属性，兄弟之间继承的属性是相同的；
 
 ##Animation
++  Authentic motion
+动效可以用来表示元素之间的空间关系，功能，表现其优美与流畅。
+  +  Mass and weight
+    动效的开始、结束、改变方向，都应该和真实世界一样，需要一个过程；
+    +  加速、减速过程要自然，最好用平滑的（加速度的变化是均匀的）、对称的加速减速过程；
+    +  进入和离开时的加速度，要能反映出元素的意图，例如：减速就暗示着会停下来；移动的速度、方向变化，会引起用户的注意，要考虑在动效的过程中，哪一部分应该引起用户最大的注意力；
+    +  不同大小的元素，加速度理应不一样，小的元素加速度应大一些；尽量使用[curved motion](http://developer.android.com/training/material/animations.html#CurvedMotion)；
++  Responsive interaction
+  +  用户输入：点击、拖拽、声音、鼠标、键盘等，都应给出视觉上的响应；
+  +  Surface reaction：使用ripple API，仅仅产生view表面的视觉变化；
+  +  Material response：响应的动画要和触点有联系，如：动画的起止点都在触点处；产生和消失用大小动画；点击态高度增加；
+  +  Radial action：点击事件需要有视觉反馈；点击触发的动画要和点击有联系，例如动画的起止点都在触点处；
++  Meaningful transitions
+  +  
 
 ##Style
 
