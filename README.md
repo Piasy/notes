@@ -18,3 +18,10 @@
   
 +  视野
   +  [一些很棒的点子](Android&Java/CoolIdea.md)
+  +  [Android项目架构](Android&Java/AndroidProjectArch.md)
+  
++  最佳实践
+  +  [MVP(Model-View-Presenter)模式](Android&Java/MVP.md)
+  
++  性能优化
+  +  [谷歌安卓团队对于性能优化的建议](Android&Java/AndroidPerformancePatterns.md)
