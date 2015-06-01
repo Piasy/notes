@@ -87,8 +87,21 @@ Material design中的元素和真实世界中的事物类似，可以叠起来�
   +  Surface reaction：使用ripple API，仅仅产生view表面的视觉变化；
   +  Material response：响应的动画要和触点有联系，如：动画的起止点都在触点处；产生和消失用大小动画；点击态高度增加；
   +  Radial action：点击事件需要有视觉反馈；点击触发的动画要和点击有联系，例如动画的起止点都在触点处；
-+  Meaningful transitions
-  +  
++  Meaningful transitions  
+  好的动效设计，可以有效帮助用户理解场景的切换、界面内元素的布局与变化、界面内元素的层级关系；
+  +  Visual continuity  
+    有助于引导用户的注意力；涉及到的元素：将进入场景的元素、将退出场景的元素、不同场景间共享的元素；相关阅读：[自定义Activity的切换动画](http://developer.android.com/training/material/animations.html#Transitions)；当设计动效时，需要考虑：引导用户的注意力、通过颜色和共享元素把动效在视觉上关联起来、精确地使用动效；
+  +  Hierarchical timing  
+    合理设计动效中元素之间的移动顺序、时间序列，要突出最重要的元素；
+  +  Consistent choreography  
+    合理设计移动的路径；相关阅读：[Use curved motion](http://developer.android.com/training/material/animations.html#CurvedMotion)；    
+    最佳实践
+    +  尽量避免线性空间路径，除非它就是需要这种限制；
+    +  在不同的场景切换间，保持元素移动方向、路径的连贯性；避免冲突、交错的移动路径；
+    +  元素移动时，它们处于哪一高度？为何这样设计？
+    +  如果把每个元素的轨迹记录下来，形成的图像是否优美？是否清晰？
+    +  使用连贯一致的进入、离开动效，强调元素之间的空间关系；
++  Delightful details  
 
 ##Style
 
