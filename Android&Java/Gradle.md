@@ -137,3 +137,17 @@
       }
     }
     ```
+    
+##巧用Product Flavor
+不同的版本，使用不同的服务器配置，不同的icon，不同的包名等，使用product flavor非常方便；可以在product flavor配置里面设置控制变量，主代码根据控制变量来控制行为；
+```gradle
+productFlavors {
+        rd {
+            applicationId "zuul.com.android.rd"
+            buildConfigField "boolean", "LOG_TIMBER", "true"
+            buildConfigField "boolean", "LOG_STETHO", "true"
+            buildConfigField "boolean", "SHOW_LOGGIN_PHONE", "true"
+        }
+}
+```
+资源文件（drawable，string，style等）、代码文件，都可以为不同的flavor创建相应的文件夹，进行个性化配置；
