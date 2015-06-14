@@ -7,3 +7,5 @@
 ##[Backport lib](https://github.com/andkulikov/Transitions-Everywhere)
 
 ##[自定义Activity的过场动效](https://www.youtube.com/watch?v=CPxkoe2MraA)
+
+##[Fragment过场动效](http://stackoverflow.com/a/17488542/3077508)
