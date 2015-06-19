@@ -46,3 +46,21 @@ Android framework实现的LRU缓存算法类，对于Bitmap的使用场景非常
 +  Android Wear、Google Fit...
 
 ##Day 4：[Web app的推送通知](https://www.youtube.com/watch?v=Z_K8QPQe6oM)
+
+##Day 5：[用户活动识别：步行、跑步、骑车等](https://developers.google.com/android/reference/com/google/android/gms/location/ActivityRecognitionApi)
+
+##Day 6：[Android wear使用MAP API](https://developers.google.com/maps/documentation/android/wear)
+
+##Day 7：[语音互动，不仅是启动命令，还能交互](http://io2015codelabs.appspot.com/codelabs/voice-interaction#1)
+
+##Day 8：[谷歌地图的Lite模式，高性能显示多张静态地图](https://developers.google.com/maps/documentation/android/lite)
+
+##Day 9：[使用Lint工具进行代码检查：性能、bug、内存泄漏等](http://developer.android.com/tools/debugging/improving-w-lint.html)
+
+##Day 10：[逐步优化网页响应的速度](https://youtu.be/d5_6yHixpsQ)
+
+##Day 11：[指纹验证API](https://youtu.be/VOn7VrTRlA4)
+
+##Day 12：[Google Play商店的icon、描述文字-安装量统计功能](https://youtu.be/B6ydLpkhq04)
+
+##Day 13：[]()
