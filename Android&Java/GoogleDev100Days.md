@@ -63,4 +63,24 @@ Android framework实现的LRU缓存算法类，对于Bitmap的使用场景非常
 
 ##Day 12：[Google Play商店的icon、描述文字-安装量统计功能](https://youtu.be/B6ydLpkhq04)
 
-##Day 13：[]()
+##Day 13：[优化APP在google搜索中的结果](https://youtu.be/NrcCUaAaHG4)
+
+##Day 14：[Google play for work：为办公设备订制的APP](https://youtu.be/dH41OutAMNM)
+
+##Day 15：[Google map的AnimateCamera API](https://youtu.be/gkze68UlHdk)
+
+##Day 16：[Transparency & Alpha使用时的渲染性能优化](https://youtu.be/wIy8g8yNhNk)
++  在动画开始时，`setLayerType(View.LAYER_TYPE_HARDWARE, null)`，动画结束后，`setLayerType(View.LAYER_TYPE_NONE, null)`；在API >= 16时，可以只调用`ViewPropertyAnimator.alpha(0.0f).withLayer()`接口即可；
++  使用shadow时，重写View的`hasOverlappingRendering()`接口，返回false；
++  只有当确定瓶颈是这部分view的渲染时，才有必要这样优化；
+
+##Day 17：[Google Analytics SDK](https://youtu.be/ecAzIIvbKIU)
+下载量、安装量、用户离开APP的页面、地区分布等多种统计信息；
+
+##Day 18：[AdMob：APP广告分发平台](https://youtu.be/N-EXqPBaaKQ)
+多种展示方式、自动获取费用最高的广告、Google Analytics集成等特点；
+
+##Day 19：[designing for drivers](https://youtu.be/vG9c5egwEYY)
+6步法则；只展示驾驶员真正想要的内容；使用语音控制；
+
+##Day 20：[Android M中的Android for work API](https://youtu.be/vcSj8ln-BlE)
