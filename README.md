@@ -4,10 +4,15 @@
 +  基础
   +  [安卓基础](Android&Java/AndroidBasic.md)
   +  [使用Fragment](Android&Java/Fragments.md)
+  +  [安卓系统点击事件处理框架](Android&Java/AndroidTouchSystem.md)
   +  [官方Material design手册](Android&Java/AndroidOfficialMaterialDesignGuild.md)
   +  [官方开发手册](Android&Java/AndroidOfficialDevelopGuild.md)
   +  [官方分发手册](Android&Java/AndroidOfficialDistributeGuild.md)
-  +  [各个安卓版本引入的主要新特性](Android&Java/NewInAndroid.md)
+  +  [各个安卓版本引入的主要新特性](Android&Java/NewInAndroid.md)  
+  
+  +  [《深入理解JVM》](Android&Java/InsideJVM.md)
+  +  [Java对象内存使用](Android&Java/JavaObjectMemoryUsage.md)
+  +  [Java Memory model](Android&Java/JSR133.md)
   
 +  构建
   +  [Gradle](Android&Java/Gradle.md)
