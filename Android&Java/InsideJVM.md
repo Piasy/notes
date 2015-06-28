@@ -1,8 +1,8 @@
 #深入理解Java虚拟机
 
-#第二部分：自动内存管理机制
+#第二部分 自动内存管理机制
 
-##第二章：Java内存区域与内存溢出异常
+##第二章 Java内存区域与内存溢出异常
 +  JVM内存区域  
 ![jvm_memory_area.png](assets/jvm_memory_area.png)
   +  程序计数器：类似x86 EIP，每个线程都有一个程序计数器；执行native代码时计数器值为空；唯一不会抛出OOM的区域；
@@ -56,7 +56,7 @@
   在dump文件中看不出明显异常；  
   直接内存区域可以通过JVM参数配置，默认与堆最大值一样；
   
-##第三章：垃圾收集器与内存分配策略
+##第三章 垃圾收集器与内存分配策略
 +  是否可被回收
   +  引用计数法  
   为每个对象添加一个引用计数器，当计数器为0时，可被回收；Python等语言使用，Java不是；无法解决循环引用的问题；
@@ -97,4 +97,99 @@
   现代商用JVM均采用分代收集算法；一般把堆分为新生代和老年代；  
   新生代一般98%的对象都会很快被回收，使用复制算法；  
   老年代使用标记-清理，或者标记-整理算法；
-+  HotSpot的算法实现
++  HotSpot的算法实现  
+...
+
+##第七章 虚拟机类加载机制
++  类的生命周期
+  +  加载、验证、准备、解析、初始化、使用、卸载
+  +  验证、准备、解析，通常称为链接过程
+  +  加载、验证、准备、初始化、卸载，这五个阶段的开始顺序是确定的，解析阶段可能在初始化之后再开始，用于支持动态绑定；仅仅是开始顺序，并不是进行/完成的顺序；
+  +  类加载的时机并未明确规定，但是初始化明确规定，当且仅当以下5中情况，若类未初始化，必须立即对类进行初始化：
+    +  遇到new、getstatic、putstatic或invokestatic这4条字节码指令时（new一个类，访问static成员/方法，`static final`成员除外，它们在编译期放入了常量池）；
+    +  使用`java.lang.reflect`包得方法对类进行反射调用的时候；
+    +  初始化一个类，然而其父类未初始化时，先初始化父类；
+    +  虚拟机启动时用户指定的要执行的主类；
+    +  当使用JDK 1.7的动态语言支持时，如果一个`java.lang.invoke.MethodHandle`实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且方法句柄对应的类未初始化；
+  +  这5种行为称为主动引用，可能会触发类的初始化；其他的行为均不会触发类的初始化，称为被动引用，例如：
+    +  通过子类引用父类的静态成员，不会导致子类初始化
+    +  通过数组定义（new一个数组），并不会触发数组元素类的初始化，但是虚拟机会自动生成一个直接继承于Object的子类，该类封装了对数组的访问
+    +  `static final`成员会被放入常量池，访问它们不会触发类的初始化
+  +  接口的初始化触发条件与类基本一致，仅有第三点不同：一个接口初始化时，不要求父接口完成初始化，只有在真正使用父接口时才会触发父接口的初始化
++  类加载的过程
+  +  加载
+    +  通过类的全限定名，获取定义此类的二进制字节流
+    +  将字节流中的静态存储结构转化为方法区的运行时数据结构
+    +  在内存中生成一个代表这个类的`java.lang.Class`对象，作为方法区这个类的各种数据的访问入口
+    +  第一阶段最灵活，二进制流可以从任何位置、以任何方式获取，衍生了许多强大的技术（zip包、网络、动态代理），通过自定义类加载器即可利用这一灵活性
+    +  数组的类型是虚拟机自动创建的，但也和数组元素的类加载器紧密相关
+  +  验证
+    +  编译器会对代码进行检查
+    +  虚拟机会对字节码进行检查，包括：文件格式验证、元数据验证（修饰符、可见性、继承关系）、字节码验证（数据流、控制流分析，确定语义合法、符合逻辑，StackMapTable）、符号引用验证（可查找、可访问等）
+  +  准备
+    +  为static变量分配内存，设置零值（而非代码中定义的初始值，初始值在自动生成的<clinit>()函数中进行）；为static final变量直接设置初始值
+  +  解析
+    +  符号引用转换为直接引用，有些只有在运行时才能完成解析
+  +  初始化
+    +  <clinit>()函数，将static代码块、static（无final修饰）变量的赋值组合起来而成；static代码块访问static变量时，变量必须已经定义（代码位置相关性，可写不可读）
+    +  父类的<clinit>()函数一定先于子类的执行，因此父类的static代码块先于子类的static变量赋值操作
+    +  <clinit>()函数对于接口来说非必须，<clinit>()函数的线程安全性由虚拟机保证，static代码块中要避免耗时操作
+  +  类加载器
+    +  加载一个类到内存中
+    +  比较两个类是否相等（equals()、isAssignableFrom()、inInstance()、instanceof操作），只有在两个类是由同一个类加载器加载的前提下才有意义
+    +  双亲委派模型（Parents Delegation Model）  
+    BootstrapClassLoader、sum.misc.Launcher$ExtClassLoader、sun.misc.Launcher$App-ClassLoader  
+    ![java_class_loader_relation.jpeg](assets/java_class_loader_relation.jpeg)  
+    除了BootstrapClassLoader，其他所有的类加载器都应有父类加载器，而且父子关系不是以继承方式实现，而是以组合方式：一个类加载器收到类加载请求后，首先调用父类加载器的加载方法，每一层次均如此，如果父类加载器无法完成加载，子加载器才尝试自己加载。  
+    保证Java类体系的正确性。自定义ClassLoader一般把加载逻辑放在findClass中。
+    ```java
+    protected Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
+        Class<?> clazz = findLoadedClass(className);
+
+        if (clazz == null) {
+            ClassNotFoundException suppressed = null;
+            try {
+                clazz = parent.loadClass(className, false);
+            } catch (ClassNotFoundException e) {
+                suppressed = e;
+            }
+
+            if (clazz == null) {
+                try {
+                    clazz = findClass(className);
+                } catch (ClassNotFoundException e) {
+                    e.addSuppressed(suppressed);
+                    throw e;
+                }
+            }
+        }
+
+        return clazz;
+    }    
+    ```
+    +  非双亲委派模型：JNDI、JDBC、JCE、JAXB、JBI；程序动态性，OSGI，代码热替换、模块热部署等；
+
+##第八章 虚拟机字节码执行引擎
++  基于栈的执行引擎，而非基于寄存器
++  即时编译本地代码执行，JIT
++  局部变量表
+  +  slot
+  +  slot重用对垃圾回收可能会有影响，但是通过JIT可以解决
+  +  局部变量不会被自动赋予零值，但编译器有些情况下会给提示
++  操作数栈
+  +  不同栈帧之间可能有重叠，避免数据复制开销
+  +  动态链接，每个栈帧中都包含一个指向运行时常量池中该栈帧所属方法的引用，用于支持动态链接
+  +  方法返回地址
+  +  附加信息：调试信息等
++  方法调用
+  +  解析
+    +  invokestatic：静态方法
+    +  invokespecial：构造函数（<init>()）、私有方法、父类方法
+    +  invokevirtual：调用虚方法
+    +  invokeinterface：调用接口方法
+    +  invokedynamic：动态解析
+  +  分派
+    +  静态分派（Method Overload Resolution）：方法重载，编译期分派，编译器选择最合适的重载版本；类似于C++的编译时多态：函数重载，模板；
+    +  动态分派（Dynamic Dispatch）：方法重写，运行期分派；类似于C++的运行时多态：虚函数；
+  +  动态类型语言支持  
+  ...
