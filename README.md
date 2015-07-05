@@ -10,10 +10,6 @@
   +  [官方分发手册](Android&Java/AndroidOfficialDistributeGuild.md)
   +  [各个安卓版本引入的主要新特性](Android&Java/NewInAndroid.md)  
   
-  +  [《深入理解JVM》](Android&Java/InsideJVM.md)
-  +  [Java对象内存使用](Android&Java/JavaObjectMemoryUsage.md)
-  +  [Java Memory model](Android&Java/JSR133.md)
-  
 +  构建
   +  [Gradle](Android&Java/Gradle.md)
   
@@ -29,11 +25,17 @@
   +  [Google dev 100 days系列视频](Android&Java/GoogleDev100Days.md)
   +  [WebRTC](Android&Java/WebRTC.md)
   +  [Google IO 2015摘要](Android&Java/GoogleIO2015.md)
+  +  [Data binding(MVVM，Model-View-ViewModel)](Android&Java/MVVM.md)
   
 +  最佳实践
   +  [MVP(Model-View-Presenter)模式](Android&Java/MVP.md)
-  +  [Data binding(MVVM，Model-View-ViewModel)](Android&Java/MVVM.md)
   +  [Rx在Android中的最佳实践](Android&Java/RxAndroidBestPractice.md)
+  +  [SnapChat公司安卓团队的建议](https://github.com/futurice/android-best-practices)
+  +  [UI上的一些高效方式/最佳实践](https://github.com/pedrovgs/EffectiveAndroidUI)
   
-+  性能优化
++  深入
   +  [安卓性能优化](Android&Java/AndroidPerformancePatterns.md)
+  +  [《深入理解JVM》](Android&Java/InsideJVM.md)
+  +  [Java对象内存使用](Android&Java/JavaObjectMemoryUsage.md)
+  +  [Java Memory model](Android&Java/JSR133.md)
+  
