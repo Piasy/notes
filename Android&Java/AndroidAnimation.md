@@ -19,7 +19,9 @@ setCustomAnimations调用的顺序一定要是第一个，否则会不起效。
 使用add、remove，则会有两层Fragment同时显示的效果。
 
 ##Transition Animations
-+  property animator：通过动画API改变view的属性（位置），动画结束后，改变view的位置；
++  property animator
+  +  通过动画API改变view的属性（位置），动画结束后，改变view的位置；
+  +  `Animator`、`ObjectAnimator.ofFloat(Object target, String propertyName, float... values)`、``
 +  基于Scene的动效：系统自动检测两个Scene之间的区别，然后用动效进行过渡；
 +  Scene可以用代码创建，也可以由xml定义；
 +  `ChanngeBounds`，`Fade`，`AutoTransition`，...，`TransitionSet`，`AutoTransition.setOrdering()`，`TransitionSet.setOrdering()`；
