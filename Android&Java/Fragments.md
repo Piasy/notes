@@ -3,7 +3,7 @@
 ##优点
 +  简化对UI的重用，将UI和交互放到Fragment里面，可以方便的针对不同设备设置不同的UI（如pad显示两个fragment，phone显示一个）；
 
-##完整声明周期
+##完整生命周期
 ![FullFragmentAndActivityLifeCycle.png](assets/FullFragmentAndActivityLifeCycle.png)
 
 ##使用fragment
