@@ -11,7 +11,37 @@
 	![AdvancedTextView.png](assets/AdvancedTextView.png)
 +  [Shape Drawable：形状、圆角、边框、填充、渐变色填充等](http://trinea.iteye.com/blog/1483949)
 +  [View绘制时加上特效：Shader，图像渲染、线性渐变、环形渐变、扫描渐变、组合渐变](http://blog.csdn.net/ldj299/article/details/6166071)
-
++  [安卓系统的“售货亭模式”](http://cases.azoft.com/android-kiosk-mode-rules-restrictions/)
+  +  只允许用户在一个应用程序内使用，不能接收到系统通知，状态栏，退出程序，类似于ATM机，只能使用一个应用程序。
+  +  5.0：设置菜单内Screen pinning mode；`startLockTask()`；
+  +  pre 5.0：
+    +  自启动：监听启动事件`android.intent.action.BOOT_COMPLETED`，随系统启动APP；
+	+  监听返回键，并且不返回；
+	+  manifest文件启动activity添加三个category：`android.intent.category.HOME`、`android.intent.category.LAUNCHER`、`android.intent.category.DEFAULT`；
+	+  电源键：只在4.0以下的系统可以达到效果  
+	```java
+	@Override  
+	public void onAttachedToWindow() {  
+	    getWindow().addFlags(  
+	        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);  
+	    getWindow().addFlags(  
+	        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);  
+	}
+	```
+	+  系统对话框：监听失去焦点事件，然后发广播关掉所有系统对话框  
+	```java
+	@Override  
+	public void onWindowFocusChanged(boolean hasFocus) {  
+	  super.onWindowFocusChanged(hasFocus);  
+	  if(!hasFocus) {  
+	    Intent closeDialog =   
+	          new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);  
+	    sendBroadcast(closeDialog);  
+	  }  
+	}  
+	```
+	+  虚拟键盘
+	+  状态栏：全屏、TYPE_SYSTEM_ALERT、截取状态栏区域的点击事件
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)

@@ -109,6 +109,19 @@
         println "Running task ${task.name}"
     }
     ```
++  task的执行时机
+  +  Configuration stage
+  +  Execution stage
+  +  默认task的执行时机均是Configuration stage，即便指定其他task，也会被触发执行
+  +  可以通过doLast语句块，来保证只有在明确指定执行task时才会执行，而doLast块外的代码，将在任何任务执行时都会执行
+  +  `<<`操作符  
+      ```groovy
+      task myTask2 << {
+          println "Hello, World!" 
+      }
+      ```  
+      相当于整个task都在doLast块内
+
 +  添加task的依赖  
     ```gradle  
     
