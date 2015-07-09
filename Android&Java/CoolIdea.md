@@ -42,6 +42,9 @@
 	```
 	+  虚拟键盘
 	+  状态栏：全屏、TYPE_SYSTEM_ALERT、截取状态栏区域的点击事件
++  onResumeFragments
+  +  FragmentActivity的子类（AppCompatActivity等）均有此lifecycle方法
+  +  Activity的onResume函数调用的时候，Fragment并不能保证已执行onResume，仍有可能保存了savedState，而在这种情况下，是不能进行fragment的transaction的，而在onResumeFragments中则能保证不会存在这个问题
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)

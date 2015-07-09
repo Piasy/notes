@@ -164,3 +164,12 @@ productFlavors {
 }
 ```
 资源文件（drawable，string，style等）、代码文件，都可以为不同的flavor创建相应的文件夹，进行个性化配置；
+
+
+##[语法](http://trickyandroid.com/gradle-tip-2-understanding-syntax/)
++  基于Groovy；closure是很常见的基本元素；调用方法如下：  
+![groovy_closure_invoke_syntax.png](assets/groovy_closure_invoke_syntax.png)
++  build.gradle：
+  +  `buildscript`是在gradle系统中定义的一个方法，接受一个closure作为参数；
+  +  gradle脚本所有的顶层代码都是delegate到`Project`实例context上；
+  +  `script block`：把一个closure传递到一个方法中，同时调用该方法；
