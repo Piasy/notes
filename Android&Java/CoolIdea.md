@@ -45,6 +45,26 @@
 +  onResumeFragments
   +  FragmentActivity的子类（AppCompatActivity等）均有此lifecycle方法
   +  Activity的onResume函数调用的时候，Fragment并不能保证已执行onResume，仍有可能保存了savedState，而在这种情况下，是不能进行fragment的transaction的，而在onResumeFragments中则能保证不会存在这个问题
++  MultiDex  
+MultiDex会导致build变慢，在Dalvik虚拟机上（未使用ART技术时），APP启动速度也会变慢，因为ClassLoader要从第二个（甚至更多个）dex文件中加载类；  
+有时候还会导致build过程中的dex步骤报OOM错误；新提出的Jack&Jill构建技术将解决这一问题；  
+```java
+UNEXPECTED TOP-LEVEL ERROR:
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+  at com.android.dx.cf.code.ExecutionStack.copy(ExecutionStack.java:66)
+  at 
+  ...
+```  
+在build.gradle中加入以下片段即可解决：  
+```groovy
+android {
+  // ...
+  dexOptions {
+    javaMaxHeapSize “2048M”
+  }
+}
+```
+
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
@@ -52,3 +72,8 @@
 
 ##有意思的第三方库
 +  [基于UDP组播的Intent发送和接收](http://www.androidzeitgeist.com/2014/11/introducing-android-network-intents17.html?utm_source=Android+Weekly&utm_campaign=a94f126150-Android_Weekly_129&utm_medium=email&utm_term=0_4eb677ad19-a94f126150-337892465)
++  [将SQLite操作封装为rx API](http://beust.com/weblog/2015/06/01/easy-sqlite-on-android-with-rxjava/)，封装思想值得借鉴
+
+
+##最佳实践
++  使用[Headless Fragment](Fragments.md#使用fragment进行后台处理headless-fragment)把部分Activity公用的逻辑封装起来，避免将只被部分Activity公用的逻辑加到所有Activity的父类中。
