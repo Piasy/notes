@@ -8,9 +8,9 @@
 +  普通数据注入，[Dagger](http://google.github.io/dagger/)
 +  View注入[ButterKnife](http://jakewharton.github.io/butterknife/)。
 
-##数据存储ORM
-+  [squidb](https://github.com/yahoo/squidb)，基于注解，编译期生成DAO类，对复杂SQL语句的ORM非常好
-+  ~~[DBFlow](https://github.com/Raizlabs/DBFlow)，基于注解，编译期生成DAO类，对关系的支持很好~~
+##数据存储
++  ~~[squidb](https://github.com/yahoo/squidb)，基于注解，编译期生成DAO类，model类是编译期生成的，而不是定义表结构的类，对复杂SQL语句的支持非常好~~
++  [DBFlow](https://github.com/Raizlabs/DBFlow)，基于注解，编译期生成DAO类，对关系的支持很好
 +  ~~[ActiveAndroid](https://github.com/pardom/ActiveAndroid)，基于注解，运行时转换~~
 +  ~~[greenDAO](https://github.com/greenrobot/greenDAO)，编译期生成辅助代码~~
 
