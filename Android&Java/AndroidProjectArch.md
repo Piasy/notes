@@ -33,9 +33,17 @@
 +  [fabric](https://get.fabric.io/)，提供crash统计、以及twitter集成
 
 ##图片加载
-+  [Fresco](https://github.com/facebook/fresco)，多来源加载、缓存、内存管理、支持多种格式
++  [Fresco](https://github.com/facebook/fresco)，多来源加载、缓存、内存管理（存放在安卓非堆特殊内存区域）、支持多种格式、多种功能（圆角）
++  [Glide](https://github.com/bumptech/glide)，多来源加载、缓存、Object pool内存优化、Context生命周期加载优化、ListView、RecyclerView等加载优化
 +  ~~[Picasso](http://square.github.io/picasso/)，使用堆内存，格式稍少~~
 
+##导航
++  [FragmentArgs](https://github.com/sockeqwe/fragmentargs)，Fragment启动时通过Argument传递参数
++  [Dart](https://github.com/f2prateek/dart)，Activity之间通过Intent传递Extra参数
++  [Pocket Knife](https://github.com/hansenji/pocketknife)，Activity的Extra传递参数，SavedInstance做状态保存/恢复
+
+##模块热加载
++  [dynamic-load-apk](https://github.com/singwhatiwanna/dynamic-load-apk)，通过代理实现启动、显示、执行安装时未定义的Activity，Service，实现模块热加载
 
 #Android Clean Architecture
 ##分层结构

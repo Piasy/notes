@@ -74,7 +74,7 @@ android {
 +  [基于UDP组播的Intent发送和接收](http://www.androidzeitgeist.com/2014/11/introducing-android-network-intents17.html?utm_source=Android+Weekly&utm_campaign=a94f126150-Android_Weekly_129&utm_medium=email&utm_term=0_4eb677ad19-a94f126150-337892465)
 +  [将SQLite操作封装为rx API](http://beust.com/weblog/2015/06/01/easy-sqlite-on-android-with-rxjava/)，封装思想值得借鉴
 +  [Prism](https://blog.stylingandroid.com/prism-fundamentals-part-1)，为各种部件（View，Window，StatusBar）设置颜色、背景，API简洁，功能强大；
-
++  [Fontinator](https://github.com/svendvd/fontinator)，自定义字体使用帮助库
 
 ##最佳实践
 +  使用[Headless Fragment](Fragments.md#使用fragment进行后台处理headless-fragment)把部分Activity公用的逻辑封装起来，避免将只被部分Activity公用的逻辑加到所有Activity的父类中。
