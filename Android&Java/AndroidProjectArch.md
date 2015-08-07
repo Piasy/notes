@@ -1,4 +1,5 @@
 #Android项目架构
+======
 从功能需求、设计模式、最佳实践出发考虑
 
 ##MVP模式
@@ -24,28 +25,36 @@
 
 ##测试
 +  单元测试（[我的印象笔记](https://www.evernote.com/shard/s425/sh/ed5e5a9b-8ebf-4d72-8d4d-62bff3b57335/a172972c726caab6)，[Robolectric](http://robolectric.org/)，使得Android代码能够在PC的JVM上运行测试，加快速度）
+  +  对rx的单元测试，[非官方RxAssertions](https://gist.github.com/ivacf/874dcb476bfc97f4d555)，[官方TestSubscriber](http://reactivex.io/RxJava/javadoc/rx/observers/TestSubscriber.html)
+  +  [AndroidTDD](AndroidTDD.md)
 +  集成测试（[我的印象笔记](https://www.evernote.com/shard/s425/sh/52ec6ce5-68ca-47d7-8fa1-14fdacfc3f1a/31fceed7211d8e13)，[Espresso](https://code.google.com/p/android-test-kit/wiki/Espresso)）
 
 ##持续集成
-+  [jenkins-ci](http://jenkins-ci.org/)，整合代码托管工具，ci、mr自动触发构建
++  [jenkins-ci](http://jenkins-ci.org/)，整合代码托管工具，commit、merge request自动触发构建
 
-##错误统计
-+  [fabric](https://get.fabric.io/)，提供crash统计、以及twitter集成
-
-##图片加载
-+  [Fresco](https://github.com/facebook/fresco)，多来源加载、缓存、内存管理（存放在安卓非堆特殊内存区域）、支持多种格式、多种功能（圆角）
-+  [Glide](https://github.com/bumptech/glide)，多来源加载、缓存、Object pool内存优化、Context生命周期加载优化、ListView、RecyclerView等加载优化
-+  ~~[Picasso](http://square.github.io/picasso/)，使用堆内存，格式稍少~~
-
-##导航
-+  [FragmentArgs](https://github.com/sockeqwe/fragmentargs)，Fragment启动时通过Argument传递参数
-+  [Dart](https://github.com/f2prateek/dart)，Activity之间通过Intent传递Extra参数
-+  [Pocket Knife](https://github.com/hansenji/pocketknife)，Activity的Extra传递参数，SavedInstance做状态保存/恢复
-
-##模块热加载
-+  [dynamic-load-apk](https://github.com/singwhatiwanna/dynamic-load-apk)，通过代理实现启动、显示、执行安装时未定义的Activity，Service，实现模块热加载
+##工具
++  图片加载
+  +  [Fresco](https://github.com/facebook/fresco)，多来源加载、缓存、内存管理（存放在安卓非堆特殊内存区域）、支持多种格式、多种功能（圆角）
+  +  [Glide](https://github.com/bumptech/glide)，多来源加载、缓存、Object pool内存优化、Context生命周期加载优化、ListView、RecyclerView等加载优化
+  +  ~~[Picasso](http://square.github.io/picasso/)，使用堆内存，格式稍少~~
++  模块热加载
+  +  [dynamic-load-apk](https://github.com/singwhatiwanna/dynamic-load-apk)，通过代理实现启动、显示、执行安装时未定义的Activity，Service，实现模块热加载
++  错误统计
+  +  [fabric](https://get.fabric.io/)，提供crash统计、以及twitter集成
++  调试
+  +  [XLog](https://github.com/promeG/XLog)，函数调用追踪，log出参数、返回值、线程、执行时间，支持方法、类的注解；
+  +  [Fresco](https://github.com/facebook/fresco)，chrome查看log，view heriachy，shared pref，db等；
+  +  [LeakCanary](https://github.com/square/leakcanary)，memory leak检测工具；
++  时间
+  +  [ThreeTenBP](https://github.com/ThreeTen/threetenbp)，JSR310的java 8以前的兼容实现，比安卓的Date类等强大无数倍；
+  +  [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP)，安卓的一个包装，init过程性能更好；
++  导航
+  +  [FragmentArgs](https://github.com/sockeqwe/fragmentargs)，Fragment启动时通过Argument传递参数
+  +  [Dart](https://github.com/f2prateek/dart)，Activity之间通过Intent传递Extra参数
+  +  [Pocket Knife](https://github.com/hansenji/pocketknife)，Activity的Extra传递参数，SavedInstance做状态保存/恢复
 
 #Android Clean Architecture
+======
 ##分层结构
 ![clean_architecture1.png](assets/clean_architecture1.png)  
 +  Entities: These are the business objects of the application.
