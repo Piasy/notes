@@ -64,11 +64,30 @@ android {
   }
 }
 ```
-
++  [缩小APK包体积的Tips](http://cyrilmottier.com/2014/08/26/putting-your-apks-on-diet/)
+  +  Proguard
+  +  Lint
+  +  不必为每种dpi打包资源文件（图标）
+  +  移除第三方库中不必要的资源文件  
+  ```groovy
+	defaultConfig {
+	    resConfigs "en", "de", "fr", "it"
+	    resConfigs "nodpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"
+	}
+  ```
+  +  图片压缩，9-patches
+  +  Limit the number of architectures, armabi, x86 is enough
+  +  Reuse whenever possible：图标如果只是颜色不同、旋转，则可以只打包一个，然后通过tint/tintMode/ColorFilter/RotateDrawable来重复利用
+  +  Render in code when appropriate
+  +  Going even further? Server side packaging，根据设备具体细节打包资源，但是有一定风险。
++  [使用ViewPager的同时不用Fragment作为显示的内容](https://www.bignerdranch.com/blog/viewpager-without-fragments)
++  [Notification中加入联系人信息之后，通知消息的显示将有更高的优先级](https://plus.google.com/+AndroidDevelopers/posts/7QBWvNXs2mD)
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
 
+##构建/工具
++  [利用buildSrc工程和Codemodel自动生成代码](http://www.thedroidsonroids.com/blog/how-to-generate-java-sources-using-buildsrc-gradle-project)
 
 ##有意思的第三方库
 +  [基于UDP组播的Intent发送和接收](http://www.androidzeitgeist.com/2014/11/introducing-android-network-intents17.html?utm_source=Android+Weekly&utm_campaign=a94f126150-Android_Weekly_129&utm_medium=email&utm_term=0_4eb677ad19-a94f126150-337892465)

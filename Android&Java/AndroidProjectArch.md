@@ -53,6 +53,7 @@
   +  [Dart](https://github.com/f2prateek/dart)，Activity之间通过Intent传递Extra参数
   +  [Pocket Knife](https://github.com/hansenji/pocketknife)，Activity的Extra传递参数，SavedInstance做状态保存/恢复
 
+
 #Android Clean Architecture
 ======
 ##分层结构
@@ -79,3 +80,16 @@
   +  Higher Modularity
   +  Easier Code Navigation
   +  Minimizes Scope
+
+
+#[Flux Architecture](http://lgvalle.github.io/2015/08/04/flux-architecture/)
+======
++  结构图  
+![flux-graph-simple.png](assets/flux-graph-simple.png)
+  +  View: Application interface. It create actions in response to user interactions. Activity or Fragment
+  +  Dispatcher: Central hub through which pass all actions and whose responsibility is to make them arrive to every Store. An event bus.
+  +  Store: Maintain the state for a particular application domain. They respond to actions according to current state, execute business logic and emit a change event when they are done. This event is used by the view to update its interface. Simple POJOs with two main attributes: Type: a String identifying the type of event; Data: a Map with the payload for this action.
+  +  More about Stores
+    +  Stores contain the status of the application and its business logic.
+    +  Stores react to Actions emitted by the Dispatcher, execute business logic and emit a change event as result.
+    +  ...

@@ -13,6 +13,9 @@
 +  构建
   +  [Gradle](Android&Java/Gradle.md)
   
++  测试
+  +  [AndroidTDD](Android&Java/AndroidTDD.md)
+  
 +  定制
   +  [MaterialDesign](Android&Java/MaterialDesign.md)
   +  [使用style修饰View](Android&Java/StylingViews.md)
@@ -40,4 +43,5 @@
   +  [Java Memory model](Android&Java/JSR133.md)
   +  [Java同步机制](Android&Java/JavaSynchronization.md)
   +  [Rx](Android&Java/Rx.md)
+  +  [依赖注入](Android&Java/DependencyInjection.md)
   

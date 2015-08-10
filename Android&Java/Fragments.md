@@ -20,3 +20,18 @@
 +  结合`setRetainInstance()`方法，让Fragment在应用程序配置发生变化（横竖屏、屏幕尺寸）时，不会被destroy，从而继续执行后台任务；
 +  通过为Fragment设置tag，可以在之后获取fragment实例；
 +  效果类似于MVP中的ViewState；
+
+##[Fragment不利于单元测试](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html)
++  Fragment的life cycle很复杂
++  View controllers? Not so fast.  
+操作view，有很多view相关的代码，不利于单元测试
++  Fragment transactions  
+异步过程，当接收到多个click事件，或者configuration changes时，程序将处于未知状态
++  Fragment creation magic  
+fragment manager可能会使用反射接口重新创建fragment，而fragment有可能会作为内部类被定义，没有public的构造函数，问题就来了
++  Fragments: lessons learned
+  +  Single Activity Interface：使用不同的Fragment实现界面，动效、生命周期将变得更容易
+  +  The backstack isn't an activity specific notion; you can implement a backstack within an activity.
+  +  There is no need for new APIs; everything we needed was there from the very beginning: activities, views, and layout inflaters.
++  Responsive UI: fragments vs custom views
++  扩展阅读：使用custom views构建single activity app：[Simpler Android apps with Flow and Mortar](https://corner.squareup.com/2014/01/mortar-and-flow.html)
