@@ -14,6 +14,7 @@
 +  [DBFlow](https://github.com/Raizlabs/DBFlow)，基于注解，编译期生成DAO类，对关系的支持很好
 +  ~~[ActiveAndroid](https://github.com/pardom/ActiveAndroid)，基于注解，运行时转换~~
 +  ~~[greenDAO](https://github.com/greenrobot/greenDAO)，编译期生成辅助代码~~
++  [StorIO](https://github.com/pushtorefresh/storio)，与rx集成，响应式DBHelper框架
 
 ##网络连接处理
 +  [Retrofit](http://square.github.io/retrofit/)，使用动态代理将java接口转化为REST API
