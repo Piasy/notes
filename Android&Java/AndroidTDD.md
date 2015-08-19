@@ -26,6 +26,31 @@ pre-act-state，post-act-state，测试对象的依赖中，如果mock框架（�
 可以使用Constructor inject的类就不要使用Field inject。前者更利于单元测试。其实除了SDK组件类，其他的类基本上都可以使用Constructor inject。
 +  无需依赖第三方框架（Robolectric，Dagger）
   
+##[Mockito](http://mockito.org/)
++  stubbed的方法没有必要verify
++  当被测代码对返回值不关心时，不要stub
++  mock对象的方法默认将返回空值（null，空集合，默认基本类型值）
++  stub可以被重载，但当出现这种需求时，就说明stub已经太多了，需要改进设计
++  stub的顺序有影响，但不应依赖其顺序的影响
++  默认使用Java原生equals进行判断，也支持ArgumentMatcher，有内置，也支持自定义/Hamcrest，但最后者不建议使用（影响可读性）
++  一旦使用了ArgumentMatcher，则所有的参数都要使用ArgumentMatcher
++  `times(int)`，`never()`，`atLeastOnce()`，`atLeast(int)`，`atMost(int)`验证调用次数，verify默认的是`times(1)`，因此无需显式指定
++  验证无返回值函数抛出异常：`doThrow(new RuntimeException()).when(mockedList).clear();`
++  `InOrder`可以验证调用的顺序（不同语句），原则上只需要验证关键逻辑，没必要所有调用都需要验证、甚至其顺序
++  `only()`的语义：仅有该方法被调用，且仅被调用一次
++  `never()`的语义：该方法未被调用过
++  `verifyZeroInteractions(...)`的语义：mock对象没有任何方法调用
++  `verifyNoMoreInteractions(...)`：验证没有其他的调用（除了此前验证的方法）
++  对多次调用进行stub，最后一次将一直有效
++  doReturn()|doThrow()| doAnswer()|doNothing()|doCallRealMethod() family of methods
++  spy，对真实对象进行spy，部分mock。但是spy对象的操作和原有真实对象的操作是独立的
++  Capturing arguments for further assertions，在verify中可以捕获调用的参数，后续进行验证
++  reset mock，不建议使用
++  BDD，given, when, then
++  mock对象可以序列化
++  Verification with timeout
++  (new) Better generic support with deep stubs (Since 1.10.0)
+  
 ##集成测试
 +  Espresso
   +  ViewMatchers/ViewActions/ViewAssertions
