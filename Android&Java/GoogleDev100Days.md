@@ -84,3 +84,7 @@ Android framework实现的LRU缓存算法类，对于Bitmap的使用场景非常
 6步法则；只展示驾驶员真正想要的内容；使用语音控制；
 
 ##Day 20：[Android M中的Android for work API](https://youtu.be/vcSj8ln-BlE)
+
+##Day 25：[Android M preview介绍](https://youtu.be/dcmNjbCNvA8)
+
+##Day 26：[Chrome支持把web应用“安装”到桌面：去掉地址栏，有主题，有icon，直接启动](https://youtu.be/N1Bdu7ukN40)

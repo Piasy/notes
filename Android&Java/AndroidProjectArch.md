@@ -53,8 +53,12 @@
   +  [FragmentArgs](https://github.com/sockeqwe/fragmentargs)，Fragment启动时通过Argument传递参数
   +  [Dart](https://github.com/f2prateek/dart)，Activity之间通过Intent传递Extra参数
   +  [Pocket Knife](https://github.com/hansenji/pocketknife)，Activity的Extra传递参数，SavedInstance做状态保存/恢复
-
-
++  动效
+  +  [rebound](https://github.com/facebook/rebound)，通过Android系统的property transition，加上各种变换函数，实现模拟物理的动效；
++  设计
+  +  sketch
+  +  [zeplin](https://zeplin.io/)
+  
 #Android Clean Architecture
 ======
 ##分层结构
