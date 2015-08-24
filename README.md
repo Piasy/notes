@@ -38,6 +38,8 @@
   
 +  深入
   +  [安卓性能优化](Android&Java/AndroidPerformancePatterns.md)
+  +  [Memory leak专题](Android&Java/MemoryLeak.md)
+  +  [有效处理手机旋转专题](Android&Java/HandleOrientationChanged.md)
   +  [《深入理解JVM》](Android&Java/InsideJVM.md)
   +  [Java对象内存使用](Android&Java/JavaObjectMemoryUsage.md)
   +  [Java Memory model](Android&Java/JSR133.md)
@@ -48,3 +50,4 @@
 ##杂谈
 +  [函数调用时，传递参数应该是不可变的（Immutable）](Collections/BetterDesignWithImmutableParams.md)
 +  [List.toArray()再强转是一定会失败的](http://stackoverflow.com/a/17909134/3077508)
++  [使用词法分析、语法分析工具进行带语法文本处理](Collections/Parcer.md)
