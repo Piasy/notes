@@ -44,7 +44,8 @@
 	+  状态栏：全屏、TYPE_SYSTEM_ALERT、截取状态栏区域的点击事件
 +  onResumeFragments
   +  FragmentActivity的子类（AppCompatActivity等）均有此lifecycle方法
-  +  Activity的onResume函数调用的时候，Fragment并不能保证已执行onResume，仍有可能保存了savedState，而在这种情况下，是不能进行fragment的transaction的，而在onResumeFragments中则能保证不会存在这个问题
+  +  FragmentActivity的onResume函数调用的时候，所有的Fragment都还没有onResume，Activity并不能保证保存的状态已被恢复，而在这种情况下，是不能进行fragment的transaction的，而在onResumeFragments则能保证调用的时候activity已经恢复了状态
+  +  [read more](Fragments.md#)
 +  MultiDex  
 MultiDex会导致build变慢，在Dalvik虚拟机上（未使用ART技术时），APP启动速度也会变慢，因为ClassLoader要从第二个（甚至更多个）dex文件中加载类；  
 有时候还会导致build过程中的dex步骤报OOM错误；新提出的Jack&Jill构建技术将解决这一问题；  

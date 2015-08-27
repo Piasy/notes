@@ -35,3 +35,44 @@ fragment manager可能会使用反射接口重新创建fragment，而fragment有
   +  There is no need for new APIs; everything we needed was there from the very beginning: activities, views, and layout inflaters.
 +  Responsive UI: fragments vs custom views
 +  扩展阅读：使用custom views构建single activity app：[Simpler Android apps with Flow and Mortar](https://corner.squareup.com/2014/01/mortar-and-flow.html)
+
+##[Fragment Transactions & Activity State Loss](http://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html)
+```java
+java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+    at android.support.v4.app.FragmentManagerImpl.checkStateLoss(FragmentManager.java:1341)
+    at android.support.v4.app.FragmentManagerImpl.enqueueAction(FragmentManager.java:1352)
+    at android.support.v4.app.BackStackRecord.commitInternal(BackStackRecord.java:595)
+    at android.support.v4.app.BackStackRecord.commit(BackStackRecord.java:574)
+```
++  原因：在activity的state被save之后，commit FragmentTransaction，会抛出这个异常
++  当activity在后台被杀死之后，会通过onSaveInstanceState回调让程序可以保存数据（状态），其中dialog, fragment, view的状态由framework负责保存和恢复
++  因为FragmentTransaction#commit()在onSaveInstanceState()后被调用了，系统为了防止activity state loss，抛出了该异常
++  从3.1起，安卓系统对于Activity生命周期的维护发生了变化  
+![android_activity_life_cycle_change.png](assets/android_activity_life_cycle_change.png)
+support库的行为：    
+![android_activity_life_cycle_change2.png](assets/android_activity_life_cycle_change2.png)
++  如何避免
+  +  Be careful when committing transactions inside Activity lifecycle methods  
+  只在onCreate或者响应用户的输入时才会commit，不会遇到这个问题；但如果在onActivityResult、onStart、onResume等其他生命周期函数中调用，则会有风险，尤其是onResume，推荐使用FragmentActivity#onResumeFragments()/Activity#onPostResume()中调用，而不是onResume。  
+  ```java
+    private boolean mReturningWithResult = false;
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mReturningWithResult = true;
+    }
+    
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (mReturningWithResult) {
+            // Commit your transactions here.
+        }
+        // Reset the boolean flag back to false for next time.
+        mReturningWithResult = false;
+    }
+  ```
+  +  Avoid performing transactions inside asynchronous callback methods.   
+  回调内已经对Activity的状态没有保证了，强烈建议不要这么做；
+  +  Use commitAllowingStateLoss() only as a last resort.
