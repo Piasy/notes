@@ -65,3 +65,39 @@
   +  当一个类管理了一块内存，用于保存其他对象（数据）时，程序员应该保持高度警惕，避免出现内存泄漏，一旦数据无效之后，需要立即解除引用
   +  实现缓存的时候也很容易导致内存泄漏，放进缓存的对象一定要有换出机制，或者通过弱引用来进行引用
   +  listner和callback也有可能导致内存泄漏，最好使用弱引用来进行引用，使得其可以被GC
++  Item 7: 不要使用finalize方法
+  +  finalize方法不同于C++的析构函数，不是用来释放资源的好地方
+  +  finalize方法执行并不及时，其执行线程优先级很低，而当对象unreachable之后，需要执行finalize方法之后才能释放，所以会导致对象生存周期变长，甚至根本不会释放
+  +  finalize方法的执行并不保证执行成功/完成
+  +  使用finalize时，性能会严重下降
+  +  finalize存在的意义
+    +  充当“safety net”的角色，避免对象的使用者忘记调用显式termination方法，尽管finalize方法的执行时间没有保证，但是晚释放资源好过不释放资源；此处输出log警告有利于排查bug
+    +  用于释放native peer，但是当native peer持有必须要释放的资源时，应该定义显式termination方法
+  +  子类finalize方法并不会自动调用父类finalize方法（和构造函数不同），为了避免子类不手动调用父类的finalize方法导致父类的资源未被释放，当需要使用finalize时，使用finalizer guardian比较好：
+    +  定义一个私有的匿名Object子类对象，重写其finalize方法，在其中进行父类要做的工作
+    +  因为当父类对象被回收时，finalizer guardian也会被回收，它的finalize方法就一定会被触发
+
+##Object的方法
+尽管Object不是抽象类，但是其定义的非final方法设计的时候都是希望被重写的，finalize除外。
++  Item 8: 当重写equals方法时，遵循其语义
+  +  能不重写equals时就不要重写
+    +  当对象表达的不是值，而是可变的状态时
+    +  对象不需要使用判等时
+    +  父类已重写，且满足子类语义
+  +  当需要判等，且继承实现无法满足语义时，需要重写（通常是“value class”，或immutable对象）
+  +  当用作map的key时
+  +  重写equals时需要遵循的语义
+    +  Reflexive（自反性）: x.equals(x)必须返回true（x不为null）
+    +  Symmetric（对称性）: x.equals(y) == y.equals(x)
+    +  Transitive（传递性）: x.equals(y) && y.equals(z) ==> x.equals(z)
+    +  Consistent（一致性）: 当对象未发生改变时，多次调用应该返回同一结果
+    +  x.equals(null)必须返回false
+  +  实现建议
+    +  先用==检查是否引用同一对象，提高性能
+    +  用instanceof再检查是否同一类型
+    +  再强制转换为正确的类型
+    +  再对各个域进行equals检查，遵循同样的规则
+    +  确认其语义正确，编写测例
+    +  重写equals时，同时也重写hashCode
+    +  ！重写equals方法，传入的参数是Object
++  Item 9:  
