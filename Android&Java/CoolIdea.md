@@ -83,6 +83,34 @@ android {
   +  Going even further? Server side packaging，根据设备具体细节打包资源，但是有一定风险。
 +  [使用ViewPager的同时不用Fragment作为显示的内容](https://www.bignerdranch.com/blog/viewpager-without-fragments)
 +  [Notification中加入联系人信息之后，通知消息的显示将有更高的优先级](https://plus.google.com/+AndroidDevelopers/posts/7QBWvNXs2mD)
++  [xml中使用tools属性来辅助IDE](https://speakerdeck.com/rock3r/tools-of-the-trade-droidcon-nyc-2015)
+  +  辅助lint：类似于@SuppressWarnings（tools:ignore），@TargetApi（tools:targetApi），指定locale（tools:locale）
+  +  辅助预览layout：tool:context, tools:showIn, tools:menu, tools:actionBarNavMode, 指定frament的layout（tools:layout），tools:listheader/listitem/listfooter
+  +  Support Annotations: @Nullable/NonNull, resources ids(), range, collection size, TypeDef, Thread(MainThread/UiThread/BinderThread/WorkerThread), "Architecture"(CallSuper/CheckResult/VisibleForTesting), Permission{  RequiresPermission(Manifest.permission.BLUTOOTH)  }, proguard(Keep)
+  +  ViewDebug: @ViewDebug.ExportedProperty
++  [Speed up your app](https://speakerdeck.com/udinic/speed-up-your-app-droidcon-nyc-2015)
+  +  Rules
+    +  Always Measure
+    +  Use[Experience] Slow Device
+    +  Consider Trade-Offs
+  +  Systrace
+  +  Traceview
+  +  Memory Profiling(AS + Eclipse MAT)
+  +  Memory tips
+    +  Bitmap's pixel format
+    +  Context Awareness
+    +  HashMap v.s. ArrayMap/Sparce*Array
+  +  LeakCanary
+  +  GPU Profiling
+  +  Hierarchy Viewer
+  +  Overdraw
+  +  Alpha
+    +  TextView: setTextColor() instead of setAlpha()
+    +  ImageView: setImageAlpha() instead of setAlpha()
+    +  CustomView: handle alpha yourself by overriding onSetAlpha(), overriding hasOverlappingRendering()
+  +  Hardware Acceleration
+    +  view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+    +  view.animate()....withLayer().start()
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)

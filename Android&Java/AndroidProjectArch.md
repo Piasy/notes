@@ -59,7 +59,32 @@
   +  sketch
   +  [zeplin](https://zeplin.io/)
   
-#Android Clean Architecture
+#Develop maintainable apps
++  Libraries  
+选择第三方库时的考虑
+  +  Documentation: 文档是否全面
+  +  Repository Check-ins(Stability): 稳定性、是否保持维护
+  +  Fulfils a Need: 满足项目需求
++  Domain design
+  +  Keep code simple: OO，一个类只负责一件事
+  +  Use MVC/MVP/MVVM Pattern
+  +  Functional Test
+  +  Use the tools: IDE的重构工具很强大
++  Code quality
+  +  Readability matters
+  +  工具
+    +  CheckStyle
+    +  Lint
+    +  Findbugs
+    +  PMD
+  +  Refactor Gradually
++  Testing
+  +  Unit test: Every single line of code that you write should be tested. Peroid. -- Robert Martin
+  +  Junit(...) + Mockito
+  +  Continuous Integration
+  +  Code coverage
+  
+#[Android Clean Architecture](https://github.com/android10/Android-CleanArchitecture)
 ======
 ##分层结构
 ![clean_architecture1.png](assets/clean_architecture1.png)  

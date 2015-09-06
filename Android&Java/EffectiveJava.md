@@ -100,4 +100,48 @@
     +  确认其语义正确，编写测例
     +  重写equals时，同时也重写hashCode
     +  ！重写equals方法，传入的参数是Object
-+  Item 9:  
++  Item 9: 重写equals时也重写hashCode函数
+  +  避免在基于hash的集合中使用时出错
+  +  语义
+    +  一致性
+    +  当两个对象equals返回true时，hashCode方法的返回值也要相同
+  +  hashCode的计算方式
+    +  要求：equals的两个对象hashCode一样，但是不equals的对象hashCode不一样
+    +  取一个素数，例如17，result = 17
+    +  对每一个关心的field（在equals中参与判断的field），记为f，将其转换为一个int，记为c
+      +  boolean: f ? 1 : 0
+      +  byte/char/short/int: (int) f
+      +  long: (int) (f ^ (f >> 32))
+      +  float: Float.floatToIntBits(f)
+      +  double: Double.doubleToLongBits(f)，再按照long处理
+      +  Object: f == null ? 0 : f.hashCode()
+      +  array: 先计算每个元素的hashCode，再按照int处理
+    +  对每个field计算的c，result = 31 * result + c
+    +  返回result
+    +  编写测例
+  +  计算hashCode时，不重要的field（未参与equals判断）不要参与计算
++  Item 10: 重写toString()方法
+  +  增加可读性，简洁、可读、具有信息量
++  Item 11: 慎重重写clone方法
+  +  Cloneable接口是一个mixin interface，用于表明一个对象可以被clone
+  +  Contract
+    +  x.clone() != x
+    +  x.clone().getClass() ==  x.getClass()：要求太弱，当一个非final类重写clone方法的时候，创建的对象一定要通过super.clone()来获得，所有父类都遵循同样的原则，如此最终通过Object.clone()创建对象，能保证创建的是正确的类实例。而这一点很难保证。
+    +  x.clone().equals(x)
+    +  不调用构造函数：要求太强，一般都会在clone函数里面调用
+  +  对于成员变量都是primitive type的类，直接调用super.clone()，然后cast为自己的类型即可（重写时允许返回被重写类返回类型的子类，便于使用方，不必每次cast）
+  +  成员变量包含对象（包括primitive type数组），可以通过递归调用成员的clone方法并赋值来实现
+  +  然而上述方式违背了final的使用协议，final成员不允许再次赋值，然而clone方法里面必须要对其赋值，则无法使用final保证不可变性了
+  +  递归调用成员的clone方法也会存在性能问题，对HashTable递归调用深拷贝也可能导致StackOverFlow（可以通过遍历添加来避免）
+  +  优雅的方式是通过super.clone()创建对象，然后为成员变量设置相同的值，而不是简单地递归调用成员的clone方法
+  +  和构造函数一样，在clone的过程中，不能调用non final的方法，如果调用虚函数，那么该函数会优先执行，而此时被clone的对象状态还未完成clone/construct，会导致corruption。因此上一条中提及的“设置相同的值”所调用的方法，要是final或者private。
+  +  重载类的clone方法可以省略异常表的定义，如果重写时把可见性改为public，则应该省略，便于使用；如果设计为应该被继承，则应该重写得和Object的一样，且不应该实现Cloneable接口；多线程问题也需要考虑；
+  +  要实现clone方法的类，都应该实现Cloneable接口，同时把clone方法可见性设为public，返回类型为自己，应该调用super.clone()来创建对象，然后手动设置每个域的值
+  +  clone方法太过复杂，如果不实现Cloneable接口，也可以通过别的方式实现copy功能，或者不提供copy功能，immutable提供copy功能是无意义的
+  +  提供拷贝构造函数，或者拷贝工厂方法，而且此种方法更加推荐，但也有其不足
+  +  设计用来被继承的类时，如果不实现一个正确高效的clone重写，那么其子类也将无法实现正确高效的clone功能
+    
+  
++  Item 19: 仅仅用interface去定义一个类型，该类型有实现类，通过接口引用，去调用接口的方法
+  +  避免用接口去定义常量，应该用noninstantiable utility class去定义常量
+  +  相关常量的命名，通过公共前缀来实现分组

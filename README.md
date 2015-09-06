@@ -40,6 +40,7 @@
   +  [安卓性能优化](Android&Java/AndroidPerformancePatterns.md)
   +  [Memory leak专题](Android&Java/MemoryLeak.md)
   +  [有效处理手机旋转专题](Android&Java/HandleOrientationChanged.md)
+  +  [Canvas & Drawables](Android&Java/Canvas&Drawables.md)
   +  [《深入理解JVM》](Android&Java/InsideJVM.md)
   +  [Java对象内存使用](Android&Java/JavaObjectMemoryUsage.md)
   +  [Java Memory model](Android&Java/JSR133.md)
