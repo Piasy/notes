@@ -140,7 +140,27 @@
   +  clone方法太过复杂，如果不实现Cloneable接口，也可以通过别的方式实现copy功能，或者不提供copy功能，immutable提供copy功能是无意义的
   +  提供拷贝构造函数，或者拷贝工厂方法，而且此种方法更加推荐，但也有其不足
   +  设计用来被继承的类时，如果不实现一个正确高效的clone重写，那么其子类也将无法实现正确高效的clone功能
-    
++  Item 12: 当对象自然有序时，实现Comparable接口
+  +  实现Comparable接口可以利用其有序性特点，提高集合使用/搜索/排序的性能
+  +  Contact
+    +  sgn(x.compareTo(y)) == - sgn(y.compareTo(x))，当类型不对时，应该抛出ClassCastException，抛出异常的行为应该是一致的
+    +  transitive: x.compareTo(y) > 0 && y.compareTo(z) > 0 ==> x.compareTo(z) > 0
+    +  x.compareTo(y) == 0 ==> sgn(x.compareTo(z)) == sgn(y.compareTo(z))
+    +  建议，但非必须：与equals保持一致，即 x.compareTo(y) == 0 ==> x.equals(y)，如果不一致，需要在文档中明确指出
+  +  TreeSet, TreeMap等使用的就是有序保存，而HashSet, HashMap则是通过equals + hashCode保存
+  +  当要为一个实现了Comparable接口的类增加成员变量时，不要通过继承来实现，而是使用组合，并提供原有对象的访问方法，以保持对Contract的遵循
+  +  实现细节
+    +  优先比较重要的域
+    +  谨慎使用返回差值的方式，有可能会溢出
+
+##Classes and Interfaces
++  Item 13: 最小化类、成员的可见性
+  +  封装（隐藏）：公开的接口需要暴露，而接口的实现则需要隐藏，使得接口与实现解耦，降低模块耦合度，增加可测试性、稳定性、可维护性、可优化性、可修改性
+  +  如果一个类只对一个类可见，则应该将其定义为私有的内部类，而没必要public的类都应该定义为package private
+  +  为了便于测试，可以适当放松可见性，但也只应该改为package private，不能更高
+  +  成员不能是非private的，尤其是可变的对象。一旦外部可访问，将失去对其内容的控制能力，而且会有多线程问题
+  +  暴露的常量也不能是可变的对象，否则public static final也将失去其意义，final成员无法改变其指向，但其指向的对象却是可变的（immutable的对象除外），长度非0的数组同样也是有问题的，可以考虑每次访问时创建拷贝，或者使用`Collections.unmodifiableList(Arrays.asList(arr))`
+  +  
   
 +  Item 19: 仅仅用interface去定义一个类型，该类型有实现类，通过接口引用，去调用接口的方法
   +  避免用接口去定义常量，应该用noninstantiable utility class去定义常量

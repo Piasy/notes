@@ -49,6 +49,6 @@
   +  [依赖注入](Android&Java/DependencyInjection.md)
   
 ##杂谈
-+  [函数调用时，传递参数应该是不可变的（Immutable）](Collections/BetterDesignWithImmutableParams.md)
++  [函数调用时，传递参数应该是不可变的（Immutable）](misc/BetterDesignWithImmutableParams.md)
 +  [List.toArray()再强转是一定会失败的](http://stackoverflow.com/a/17909134/3077508)
-+  [使用词法分析、语法分析工具进行带语法文本处理](Collections/Parcer.md)
++  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)

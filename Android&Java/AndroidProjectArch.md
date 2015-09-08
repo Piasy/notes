@@ -1,4 +1,4 @@
-#Android项目架构
+# Android项目架构
 ======
 从功能需求、设计模式、最佳实践出发考虑
 
@@ -53,13 +53,14 @@
   +  [FragmentArgs](https://github.com/sockeqwe/fragmentargs)，Fragment启动时通过Argument传递参数
   +  [Dart](https://github.com/f2prateek/dart)，Activity之间通过Intent传递Extra参数
   +  [Pocket Knife](https://github.com/hansenji/pocketknife)，Activity的Extra传递参数，SavedInstance做状态保存/恢复
+  +  [Aftermath](https://github.com/MichaelEvans/Aftermath)，A simple, annotation-based Android library for generating onActivityForResult handlers.
 +  动效
   +  [rebound](https://github.com/facebook/rebound)，通过Android系统的property transition，加上各种变换函数，实现模拟物理的动效；
 +  设计
   +  sketch
   +  [zeplin](https://zeplin.io/)
   
-#Develop maintainable apps
+# Develop maintainable apps
 +  Libraries  
 选择第三方库时的考虑
   +  Documentation: 文档是否全面
@@ -84,7 +85,7 @@
   +  Continuous Integration
   +  Code coverage
   
-#[Android Clean Architecture](https://github.com/android10/Android-CleanArchitecture)
+# [Android Clean Architecture](https://github.com/android10/Android-CleanArchitecture)
 ======
 ##分层结构
 ![clean_architecture1.png](assets/clean_architecture1.png)  

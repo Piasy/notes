@@ -111,6 +111,47 @@ android {
   +  Hardware Acceleration
     +  view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
     +  view.animate()....withLayer().start()
++  [Percent layout library](https://developer.android.com/tools/support-library/features.html#percent)
+  +  为什么要有Percent？
+    +  LinearLayout的layout_weight属性可以实现按需+比例分配空间，但是当相对定位与比例分配都需要使用的时候，就不得不使用两层Layout来实现了，有损性能；另注：当LinearLayout只有一个子View使用layout_weight属性时，将需要按比例分配的长/宽属性置为0，可以提高性能，因为layout_weight被使用时会有两遍measure，而如果置为0，使用layout_weight的子View第一遍measure就可以省略。
+    +  嵌套的layout_weight使用将会导致性能下降，指数级
+  +  PercentRelativeLayout/PercentFrameLayout
+  +  应该还是会需要两次measure，还是应该尽力避免嵌套Percent，此外，减少Layout的层数是一个常识
+  +  例子  
+  ```xml
+    <android.support.percent.PercentRelativeLayout 
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".MainActivity">
+    
+      <View
+        android:id="@+id/first"
+        android:background="@color/sa_green_dark"
+        app:layout_heightPercent="50%"
+        app:layout_marginLeftPercent="25%"
+        app:layout_marginTopPercent="25%"
+        app:layout_widthPercent="50%" />
+    
+      <View
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_alignLeft="@id/first"
+        android:layout_alignStart="@id/first"
+        android:layout_alignRight="@id/first"
+        android:layout_alignEnd="@id/first"
+        android:layout_below="@id/first"
+        android:layout_marginTop="8dp"
+        android:background="@color/light_grey" />
+    
+    </android.support.percent.PercentRelativeLayout>
+  ```
+  ![PercentRelativeLayout.png](assets/PercentRelativeLayout.png)
+  +  pitfalls
+    +  当子View需要的长/宽大于给定的percent时，可以通过指定layout_width/height为wrap_content来实现大小扩展，然而似乎不起效？
+    +  Percent*Layout中不要使用padding，否则总大小将小于100%，可能会导致对其问题
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
