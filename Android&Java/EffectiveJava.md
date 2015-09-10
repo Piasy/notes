@@ -160,8 +160,45 @@
   +  为了便于测试，可以适当放松可见性，但也只应该改为package private，不能更高
   +  成员不能是非private的，尤其是可变的对象。一旦外部可访问，将失去对其内容的控制能力，而且会有多线程问题
   +  暴露的常量也不能是可变的对象，否则public static final也将失去其意义，final成员无法改变其指向，但其指向的对象却是可变的（immutable的对象除外），长度非0的数组同样也是有问题的，可以考虑每次访问时创建拷贝，或者使用`Collections.unmodifiableList(Arrays.asList(arr))`
++  Item 14: public class中，使用accessor method而非public field
+  +  后者外部可以直接访问，失去了安全性
+  +  package private或者private则可以不必这样
+  +  把immutable的field置为public勉强可以接受，mutable的成员一定不能置为public
++  Item 15: 最小化可变性
+  +  不提供可以改变本对象状态的方法
+  +  保证类不可被继承
+  +  使用final field
+  +  使用private field
+  +  在构造函数、accessor中，对mutable field使用defensive copy
+  +  实现建议
+    +  操作函数，例如BigInteger的add方法，不是static的，但也不能改变本对象的状态，则使用functional的方式，返回一个新的对象，其状态是本对象修改之后的状态
+    +  如此实现的immutable对象生来就是线程安全的，无需同步操作，但应该鼓励共用实例，避免创建过多重复的对象
+    +  正确实现的immutable对象也不需要clone, copy方法；可以适当引入Object cache；
+  +  劣势
+    +  每一个值都需要一个对象，调用改变状态的方法而创建一个新的对象，尤其是它是重量级的，开销会变大；连续调用这样的方法，影响更大；
+    +  为常用的多次操作组合提供一个方法
+  +  其他
+    +  保证class无法被继承，除了声明为final外，还可以将默认构造函数声明为private或package private，然后提供public static工厂方法
+    +  使用public static工厂方法，具体实现类可以有多个，还能进行object cache
+    +  当实现Serializable接口是，一定要实现readObject/readResolve方法，或者使用ObjectOutputStream.writeUnshared/ObjectInputStream.readUnshared
+  +  小结
+    +  除非有很好的理由让一个Class mutable，否则应该使其immutable
+    +  如果非要mutable，也应尽可能限制其可变性
++  Item 16: Favor composition (and forwarding) over inheritance
+  +  跨包继承、继承不是被设计为应该被继承的实现类，是一件很危险的事情，继承接口、继承抽象类，当然是没问题的
+  +  如果子类的功能依赖于父类的实现细节，那么一旦父类发生变化，子类将有可能出现Bug，即便代码都没有修改；而设计为应被继承的类，在修改后，是应该有文档说明的，子类开发者既可以得知，也可以知道如何修改
+  +  例子：统计HashSet添加元素的次数
+    +  用继承方式，重写add，addAll，在其中计数，这就不对，因为HashSet内部的addAll是通过调用add实现的
+    +  但是通过不重写addAll也只不对的，以后有可能HashSet的实现就变了
+    +  在重写中重新实现一遍父类的逻辑也是行不通的，因为这可能会导致性能问题、bug等，而且有些功能不访问私有成员也是无法实现的
+    +  还有一个原因就是父类的实现中，可能会增加方法，改变其行为，而这一点，在子类中是无法控制的
+  +  而通过组合的方式，将不会有这些问题，把另一个类的对象声明为私有成员，外部将无法访问它，自己也能在转发（forwarding）过程中执行拦截操作，也不必依赖其实现细节，这种组合、转发的实现被称为wrapper，或者Decorator pattern，或者delegation（严格来说不是代理，代理一般wrapper对象都需要把自己传入到被wrap的对象方法中？）
+  +  缺点
+    +  不适用于callback frameworks？
+  +  继承应该在is-a的场景中使用
+  +  继承除了会继承父类的API功能，也会继承父类的设计缺陷，而组合则可以隐藏成员类的设计缺陷
++  Item 17: Design and document for inheritance or else prohibit it
   +  
-  
-+  Item 19: 仅仅用interface去定义一个类型，该类型有实现类，通过接口引用，去调用接口的方法
++  Item 19: 仅仅用interface去定义一个类型，该接口应该有实现类，使用者通过接口引用，去调用接口的方法
   +  避免用接口去定义常量，应该用noninstantiable utility class去定义常量
   +  相关常量的命名，通过公共前缀来实现分组

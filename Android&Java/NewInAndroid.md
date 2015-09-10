@@ -1,7 +1,12 @@
 #各个安卓版本引入的主要新特性
 
 ##Android 6.0 Marshamallo
-+  [Runtime Permission System](http://developer.android.com/preview/features/runtime-permissions.html)：用户不需要在安装时就接受所有的权限，而是运行时触发，[解读blog](https://newcircle.com/s/post/1737/2015/05/31/the-new-android-m-permissions-model)；Activity添加相应API，可以查询应用是否获得权限，请求权限，[blog](https://medium.com/ribot-labs/exploring-the-new-android-permissions-model-ba1d5d6c0610)
++  [Runtime Permission System](http://android-developers.blogspot.jp/2015/08/building-better-apps-with-runtime.html)
+  +  Step 1: check the platform, `Build.VERSION.SDK_INT >= Build.VERSION_CODES.M`
+  +  Step 2: check the permission status, [`checkSelfPermission()`](http://goo.gl/T7vE7b)
+  +  Step 3: explain the permission, [`shouldShowRequestPermissionRationale()`](http://goo.gl/bFyfVj)
+  +  Step 4: request the permission, [`requestPermissions()`](http://goo.gl/yNuizg)
+  +  Step 5: handle the response, `onRequestPermissionResult()`
 +  [App Linking](https://developer.android.com/preview/features/app-linking.html)：通过注册，系统对链接的处理将直接打开官方（注册）APP，而不是显示对话框，[解读blog](https://chris.orr.me.uk/android-app-linking-how-it-works/)；
 +  [Auto Backup for Apps](http://developer.android.com/preview/backup/index.html)
 +  [基于百分比的Layout](https://developer.android.com/reference/android/support/percent/package-summary.html)

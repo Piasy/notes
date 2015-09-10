@@ -19,3 +19,9 @@
   +  SurfaceView是View的子类，支持他线程绘制，主线程不同步等待其绘制，不需要保证60 fps
 +  Drawable
   +  2D图形的高度抽象，有一系列的子类
+  
+## [AndroidFillableLoaders](http://jorgecastillo.xyz/2015/08/16/android-fillable-loaders/)
++  PNG可以导出为SVG
++  通过SVGParser，可以将SVG指令转化为Path的指令，并将其绘制到Path对象中
++  DashPathEffect可以达到绘制加速边缘的效果
++  填满的动画思路类似于[WashingMachineView](https://github.com/naman14/WashingMachineView/)
