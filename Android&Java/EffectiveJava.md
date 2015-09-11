@@ -198,6 +198,17 @@
   +  继承应该在is-a的场景中使用
   +  继承除了会继承父类的API功能，也会继承父类的设计缺陷，而组合则可以隐藏成员类的设计缺陷
 +  Item 17: Design and document for inheritance or else prohibit it
+  +  一个类必须在文档中说明，每个可重写的方法，在该类的实现中的哪些地方会被调用（the class must document its self-use of overridable methods）。调用时机、顺序、结果产生的影响，包括多线程、初始化等情况。
+  +  被继承类应该通过谨慎选择protected的方法或成员，来提供一些hook，用于改变其内部的行为，例如java.util.AbstractList::removeRange。
+  +  The only way to test a class designed for inheritance is to write subclasses. 用于判断是否需要增加或者减少protected成员/方法，通常写3个子类就差不多了。
+  +  You must test your class by writing subclasses before you release it.
+  +  Constructors must not invoke overridable methods. 父类的构造函数比子类的构造函数先执行，而如果父类构造函数中调用了可重写的方法，那么就会导致子类的重写方法比子类的构造函数先执行，会导致corruption。
+  +  如果实现了Serializable/Cloneable接口，neither clone nor readObject may invoke an overridable method, directly or indirectly. 重写方法会在deserialized/fix the clone’s state之前执行。
+  +  如果实现了Serializable接口，readResolve/writeReplace必须是protected，而非private
+  +  designing a class for inheritance places substantial limitations on the class.
+  +  The best solution to this problem is to prohibit subclassing in classes that are not designed and documented to be safely subclassed. 声明为final class或者把构造函数私有化（提供public static工厂方法）。
+  +  如果确实想要允许继承，就应该为每个被自己使用的可重写方法都写好文档
++  Item 18: Prefer interfaces to abstract classes
   +  
 +  Item 19: 仅仅用interface去定义一个类型，该接口应该有实现类，使用者通过接口引用，去调用接口的方法
   +  避免用接口去定义常量，应该用noninstantiable utility class去定义常量
