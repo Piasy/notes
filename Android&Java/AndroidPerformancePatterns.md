@@ -14,6 +14,54 @@
 +  [对数据集合的遍历，性能对比](https://youtu.be/R5ON3iwx78M?list=PLWz5rJ2EKKc9CBxr3BVjPTPoDPLdPIFCE)：使用iterator，简化版语法，用索引遍历；
 ![IterateCollectionPerformanceCompare.png](assets/IterateCollectionPerformanceCompare.png)
 
+##Square团队的建议
++  [Eliminating Code Overhead by Jake Wharton](https://www.youtube.com/watch?v=b6zKBZcg5fk&feature=youtu.be)
+  +  CPU
+    +  Do not nest multi-pass layouts: RelativeLayout, LinearLayout with layout_weight...
+    +  Lazily compute complex data when needed
+    +  Cache heavy computational results for re-use
+    +  Consider RenderScript for performance
+    +  Keep work off main thread
+  +  Memory
+    +  Use object pools and caches to reduce churn (judiciously)
+    +  Be mindful of the overhead of enums
+    +  Do not allocate inside the draw path
+    +  Use specialized collections instead of JDK collections when appropriate (SparceArray...)
+  +  I/O
+    +  Batch operations with reasonable back-off policies
+    +  Use gzip or binary serialization format
+    +  Cache data offline with TTLs for reloading
+    +  Use JobScheduler API to batch across OS
+  +  Spectrum of optimizations, not binary
+  +  Do not blindly apply to everything, only appropriate
+  +  Multiple micro-optimizations can improve like macro
+  +  ArrayList分配：会有一个默认初始值，以后空间不够时按倍增策略进行扩展
+    +  如果创建时就知道其大小，则可以new一个已知容量的ArrayList，避免后面扩容、数据复制的成本
+    +  
+  +  StringBuilder：同样的，也可以先给一个预估的大小，然后直接初始化该大小的StringBuilder；安卓开发build时会自动把String的拼接操作转化为StringBuilder实现，然而这种自动的转换未必高效；
+    +  例子
+    ```java
+      for (int x = 0; x < valueCount; x++) {
+          cleanFiles[x] = new File(directory, key + "." + x);
+          dirtyFiles[x] = new File(directory, key + "." + x + ".tmp");
+      }
+    ```
+    ===>>>
+    ```java
+      StringBuilder b = new StringBuilder(key).append(".");
+      int truncateTo = b.length();
+      for (int x = 0; x < valueCount; x++) {
+          b.append(x);
+          cleanFiles[x] = new File(directory, b.toString());
+          b.append(".tmp");
+          dirtyFiles[x] = new File(directory, b.toString());
+          b.setLength(truncateTo);
+      }
+    ```
+  +  其他
+    +  对函数的调用（尤其是虚函数、接口函数）结果，如果同一个作用域中有多次调用，且结果确定不变，应该将他们转化为一次调用：`for (int i = 0, size = list.size(); i < size; i++)`
+    +  对集合的遍历，不要使用语法糖，会有额外开销（Iterator创建、虚函数调用等）
+
 ##性能优化的几大考虑
 +  Mobile Context
   +  资源受限

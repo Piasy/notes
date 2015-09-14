@@ -209,7 +209,19 @@
   +  The best solution to this problem is to prohibit subclassing in classes that are not designed and documented to be safely subclassed. 声明为final class或者把构造函数私有化（提供public static工厂方法）。
   +  如果确实想要允许继承，就应该为每个被自己使用的可重写方法都写好文档
 +  Item 18: Prefer interfaces to abstract classes
-  +  
+  +  Java类只允许单继承，接口可以多继承，使用接口定义类型，使得class hierarchy更加灵活
+  +  定义mixin（optional functionality to be "mixed in"）时使用interface是很方便的，需要增加此功能的类只需要implement该接口即可，而如果使用抽象类，则无法增加一个extends语句
+  +  接口允许构建没有hierarchy的类型系统
+  +  使用接口定义类型，可以使得item 16中提到的wrapper模式更加安全、强大，
+  +  skeletal implementation：该类为abstract，把必须由client实现的方法设为abstract，可以有默认实现的则提供默认实现
+  +  simulated multiple inheritance：通过实现定义的接口，同时在内部实现一个匿名的skeletal implementation，将对对该接口的调用转发到匿名类中，起到“多继承”的效果
+  +  simple implementation：提供一个非抽象的接口实现类，提供一个最简单、能work的实现，也允许被继承
+  +  使用接口定义类型的缺点：不便于演进，一旦接口发布，如果想要增加功能（增加方法），则client将无法编译；而使用abstract class，则没有此问题，只需要提供默认实现即可
+  +  小结
+    +  通过接口定义类型，可以允许多实现（多继承）
+    +  但是演进需求大于灵活性、功能性时，抽象类更合适
+    +  提供接口时，提供一个skeletal implementation，同时审慎考虑接口设计
 +  Item 19: 仅仅用interface去定义一个类型，该接口应该有实现类，使用者通过接口引用，去调用接口的方法
   +  避免用接口去定义常量，应该用noninstantiable utility class去定义常量
   +  相关常量的命名，通过公共前缀来实现分组
++  Item 20: Prefer class hierarchies to tagged classes

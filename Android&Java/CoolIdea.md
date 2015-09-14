@@ -159,6 +159,13 @@ android {
 
 ##构建/工具
 +  [利用buildSrc工程和Codemodel自动生成代码](http://www.thedroidsonroids.com/blog/how-to-generate-java-sources-using-buildsrc-gradle-project)，buildSrc目录下的代码将作为gradle插件被编译，并自动添加到工程的依赖中
++  第三方库在manifest中声明的权限，可能app中并不会使用，可以[通过`uses-permission`标签的`tools:node="remove"`属性，使得gradle在进行manifest merge时，移除该权限](http://blog.forkingcode.com/2015/09/the-unexpected-permission.html)，例子：
+```xml
+<uses-permission 
+    android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
+<uses-permission 
+    android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove"/>
+```
 
 ##有意思的第三方库
 +  [基于UDP组播的Intent发送和接收](http://www.androidzeitgeist.com/2014/11/introducing-android-network-intents17.html)
