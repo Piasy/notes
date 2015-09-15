@@ -16,8 +16,13 @@ map.put("key", "value")
 service.doSomething(map);
 Map mapTwo = new HashMap();
 mapTwo.put("key2", "value2");
-serviceTwo.doSomethingElse(map);
+serviceTwo.doSomethingElse(mapTwo);
 ```
 另外，使用AutoValue/AutoParcel可以很方便的创建不可变的对象，但是在使用过程中还是容易“入坑”，例如使用了Collection类，即便元素对象是不可变的，但是collection并不是，如果按照上面的方式去实现，依然会导致问题，一方面，新new一个Map是一种解决方式，~~另一方面，如果是使用List，可以通过变长参数的方式来传递，这样就能避免这一问题~~，变长参数使用时仍然可能会有问题，例如：调用时传递的是一个数组对象，而非手动传递多个参数，那么如果多次调用之间传递的是同一个数组对象，那还是存在上面的问题，所以，无需变成传递变长参数，而是在调用时保证之后不再修改参数对象（TODO：go语言中有把数组打散之后传递的语法，是否能避免此问题？）。  
 
 参考: [Google网上论坛](https://groups.google.com/d/msg/mockito/KBRocVedYT0/T-vgvqwjh0QJ)
+
+update at 2015. 09. 15  
+经过更多的实践与思考，我对上述问题有了新的认识，上述问题的解决，只能放到函数调用方来做，即便在被调用方的第一行代码对传入参数进行一次深拷贝，还是无法保证深拷贝这一操作会早于调用方后续的修改。只能通过限制/强制保证调用方传进来的数据就是不会且不可改变的数据，才能避免此问题。  
+而如何保证这一点，可以通过调用方传参时进行深拷贝，或者unmodifiable+程序员保证调用后不再读写该数据，来实现。  
+[更多阅读](copy.md)
