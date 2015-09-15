@@ -225,3 +225,11 @@
   +  避免用接口去定义常量，应该用noninstantiable utility class去定义常量
   +  相关常量的命名，通过公共前缀来实现分组
 +  Item 20: Prefer class hierarchies to tagged classes
+  +  tagged class: 在内部定义一个tag变量，由其控制功能的转换
+  +  tag classes are verbose, error-prone, and inefficient
+  +  而class hierarchy，不同功能由不同子类实现，公共部分抽象为一个基类，也能反映出各个子类之间的关系
++  Item 21: Use function objects to represent strategies
+  +  只提供一个功能函数的类实例，没有成员变量，只需一个对象（单例），为其功能定义一个接口，则可以实现策略模式，把具体策略传入相应函数中，使用策略
+  +  具体的策略实例通常使用匿名类定义，调用使用该策略的方法时才予以创建/预先创建好之后每次将其传入
++  Item 22: Favor static member classes over nonstatic
+  +  

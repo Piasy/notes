@@ -153,6 +153,12 @@ android {
   +  pitfalls
     +  当子View需要的长/宽大于给定的percent时，可以通过指定layout_width/height为wrap_content来实现大小扩展，然而似乎不起效？
     +  Percent*Layout中不要使用padding，否则总大小将小于100%，可能会导致对其问题
++  [Layout animations on RecyclerView](http://antonioleiva.com/layout-animations-on-recyclerview/)
+  +  RecyclerView的子类，重写`protected void attachLayoutAnimationParameters(View child, ViewGroup.LayoutParams params, int index, int count)`方法，控制layout动画的播放
+  +  使用xml定义animation
++  [Chrome custom tabs](https://medium.com/ribot-labs/exploring-chrome-customs-tabs-on-android-ef427effe2f4)
++  执行定时任务，可能的实现方式有：[Alarm](http://developer.android.com/reference/android/app/AlarmManager.html), [JobScheduler](https://developer.android.com/reference/android/app/job/JobScheduler.html), API 21+, [JobSchedulerCompat](https://github.com/evant/JobSchedulerCompat) API 10+, [GcmNetworkManager](https://developers.google.com/android/reference/com/google/android/gms/gcm/GcmNetworkManager), [分享](https://plus.google.com/+AndroidDevelopers/posts/GdNrQciPwqo)。
++  xml需要预览的内容，统统用tools:属性，否则会有运行时开销，[参考](http://huteri.me/2015/07/11/beware-of-setting-image-resources-for-preview-purpose-in-xml/)
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)

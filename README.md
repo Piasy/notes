@@ -52,3 +52,4 @@
 +  [函数调用时，传递参数应该是不可变的（Immutable）](misc/BetterDesignWithImmutableParams.md)
 +  [List.toArray()再强转是一定会失败的](http://stackoverflow.com/a/17909134/3077508)
 +  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)
++  [深入Java深浅拷贝、immutable、unmodifiable](misc/copy.md)
