@@ -42,6 +42,7 @@
   +  [有效处理手机旋转专题](Android&Java/HandleOrientationChanged.md)
   +  [Canvas & Drawables](Android&Java/Canvas&Drawables.md)
   +  [《深入理解JVM》](Android&Java/InsideJVM.md)
+  +  [《Effective Java 2nd Edition》](Android&Java/EffectiveJava.md)
   +  [Java对象内存使用](Android&Java/JavaObjectMemoryUsage.md)
   +  [Java Memory model](Android&Java/JSR133.md)
   +  [Java同步机制](Android&Java/JavaSynchronization.md)

@@ -232,4 +232,37 @@
   +  只提供一个功能函数的类实例，没有成员变量，只需一个对象（单例），为其功能定义一个接口，则可以实现策略模式，把具体策略传入相应函数中，使用策略
   +  具体的策略实例通常使用匿名类定义，调用使用该策略的方法时才予以创建/预先创建好之后每次将其传入
 +  Item 22: Favor static member classes over nonstatic
-  +  
+  +  有4种nested class：non-static member class; static member class(inner class); anonymous class; local class
+  +  static member class
+    +  经常作为helper class，和外部类一起使用
+    +  如果nested class的生命周期独立于外部类存在，则必须定义为static member class，否则可能造成内存泄漏
+    +  private static member class用处一：表示（封装）外部类的一些成员，例如Map的Entry内部类。
+  +  non-static member class
+    +  将持有外部类实例的强引用，可以直接引用外部类的成员和方法
+    +  用处一：定义一个Adapter，使得外部内的实例，可以作为和外部类语义不同的实例来查看（访问），例如Collection的Iterator。
+    +  如果nested class不需要引用外部类的成员和方法，则一定要将其定义为static，避免空间/时间开销，避免内存泄漏
+  +  anonymous class
+    +  当在非static代码块内定义时，会持有外部类的引用，否则不会持有
+    +  限制
+      +  只能在被声明的地方进行实例化
+      +  无法进行instanceof测试
+      +  不能用匿名类实现多个接口
+      +  不能用匿名类继承一个类的同时实现接口
+      +  匿名类中新添加的方法无法在匿名类外部访问
+      +  不能有static成员
+    +  应该尽量保持简短
+    +  用处一：创建function object
+    +  用处二：创建process object，例如：Runnable, Thread, TimberTask
+    +  用处三：用于public static工厂方法，例如Collections类里面的一些工厂方法，很多是返回一个匿名的内部实现
+  +  local class
+    +  比较少用
+    +  是否static取决于其定义的上下文
+    +  可以在作用域内重复使用
+    +  不能有static成员
+    +  也应尽量保持简短
+  +  小结
+    +  四种nested class
+    +  如果nested class在整个外部类内都需要可见，或者定义代码太长，应使用member class
+    +  能static就一定要static，即便需要对外部类进行引用，对于生命周期独立于外部类的，也应该通过WeakReference进行引用，避免内存泄漏；至于生命周期和外部类一致的，则不必这样
+
+##Generics
