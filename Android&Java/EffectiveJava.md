@@ -266,3 +266,54 @@
     +  能static就一定要static，即便需要对外部类进行引用，对于生命周期独立于外部类的，也应该通过WeakReference进行引用，避免内存泄漏；至于生命周期和外部类一致的，则不必这样
 
 ##Generics
++  Item 23: Don’t use raw types in new code
+  +  Java泛型，例如`List<E>`，真正使用的时候都是`List<String>`等，把E替换为实际的类型
+  +  Java泛型从1.5引入，为了保持兼容性，实现的是伪泛型，类型参数信息在编译完成之后都会被擦除，其在运行时的类型都是raw type，类型参数保存的都是Object类型，`List<E>`的raw type就是`List`
+  +  编译器在编译期通过类型参数，为读操作自动进行了类型强制转换，同时在写操作时自动进行了类型检查
+  +  如果使用raw type，那编译器就不会在写操作时进行类型检查了，写入错误的类型也不会报编译错误，那么在后续读操作进行强制类型转换时，将会导致转换失败，抛出异常
+  +  一旦错误发生，应该让它尽早被知道（抛出/捕获），编译期显然优于运行期
+  +  `List`与`List<Object>`的区别
+    +  前者不具备类型安全性，后者具备，例如以下代码
+      ```java
+        // Uses raw type (List) - fails at runtime!
+        public static void main(String[] args) {
+          List<String> strings = new ArrayList<String>(); 
+          unsafeAdd(strings, new Integer(42));
+          String s = strings.get(0); // Compiler-generated cast
+        }
+        
+        private static void unsafeAdd(List list, Object o) { 
+          list.add(o);
+        }
+      ```
+      不会报编译错误，但会给一个编译警告：`Test.java:10: warning: unchecked call to add(E) in raw type List list.add(o);`，而运行时则会发生错误。
+    +  但如果使用`List<Object>`，即`unsageAdd`参数改为`List<Object> list, Object o`，则会报编译错误：`Test.java:5: unsafeAdd(List<Object>,Object) cannot be applied to (List<String>,Integer) unsafeAdd(strings, new Integer(42));`  
+    +  因为`List<String>`是`List`的子类，但却不是`List<Object>`的子类。  
+    +  并不是说这个场景应该使用`List<Object>`，这个场景应该使用`List<String>`，这里只是为了说明`List`和`List<Object>`是有区别的。
+  +  `List` v.s. `List<?>`（unbounded wildcard types），当不确定类型参数，或者说类型参数不重要时，也不应该使用raw type，而应该使用`List<?>`
+    +  任何参数化的List均是`List<?>`的子类，可以作为参数传入接受`List<?>`的函数，例如以下代码均是合法的：
+      ```java
+        void func(List<?> list) {
+          ...
+        }
+        
+        func(new List<Object>());
+        func(new List<Integer>());
+        func(new List<String>());
+      ```
+    +  持有`List<?>`的引用后，并不能向其中加入任何元素，读取出来的元素也是`Object`类型，而不会被自动强转为任何类型。
+    +  如果`List<?>`的行为不能满足需求，可以考虑使用模板方法，或者`List<E extends XXX>`（bounded wildcard types）
+  +  You must use raw types in class literals.
+    +  `List.class`, `String[].class`, and `int.class` are all legal, but `List<String>.class` and `List<?>.class` are not.
+  +  `instanceof`不支持泛型，以下用法是推荐的，但不应该将`o`强转为`List`
+    ```java
+      // Legitimate use of raw type - instanceof operator 
+      if (o instanceof Set) { // Raw type
+        Set<?> m = (Set<?>) o; // Wildcard type
+        ... 
+      }
+    ```
+  +  相关术语汇总  
+  ![java_generic_terms.png](assets/java_generic_terms.png)
++  Item 24: Eliminate unchecked warnings
+  +  
