@@ -1,7 +1,8 @@
 #安卓测试驱动开发/安卓测试验证
-安卓测试主要包括两种：单元测试；集成测试
+安卓测试主要包括两种：单元测试；集成测试；测试主要通过mock依赖，验证行为。单元测试框架、集成测试框架、Mock框架是TDD所需的主要工具。
 
-##[The Square Way](http://www.philosophicalhacker.com/2015/04/10/against-android-unit-tests/)
+##单元测试：[The Square Way](http://www.philosophicalhacker.com/2015/04/10/against-android-unit-tests/)
++  单元测试是方法级别的测试，需要测试的是一个类的公开接口/方法，测试其逻辑正确性，如果发现一个类的某个方法所使用的依赖难以mock，it's a smell，重构吧
 +  基础理论部分
   +  The three steps of a unit test: arrange, act, and assert
   +  check the return value of the method    
@@ -26,7 +27,7 @@ pre-act-state，post-act-state，测试对象的依赖中，如果mock框架（�
 可以使用Constructor inject的类就不要使用Field inject。前者更利于单元测试。其实除了SDK组件类，其他的类基本上都可以使用Constructor inject。
 +  无需依赖第三方框架（Robolectric，Dagger）
   
-##[Mockito](http://mockito.org/)
+##Mock框架：[Mockito](http://mockito.org/)
 +  stubbed的方法没有必要verify
 +  当被测代码对返回值不关心时，不要stub
 +  mock对象的方法默认将返回空值（null，空集合，默认基本类型值）
@@ -52,14 +53,28 @@ pre-act-state，post-act-state，测试对象的依赖中，如果mock框架（�
 +  (new) Better generic support with deep stubs (Since 1.10.0)
   
 ##集成测试
-+  Espresso
-  +  ViewMatchers/ViewActions/ViewAssertions
-  +  同步问题：自动处理UI Event/AsyncTask。当使用Retrofit时，可以为测试代码生成测试用的RestAdapter，指定Excutor为AsyncTask：  
-  ```java
-  new RestAdapter.Builder()
-   .setExecutors(AsyncTask.THREAD_POOL_EXECUTOR, new MainThreadExecutor())
-   .build();
-  ```
++  集成测试的级别是什么？wiki定义为：把各个经过单元测试的模块组合起来，作为一个整体进行测试，是验证测试的前一步。
++  那么需要组合多少个unit呢？这个应该视具体情况和实际操作来决定，目前来看，对于安卓开发来说，以Activity作为集成测试的单位比较合适，但是也不尽然，例如需要测试不同Activity之间的状态同步时，Activity1进入Activity2，并在其中进行了操作，改变了应用的状态，回到Activity1也希望能够响应该变化，那么测试范围就涉及多个Activity了。
++  测试框架
+  +  Espresso
+    +  ViewMatchers/ViewActions/ViewAssertions
+    +  同步问题：自动处理UI Event/AsyncTask。当使用Retrofit时，可以为测试代码生成测试用的RestAdapter，指定Excutor为AsyncTask：  
+    ```java
+    new RestAdapter.Builder()
+    .setExecutors(AsyncTask.THREAD_POOL_EXECUTOR, new MainThreadExecutor())
+    .build();
+    ```
+    +  idle resources
+  +  UIAutomator
++  和一些其他框架的整合
+  +  Dagger2
+    +  生产代码的依赖都是通过依赖注入框架注入，本应是有利于测试的，但是如果通过依赖注入框架把mock的依赖注入进去呢？
+    +  总的来说，都是通过使得main和test使用不同的module，test的module provide mock的依赖，main的module provide真实的依赖
+    +  思路1：利用flavor/build variant，专门创建一个用于注入测试依赖的variant，其中维护测试依赖的component；不用打破生产代码的封装特性；但是增加了维护成本，有两套component需要维护，而且这两套component必须切换AS的build variant才能切换，不能同时维护；
+    +  思路2：修改生产代码的component创建/获取途径，使得测试时可以设置测试用的component（能够注入测试依赖）；后期不用切换AS的build variant就能进行重构；一定程度上打破了封装性；
+  +  StorIO
+  +  Application类
+    +  思路1：Application类的依赖也提供setter方法
   
 ##单元测试
 单元测试旨在针对代码中关键方法/接口的逻辑正确性进行验证  
@@ -82,5 +97,5 @@ pre-act-state，post-act-state，测试对象的依赖中，如果mock框架（�
 	// assert it happened!
   ```
   Robolectric会维护系统组件内部的相关信息，当调用create的时候，就能确保Activity生命周期函数执行完了onCreate。如果想要触发其他函数，onPause，onResume等，也有相应的controller函数。同样支持模拟Intent启动，savedInstance恢复；  
-  当需要通过Robolectric和View发生交互时，需要确保View都被附加到了window上，且已被显示，visible()方法的作用就在于此；
+  当需要通过Robolectric和View发生交互时，需要确保View都被附加到了window上，且已被显示，visible()方法的作用就在于此；~~
   

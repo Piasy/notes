@@ -316,4 +316,53 @@
   +  相关术语汇总  
   ![java_generic_terms.png](assets/java_generic_terms.png)
 +  Item 24: Eliminate unchecked warnings
+  +  当出现类型不安全的强制转换时（一般都是涉及泛型，raw type），编译器会给出警告，首先要做的是尽量消除不安全的转换，消除警告
+  +  实在无法消除/确定不会导致运行时的`ClassCastException`，可以通过`@SuppressWarnings("unchecked")`消除警告，但不要直接忽略该警告
+  +  使用`@SuppressWarnings("unchecked")`时，应该在注视内证明确实不存在运行时的`ClassCastException`；同时应该尽量减小其作用的范围，通常是应该为一个赋值语句添加注解
++  Item 25: Prefer lists to arrays
+  +  arrays are covariant(协变): 如果`Sub`是`Super`的子类，那么`Sub[]`也是`Super[]`的子类
+  +  generics are invariant(不变): 任意两个不同的类`Type1`和`Type2`，`List<Type1>`和`List<Type2>`之间没有任何继承关系
+  +  考虑以下代码
+  ```java
+    // Fails at runtime!
+    Object[] objectArray = new Long[1];
+    objectArray[0] = "I don't fit in"; // Throws ArrayStoreException
+    
+    // Won't compile!
+    List<Object> ol = new ArrayList<Long>(); // Incompatible types 
+    ol.add("I don't fit in");
+  ```
+  +  arrays are reified(具体化): array在运行时能知道且强制要求元素的类型
+  +  generics are implemented by erasure(non-reifiable): 仅仅在编译时知道元素的类型
+  +  数组和泛型同时使用时会受到很大限制
+    +  以下语句均不能通过编译：`new List<E>[], new List<String>[], new E[]`；但是声明是可以的，例如`List<String>[] stringLists`
+  +  non-reifiable type: 例如`E, List<E>, List<String>`，这些类型在运行时的信息比编译时的信息更少
+  +  只有unbounded wildcard type才是reifiable的，如：`List<?>, Map<?, ?>`
+  +  常规来说，不能返回泛型元素的数组，因为会报编译错误：`generic array creation errors`
+  +  当泛型和`varargs`一起使用时，也会导致编译警告
+  +  有时为了类型安全，不得不做些妥协，牺牲性能和简洁，使用List而不是数组
+  +  把数组强转为non-reifiable类型是非常危险的，仅应在非常确定类型安全的情况下使用
++  Item 26: Favor generic types
+  +  当需要一个类成员的数据类型具备一般性时，应该用泛型，这也正是泛型的设计场景之一，不应该用Object类
+  +  但使用泛型有时也不得不进行cast，例如当泛型遇上数组
+  +  总的来说把suppress数组类型强转的unchecked warning比suppress一个标量类型强转的unchecked warning风险更大，但有时出于代码简洁性考虑，也不得不做出妥协
+  +  有时看似与item 25矛盾，实属无奈，Java原生没有List，ArrayList不得不基于数组实现，HashMap也是基于数组实现的
+  +  泛型比使用者进行cast更加安全，而且由于Java泛型的擦除实现，也可以和未做泛型的老代码无缝兼容
++  Item 27: Favor generic methods
+  +  泛型方法的类型参数在函数修饰符（可见性/static/final等）和返回值之间，例子：
+  ```java
+    // Generic method
+    public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
+        Set<E> result = new HashSet<>(s1); 
+        result.addAll(s2);
+        return result;
+    }
+  ```
+  +  recursive type bound
+  ```java
+    // Using a recursive type bound to express mutual comparability
+    public static <T extends Comparable<T>> T max(List<T> list) {...}
+  ```
+  +  泛型方法要比方法使用者进行cast更加安全
++  Item 28: Use bounded wildcards to increase API flexibility
   +  
