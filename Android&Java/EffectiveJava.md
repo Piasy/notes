@@ -365,4 +365,39 @@
   ```
   +  泛型方法要比方法使用者进行cast更加安全
 +  Item 28: Use bounded wildcards to increase API flexibility
-  +  
+  +  考虑以下代码
+  ```java
+    public class Stack<E> {
+        public Stack();
+        public void push(E e);
+        public E pop();
+        public boolean isEmpty();
+        
+        public void pushAll(Iterable<E> src);
+        public void popAll(Collection<E> dst);
+    }
+    
+    Stack<Number> numberStack = new Stack<Number>();
+    Iterable<Integer> integers = ... ;
+    numberStack.pushAll(integers);
+    
+    Stack<Number> numberStack = new Stack<Number>();
+    Collection<Object> objects = ... ;
+    numberStack.popAll(objects);
+  ```
+  pushAll和popAll的调用均无法通过编译，因为尽管`Integer`是`Number`的子类，但`Iterable<Integer>`不是`Iterable<Number>`的子类，这是由泛型的invariant特性导致的，所以`Iterable<Integer>`不能传入接受`Iterable<Number>`参数的函数，popAll的使用同理
+  +  bounded wildcards: `<? extends E>`, `<? super E>`, PECS stands for producer-extends, consumer-super. 如果传入的参数是要输入给该类型数据的，则应该使用extends，如果是要容纳该类型数据的输出，则应该使用super
+  +  这很好理解，作为输入是要赋值给E类型的，当然应该是E的子类（这里的extends包括E类型本身）；而容纳输出是要把E赋值给传入参数的，当然应该是E的父类（同样包括E本身）
+  +  返回值类型不要使用bounded wildcards，否则使用者也需要使用，这将会给使用者造成麻烦
+  +  代码对于bounded wildcards的使用在使用者那边应该是透明的，即他们不会感知到bounded wildcards的存在，如果他们也需要考虑bounded wildcards的问题，则说明对bounded wildcards的使用有问题了
+  +  有时候编译器的类型推导在遇到bounded wildcards会无法完成，这时就需要显示指定类型信息，例如：
+  ```java
+    public static <E> Set<E> union(Set<? extends E> s1, Set<? extends E> s2);
+    
+    Set<Integer> integers = ... ;
+    Set<Double> doubles = ... ;
+    //Set<Number> numbers = union(integers, doubles); //compile error
+    Set<Number> numbers = Union.<Number>union(integers, doubles);  //compile pass
+  ```
+  +  Comparables are always consumers, so you should always use `Comparable<? super T>` in preference to `Comparable<T>`. The same is true of comparators, so you should always use `Comparator<? super T>` in preference to `Comparator<T>`.
+  +  unbounded type parameter(`<E> ... List<E>`) v.s. unbounded wildcard(`List<?>`)：if a type parameter appears only once in a method declaration, replace it with a wildcard.
