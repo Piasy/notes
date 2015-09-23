@@ -401,3 +401,58 @@
   ```
   +  Comparables are always consumers, so you should always use `Comparable<? super T>` in preference to `Comparable<T>`. The same is true of comparators, so you should always use `Comparator<? super T>` in preference to `Comparator<T>`.
   +  unbounded type parameter(`<E> ... List<E>`) v.s. unbounded wildcard(`List<?>`)：if a type parameter appears only once in a method declaration, replace it with a wildcard.
++  Item 29: Consider typesafe heterogeneous containers
+  +  使用泛型时，类型参数是有限个的，例如`List<T>`，`Map<K, V>`，但有时可能需要一个容器，能放入任意类型的对象，但需要具备类型安全性，例如数据库的一行，它的每一列都可能是任意类型的数据
+  +  由于`Class`类从1.5就被泛型化了，所以使得这种需求可以实现，例如：
+  ```java
+    // Typesafe heterogeneous container pattern - API
+    public class Favorites {
+        public <T> void putFavorite(Class<T> type, T instance);
+        public <T> T getFavorite(Class<T> type);
+    }
+  ```
+  +  通常这样使用的`Class`对象被称为type token，它传入函数，用来表述编译时和运行时的类型信息
+  +  `Favorites`的实现也是很简单的：
+  ```java
+    // Typesafe heterogeneous container pattern - implementation
+    public class Favorites {
+        private Map<Class<?>, Object> favorites = new HashMap<Class<?>, Object>();
+        
+        public <T> void putFavorite(Class<T> type, T instance) {
+            if (type == null)
+            throw new NullPointerException("Type is null");
+            favorites.put(type, instance);
+        }
+        
+        public <T> T getFavorite(Class<T> type) { 
+            return type.cast(favorites.get(type));
+        } 
+    }
+  ```
+  +  注意，这里的unbound wildcard并不是应用于Map的，而是应用于Class的类型参数，因此Map可以put key进去，而且key可以是任意类型参数的Class对象
+  +  另外，Map的value类型是Object，一旦put到Map中去，其编译期类型信息就丢失了，将通过get方法的动态类型转换（cast）来重新获得其类型信息
+  +  cast方法将检查类型信息，如果是该类型（或其子类），转换将成功，并返回引用，否则将抛出ClassCastException
+  +  这一heterogeneous container实现有两个不足
+    +  通过为put方法传入Class的raw type，使用者可以很轻易地破坏类型安全性，解决方案也很简单，在put时也进行一下cast：
+    ```java
+      // Achieving runtime type safety with a dynamic cast
+      public <T> void putFavorite(Class<T> type, T instance) {
+          favorites.put(type, type.cast(instance));
+      }
+    ```
+    这样做的效果是使得想要破坏类型安全性的put使用者产生异常，而使用get的使用者则不会因为恶意put使用者产生异常。这种做法也被`java.util.Collections`包中的一些方法使用，例如命名为checkedSet, checkedList, checkedMap的类。
+    +  这个容器内不能放入non-reifiable的类型，例如`List<String>`，因为`List<String>.class`是有语法错误的，`List<String>`, `List<Integer>`都只有同一个class对象：`List.class`；另外`String[].class`是合法的。
+  +  `Favorites`使用的类型参数是unbounded的，可以put任意类型，也可以使用bounded type token，使用bounded时可能需要把`Class<?>`转换为`Class<? extends Annotation>`，直接用`class.cast`将会导致unchecked warning，可以通过`class.asSubclass`来进行转换，例子：
+  ```java
+    // Use of asSubclass to safely cast to a bounded type token
+    static Annotation getAnnotation(AnnotatedElement element, String annotationTypeName) {
+        Class<?> annotationType = null; // Unbounded type token 
+        try {
+            annotationType = Class.forName(annotationTypeName);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+        return element.getAnnotation(annotationType.asSubclass(Annotation.class));
+    }
+  ```
+    
