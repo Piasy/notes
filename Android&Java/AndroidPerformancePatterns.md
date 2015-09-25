@@ -1,67 +1,5 @@
 #安卓性能优化
 
-##谷歌安卓团队对于性能优化的建议
-+  [Profile GPU rendering]
-  +  两个区域（虚拟键盘设备会有三个区域），从上到下分别表示：状态栏绘制、主窗口绘制、虚拟键盘区域绘制
-  +  三种颜色
-    +  蓝色：draw time，Java代码创建、更新display list所消耗的时间；onDraw函数中使用Canvas调用的draw*函数的执行时间；convert to GPU description, cache as display list；
-      +  蓝色过高，可能因为大量view被invalidate，需要重绘，或者是onDraw方法的逻辑过于复杂，执行时间长
-    +  红色：execute time，Android 2D renderer执行display list所消耗的时间（通过Open GL接口，使用GPU绘制）；自定义View越复杂，GPU渲染所需时间越长；
-      +  红色过高，原因很可能就是View的构成太复杂；极高的峰值，可能是因为重新提交了视图绘制造成的，并非view被invalidate，而是类似于View旋转这样的变化，需要先清空原有区域，再重新绘制；
-    +  橙色：process time，CPU通知GPU渲染结束消耗的时间，同步调用
-      +  橙色过高，可能是View太复杂，渲染需要太多时间
-
-+  [对数据集合的遍历，性能对比](https://youtu.be/R5ON3iwx78M?list=PLWz5rJ2EKKc9CBxr3BVjPTPoDPLdPIFCE)：使用iterator，简化版语法，用索引遍历；
-![IterateCollectionPerformanceCompare.png](assets/IterateCollectionPerformanceCompare.png)
-
-##Square团队的建议
-+  [Eliminating Code Overhead by Jake Wharton](https://www.youtube.com/watch?v=b6zKBZcg5fk&feature=youtu.be)
-  +  CPU
-    +  Do not nest multi-pass layouts: RelativeLayout, LinearLayout with layout_weight...
-    +  Lazily compute complex data when needed
-    +  Cache heavy computational results for re-use
-    +  Consider RenderScript for performance
-    +  Keep work off main thread
-  +  Memory
-    +  Use object pools and caches to reduce churn (judiciously)
-    +  Be mindful of the overhead of enums
-    +  Do not allocate inside the draw path
-    +  Use specialized collections instead of JDK collections when appropriate (SparceArray...)
-  +  I/O
-    +  Batch operations with reasonable back-off policies
-    +  Use gzip or binary serialization format
-    +  Cache data offline with TTLs for reloading
-    +  Use JobScheduler API to batch across OS
-  +  Spectrum of optimizations, not binary
-  +  Do not blindly apply to everything, only appropriate
-  +  Multiple micro-optimizations can improve like macro
-  +  ArrayList分配：会有一个默认初始值，以后空间不够时按倍增策略进行扩展
-    +  如果创建时就知道其大小，则可以new一个已知容量的ArrayList，避免后面扩容、数据复制的成本
-    +  
-  +  StringBuilder：同样的，也可以先给一个预估的大小，然后直接初始化该大小的StringBuilder；安卓开发build时会自动把String的拼接操作转化为StringBuilder实现，然而这种自动的转换未必高效；
-    +  例子
-    ```java
-      for (int x = 0; x < valueCount; x++) {
-          cleanFiles[x] = new File(directory, key + "." + x);
-          dirtyFiles[x] = new File(directory, key + "." + x + ".tmp");
-      }
-    ```
-    ===>>>
-    ```java
-      StringBuilder b = new StringBuilder(key).append(".");
-      int truncateTo = b.length();
-      for (int x = 0; x < valueCount; x++) {
-          b.append(x);
-          cleanFiles[x] = new File(directory, b.toString());
-          b.append(".tmp");
-          dirtyFiles[x] = new File(directory, b.toString());
-          b.setLength(truncateTo);
-      }
-    ```
-  +  其他
-    +  对函数的调用（尤其是虚函数、接口函数）结果，如果同一个作用域中有多次调用，且结果确定不变，应该将他们转化为一次调用：`for (int i = 0, size = list.size(); i < size; i++)`
-    +  对集合的遍历，不要使用语法糖，会有额外开销（Iterator创建、虚函数调用等）
-
 ##性能优化的几大考虑
 +  Mobile Context
   +  资源受限
@@ -174,3 +112,75 @@
     +  Animator duration scale
     +  Screenrecord
     +  Show hardware layer updates
+
+##谷歌安卓团队对于性能优化的建议
++  [Profile GPU rendering]
+  +  两个区域（虚拟键盘设备会有三个区域），从上到下分别表示：状态栏绘制、主窗口绘制、虚拟键盘区域绘制
+  +  三种颜色
+    +  蓝色：draw time，Java代码创建、更新display list所消耗的时间；onDraw函数中使用Canvas调用的draw*函数的执行时间；convert to GPU description, cache as display list；
+      +  蓝色过高，可能因为大量view被invalidate，需要重绘，或者是onDraw方法的逻辑过于复杂，执行时间长
+    +  红色：execute time，Android 2D renderer执行display list所消耗的时间（通过Open GL接口，使用GPU绘制）；自定义View越复杂，GPU渲染所需时间越长；
+      +  红色过高，原因很可能就是View的构成太复杂；极高的峰值，可能是因为重新提交了视图绘制造成的，并非view被invalidate，而是类似于View旋转这样的变化，需要先清空原有区域，再重新绘制；
+    +  橙色：process time，CPU通知GPU渲染结束消耗的时间，同步调用
+      +  橙色过高，可能是View太复杂，渲染需要太多时间
+
++  [对数据集合的遍历，性能对比](https://youtu.be/R5ON3iwx78M?list=PLWz5rJ2EKKc9CBxr3BVjPTPoDPLdPIFCE)：使用iterator，简化版语法，用索引遍历；
+![IterateCollectionPerformanceCompare.png](assets/IterateCollectionPerformanceCompare.png)
+
+##Square团队的建议
++  [Eliminating Code Overhead by Jake Wharton](https://www.youtube.com/watch?v=b6zKBZcg5fk&feature=youtu.be)
+  +  CPU
+    +  Do not nest multi-pass layouts: RelativeLayout, LinearLayout with layout_weight...
+    +  Lazily compute complex data when needed
+    +  Cache heavy computational results for re-use
+    +  Consider RenderScript for performance
+    +  Keep work off main thread
+  +  Memory
+    +  Use object pools and caches to reduce churn (judiciously)
+    +  Be mindful of the overhead of enums
+    +  Do not allocate inside the draw path
+    +  Use specialized collections instead of JDK collections when appropriate (SparceArray...)
+  +  I/O
+    +  Batch operations with reasonable back-off policies
+    +  Use gzip or binary serialization format
+    +  Cache data offline with TTLs for reloading
+    +  Use JobScheduler API to batch across OS
+  +  Spectrum of optimizations, not binary
+  +  Do not blindly apply to everything, only appropriate
+  +  Multiple micro-optimizations can improve like macro
+  +  ArrayList分配：会有一个默认初始值，以后空间不够时按倍增策略进行扩展
+    +  如果创建时就知道其大小，则可以new一个已知容量的ArrayList，避免后面扩容、数据复制的成本
+    +  
+  +  StringBuilder：同样的，也可以先给一个预估的大小，然后直接初始化该大小的StringBuilder；安卓开发build时会自动把String的拼接操作转化为StringBuilder实现，然而这种自动的转换未必高效；
+    +  例子
+    ```java
+      for (int x = 0; x < valueCount; x++) {
+          cleanFiles[x] = new File(directory, key + "." + x);
+          dirtyFiles[x] = new File(directory, key + "." + x + ".tmp");
+      }
+    ```
+    ===>>>
+    ```java
+      StringBuilder b = new StringBuilder(key).append(".");
+      int truncateTo = b.length();
+      for (int x = 0; x < valueCount; x++) {
+          b.append(x);
+          cleanFiles[x] = new File(directory, b.toString());
+          b.append(".tmp");
+          dirtyFiles[x] = new File(directory, b.toString());
+          b.setLength(truncateTo);
+      }
+    ```
+  +  其他
+    +  对函数的调用（尤其是虚函数、接口函数）结果，如果同一个作用域中有多次调用，且结果确定不变，应该将他们转化为一次调用：`for (int i = 0, size = list.size(); i < size; i++)`
+    +  对集合的遍历，不要使用语法糖，会有额外开销（Iterator创建、虚函数调用等）
+
+##[NimbleDroid的建议](http://blog.nimbledroid.com/2015/09/17/how-to-make-your-application-fluid.html)
++  性能优化的流程  
+![perf_tune_process.png](assets/perf_tune_process.png)
++  Recommendation 1: limit app startup to 2 seconds
++  Recommendation 2: eliminate hung methods
++  Recommendation 3: measure as often as you can，怎么、什么粒度的profiling呢？
++  Recommendation 4: know a set of common issues
+  +  ClassLoader.getResourceAsStream()
++  Recommendation 5: avoid surprises in 3rd-party SDKs

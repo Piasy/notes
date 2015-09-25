@@ -40,7 +40,7 @@
                     }
                 }
             }
-    
+
             return sRestAdapter;
         }
     ```
@@ -277,12 +277,12 @@
       ```java
         // Uses raw type (List) - fails at runtime!
         public static void main(String[] args) {
-          List<String> strings = new ArrayList<String>(); 
+          List<String> strings = new ArrayList<String>();
           unsafeAdd(strings, new Integer(42));
           String s = strings.get(0); // Compiler-generated cast
         }
-        
-        private static void unsafeAdd(List list, Object o) { 
+
+        private static void unsafeAdd(List list, Object o) {
           list.add(o);
         }
       ```
@@ -296,7 +296,7 @@
         void func(List<?> list) {
           ...
         }
-        
+
         func(new List<Object>());
         func(new List<Integer>());
         func(new List<String>());
@@ -307,10 +307,10 @@
     +  `List.class`, `String[].class`, and `int.class` are all legal, but `List<String>.class` and `List<?>.class` are not.
   +  `instanceof`不支持泛型，以下用法是推荐的，但不应该将`o`强转为`List`
     ```java
-      // Legitimate use of raw type - instanceof operator 
+      // Legitimate use of raw type - instanceof operator
       if (o instanceof Set) { // Raw type
         Set<?> m = (Set<?>) o; // Wildcard type
-        ... 
+        ...
       }
     ```
   +  相关术语汇总  
@@ -327,9 +327,9 @@
     // Fails at runtime!
     Object[] objectArray = new Long[1];
     objectArray[0] = "I don't fit in"; // Throws ArrayStoreException
-    
+
     // Won't compile!
-    List<Object> ol = new ArrayList<Long>(); // Incompatible types 
+    List<Object> ol = new ArrayList<Long>(); // Incompatible types
     ol.add("I don't fit in");
   ```
   +  arrays are reified(具体化): array在运行时能知道且强制要求元素的类型
@@ -353,7 +353,7 @@
   ```java
     // Generic method
     public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
-        Set<E> result = new HashSet<>(s1); 
+        Set<E> result = new HashSet<>(s1);
         result.addAll(s2);
         return result;
     }
@@ -372,15 +372,15 @@
         public void push(E e);
         public E pop();
         public boolean isEmpty();
-        
+
         public void pushAll(Iterable<E> src);
         public void popAll(Collection<E> dst);
     }
-    
+
     Stack<Number> numberStack = new Stack<Number>();
     Iterable<Integer> integers = ... ;
     numberStack.pushAll(integers);
-    
+
     Stack<Number> numberStack = new Stack<Number>();
     Collection<Object> objects = ... ;
     numberStack.popAll(objects);
@@ -393,7 +393,7 @@
   +  有时候编译器的类型推导在遇到bounded wildcards会无法完成，这时就需要显示指定类型信息，例如：
   ```java
     public static <E> Set<E> union(Set<? extends E> s1, Set<? extends E> s2);
-    
+
     Set<Integer> integers = ... ;
     Set<Double> doubles = ... ;
     //Set<Number> numbers = union(integers, doubles); //compile error
@@ -417,16 +417,16 @@
     // Typesafe heterogeneous container pattern - implementation
     public class Favorites {
         private Map<Class<?>, Object> favorites = new HashMap<Class<?>, Object>();
-        
+
         public <T> void putFavorite(Class<T> type, T instance) {
             if (type == null)
             throw new NullPointerException("Type is null");
             favorites.put(type, instance);
         }
-        
-        public <T> T getFavorite(Class<T> type) { 
+
+        public <T> T getFavorite(Class<T> type) {
             return type.cast(favorites.get(type));
-        } 
+        }
     }
   ```
   +  注意，这里的unbound wildcard并不是应用于Map的，而是应用于Class的类型参数，因此Map可以put key进去，而且key可以是任意类型参数的Class对象
@@ -446,7 +446,7 @@
   ```java
     // Use of asSubclass to safely cast to a bounded type token
     static Annotation getAnnotation(AnnotatedElement element, String annotationTypeName) {
-        Class<?> annotationType = null; // Unbounded type token 
+        Class<?> annotationType = null; // Unbounded type token
         try {
             annotationType = Class.forName(annotationTypeName);
         } catch (Exception ex) {
@@ -455,4 +455,57 @@
         return element.getAnnotation(annotationType.asSubclass(Annotation.class));
     }
   ```
-    
+
+##Enums and Annotations
++  Item 30: Use enums instead of int constants
+  +  类型安全
+  +  可以为常量提供数据和方法的绑定
+  +  可以遍历
+  +  实现建议
+    +  如果是通用的，应该定义为top level enum，否则应定义为内部类
+    +  constant-specific method implementations
+    ```java
+      // Enum type with constant-specific method implementations
+      public enum Operation {
+          PLUS   { double apply(double x, double y){return x + y;} },
+          MINUS  { double apply(double x, double y){return x - y;} },
+          TIMES  { double apply(double x, double y){return x * y;} },
+          DIVIDE { double apply(double x, double y){return x / y;} };
+          abstract double apply(double x, double y);
+      }
+    ```
+    +  结合constant-specific data
+    ```java
+      // Enum type with constant-specific class bodies and data
+      public enum Operation {
+          PLUS("+") {
+              double apply(double x, double y) { return x + y; }
+          },
+          MINUS("-") {
+              double apply(double x, double y) { return x - y; }
+          },
+          TIMES("*") {
+              double apply(double x, double y) { return x * y; }
+          },
+          DIVIDE("/") {
+              double apply(double x, double y) { return x / y; }
+          };
+
+          private final String symbol;
+          Operation(String symbol) { this.symbol = symbol; }
+
+          @Override public String toString() { return symbol; }
+          abstract double apply(double x, double y);
+      }
+    ```
+    +  If switch statements on enums are not a good choice for implementing con- stant-specific behavior on enums, what are they good for? Switches on enums are good for augmenting external enum types with constant-specific behavior.
+  +  A minor performance disadvantage of enums over int constants is that there is a space and time cost to load and initialize enum types.
+  +  所以，在安卓设备（手机、平板）上，应该避免使用enum，减小空间和时间的开销
++  Item 31: Use instance fields instead of ordinals
+  +  每个enum的常量都有一个`ordinal()`方法获取其在该enum类型中的位置，但该方法只应该在实现`EnumSet`, `EnumMap`等类型的时候被使用，其他情形都不应该被使用
+  +  如果需要为每一个常量绑定一个数据，可以使用instance field实现，如果需要绑定方法，则可以用constant-specific method implementations，参考上一个item
++  Item 32: Use EnumSet instead of bit fields
+  +  bit fields的方式不优雅、容易出错、没有类型安全性
+  +  EnumSet则没有这些缺点，而且对于大多数enum类型来说，其性能都和bit field相当
+  +  通用建议：声明变量时，不要用实现类型，应该用接口类型，例如，应该用`List<Integer>`而不是`ArrayList<Integer>`
+  +  EnumSet并非immutable的，可以通过`Conllections.unmodifiableSet`来封装为immutable，但是代码简洁性与性能都将受到影响
