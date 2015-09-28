@@ -1,8 +1,7 @@
 #Effective Java一书笔记
 
 ##对象的创建与销毁
-+  Item 1: 使用static工厂方法，而不是构造函数创建对象  
-仅仅是创建对象的方法，并非Factory Pattern
++  Item 1: 使用static工厂方法，而不是构造函数创建对象：仅仅是创建对象的方法，并非Factory Pattern
   +  优点
     +  命名、接口理解更高效，通过工厂方法的函数名，而不是参数列表来表达其语义
 	+  Instance control，并非每次调用都会创建新对象，可以使用预先创建好的对象，或者做对象缓存；便于实现单例；或不可实例化的类；对于immutable的对象来说，使得用`==`判等符合语义，且更高效；
@@ -509,3 +508,71 @@
   +  EnumSet则没有这些缺点，而且对于大多数enum类型来说，其性能都和bit field相当
   +  通用建议：声明变量时，不要用实现类型，应该用接口类型，例如，应该用`List<Integer>`而不是`ArrayList<Integer>`
   +  EnumSet并非immutable的，可以通过`Conllections.unmodifiableSet`来封装为immutable，但是代码简洁性与性能都将受到影响
++  Item 33: Use EnumMap instead of ordinal indexing
+  +  同前文所述，应该避免使用ordinal。当需要用enum作为下标从数组获取数据时，可以换个角度思考，以enum作为key从map里面获取数据。
+  +  数组和泛型不兼容，因此使用数组也会导致编译警告；而且ordinal的值本来就不是表达index含义的，极易导致隐蔽错误
+  +  EnumMap内部使用数组实现，因此性能和数组相当
+  +  使用数组也会导致程序可扩展性下降，考虑以下两种实现
+  ```java
+    // Using ordinal() to index array of arrays - DON'T DO THIS!
+    public enum Phase {
+        SOLID, LIQUID, GAS;
+
+        public enum Transition {
+          MELT, FREEZE, BOIL, CONDENSE, SUBLIME, DEPOSIT;
+
+          // Rows indexed by src-ordinal, cols by dst-ordinal
+          private static final Transition[][] TRANSITIONS = {
+                  { null,    MELT,     SUBLIME },
+                  { FREEZE,  null,     BOIL    },
+                  { DEPOSIT, CONDENSE, null    }
+          };
+
+          // Returns the phase transition from one phase to another
+          public static Transition from(Phase src, Phase dst) {
+            return TRANSITIONS[src.ordinal()][dst.ordinal()];
+          }
+        }
+    }
+
+    // Using a nested EnumMap to associate data with enum pairs
+    public enum Phase {
+        SOLID, LIQUID, GAS;
+
+        public enum Transition {
+            MELT(SOLID, LIQUID), FREEZE(LIQUID, SOLID),
+            BOIL(LIQUID, GAS),   CONDENSE(GAS, LIQUID),
+            SUBLIME(SOLID, GAS), DEPOSIT(GAS, SOLID);
+
+            final Phase src;
+            final Phase dst;
+
+            Transition(Phase src, Phase dst) {
+                this.src = src;
+                this.dst = dst;
+            }
+
+            // Initialize the phase transition map
+            private static final Map<Phase, Map<Phase,Transition>> m =
+                new EnumMap<Phase, Map<Phase,Transition>>(Phase.class);
+            static {
+                for (Phase p : Phase.values())
+                    m.put(p,new EnumMap<Phase,Transition>(Phase.class));
+                for (Transition trans : Transition.values())
+                    m.get(trans.src).put(trans.dst, trans);
+            }
+
+            public static Transition from(Phase src, Phase dst) {
+                return m.get(src).get(dst);
+            }
+        }
+    }
+  ```
+  当需要增加`Phase`时，前者需要谨慎地修改`TRANSITIONS`数组的内容（这一步骤容易出错），而后者则只需要增加相应`Transition`即可，`from`函数的逻辑完全不受影响。
++  Item 34: Emulate extensible enums with interfaces
+  +  当enum遇到可扩展性时，总是一个糟糕的问题；扩展类是基础类的实例，但反过来不是，这一点很让人困惑；想要枚举所有基础类和扩展类的enum对象时，并没有一个很好地办法；
+  +  而对于可扩展性的需求，是真实存在的，例如：operation codes (opcodes)
+  +  实现方式是通过定义一个接口，enum类型（基础与扩展）均实现该接口，而在使用enum的地方，接收这个接口作为参数
+  +  enum类型是不可扩展的，但是interface具备可扩展性，如果API使用接口而非实现去代表operation，API就有了可扩展性
+  +  泛型高级用法：`<T extends Enum<T> & Operation> ... Class<T>`，T类型是enum类型，且是`Operation`子类
+  +  这一方式的不足：enum类型对接口的实现是不能继承的
