@@ -7,3 +7,5 @@
 ##[Building Apps with Multimedia](AndroidOfficialDevelopGuild-BuildingAppsWithMultimedia.md)
 
 ##[Building Apps with Graphics & Animation](AndroidOfficialDevelopGuild-BuildingAppsWithGraphicsAndAnimation.md)
+
+##[Developer tools](AndroidOfficialDevelopGuild-Tools.md)

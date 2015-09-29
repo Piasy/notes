@@ -1,6 +1,4 @@
-#[安卓官方开发指南](http://developer.android.com/training/index.html)
-
-##Building Apps with Content Sharing
+#Building Apps with Content Sharing
 +  Sharing Simple Data
   +  Intent && ActionProvider
   +  发送数据（发起intent调起其他app处理）
@@ -186,7 +184,7 @@
 				return mFileUris;
 			}
 		}
-		
+
 		...
         // Android Beam file transfer is available, continue
         ...

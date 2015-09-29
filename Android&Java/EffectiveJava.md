@@ -576,3 +576,14 @@
   +  enum类型是不可扩展的，但是interface具备可扩展性，如果API使用接口而非实现去代表operation，API就有了可扩展性
   +  泛型高级用法：`<T extends Enum<T> & Operation> ... Class<T>`，T类型是enum类型，且是`Operation`子类
   +  这一方式的不足：enum类型对接口的实现是不能继承的
++  Item 35: Prefer annotations to naming patterns
+  +  在1.5之前，naming patterns很常见，在JUnit中都是这样，例如要求测例方法一`test`开头
+  +  naming patterns有很多问题
+    +  拼写错误不能及时发现
+    +  无法保证naming patterns只在正确的场景使用，例如可能有人以`test`开头命名测例类，方法却没有，JUnit则不会运行测例
+    +  没有值/类型信息，编译器无法提前发现问题
+  +  使用annotations可以很好的解决这些问题，但是annotations的功能也是有限的
+    +  `@Retention(RetentionPolicy.RUNTIME)`能限定其保留时期
+    +  `@Target(ElementType.METHOD)`能限定其应用的程序元素
+    +  还有其他meta-annotations，如`@IntDef`
+  +  annotations接收的参数如果是数组，为其赋值一个单独的元素也是合法的
