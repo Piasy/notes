@@ -1,6 +1,6 @@
-#技术笔记
+# 技术笔记
 
-##Android&Java
+## Android&Java
 +  基础
   +  [安卓基础](Android&Java/AndroidBasic.md)
   +  [使用Fragment](Android&Java/Fragments.md)
@@ -9,18 +9,18 @@
   +  [官方开发手册](Android&Java/AndroidOfficialDevelopGuild.md)
   +  [官方分发手册](Android&Java/AndroidOfficialDistributeGuild.md)
   +  [各个安卓版本引入的主要新特性](Android&Java/NewInAndroid.md)  
-  
+
 +  构建
   +  [Gradle](Android&Java/Gradle.md)
-  
+
 +  测试
   +  [AndroidTDD](Android&Java/AndroidTDD.md)
-  
+
 +  定制
   +  [MaterialDesign](Android&Java/MaterialDesign.md)
   +  [使用style修饰View](Android&Java/StylingViews.md)
   +  [安卓系统动效](Android&Java/AndroidAnimation.md)
-  
+
 +  视野
   +  [一些很棒的点子](Android&Java/CoolIdea.md)
   +  [Android项目架构](Android&Java/AndroidProjectArch.md)
@@ -29,13 +29,13 @@
   +  [WebRTC](Android&Java/WebRTC.md)
   +  [Google IO 2015摘要](Android&Java/GoogleIO2015.md)
   +  [Data binding(MVVM，Model-View-ViewModel)](Android&Java/MVVM.md)
-  
+
 +  最佳实践
   +  [MVP(Model-View-Presenter)模式](Android&Java/MVP.md)
   +  [Rx在Android中的最佳实践](Android&Java/RxAndroidBestPractice.md)
   +  [SnapChat公司安卓团队的建议](https://github.com/futurice/android-best-practices)
   +  [UI上的一些高效方式/最佳实践](https://github.com/pedrovgs/EffectiveAndroidUI)
-  
+
 +  深入
   +  [安卓性能优化](Android&Java/AndroidPerformancePatterns.md)
   +  [Memory leak专题](Android&Java/MemoryLeak.md)
@@ -48,9 +48,10 @@
   +  [Java同步机制](Android&Java/JavaSynchronization.md)
   +  [Rx](Android&Java/Rx.md)
   +  [依赖注入](Android&Java/DependencyInjection.md)
-  
-##杂谈
+
+## Blog
 +  [函数调用时，传递参数应该是不可变的（Immutable）](misc/BetterDesignWithImmutableParams.md)
 +  [List.toArray()再强转是一定会失败的](http://stackoverflow.com/a/17909134/3077508)
 +  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)
 +  [深入Java深浅拷贝、immutable、unmodifiable](misc/copy.md)
++  [APP启动加速，以及使用FSA来处理状态转换避免Activity state loss](http://piasy.github.io/APP-Launch-Accelerate/)
