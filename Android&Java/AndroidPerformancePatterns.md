@@ -181,17 +181,84 @@
   +  某些非必须马上执行的操作，例如上传歌曲，图片处理等，可以等到设备处于充电状态或者电量充足的时候才进行。
   +  触发网络请求的操作，每次都会保持无线信号持续一段时间，我们可以把零散的网络请求打包进行一次操作，避免过多的无线信号引起的电量消耗。
   +  Battery Historian Tool：查看APP电量消耗情况
-  +  JobScheduler API：对任务进行定时处理，例如等到手机处于充电状态，或连接到WiFi时处理任务。
+  +  JobScheduler API：对任务进行定时处理，例如等到手机处于充电状态，或连接到WiFi时处理任务
+  +  JobScheduler在API 21引入，Google play service有backport: [GcmNetworkManager](https://developers.google.com/cloud-messaging/network-manager)，也有第三方[backport](https://github.com/evant/JobSchedulerCompat)
 +  S1E14: Understanding Battery Drain on Android
   +  使用WakeLock或者JobScheduler唤醒设备处理定时的任务之后，一定要及时让设备回到初始状态。
   +  每次唤醒无线信号进行数据传递，都会消耗很多电量，它比WiFi等操作更加的耗电
 +  S1E15: Battery Drain and WakeLocks
   +  WakeLock使用非精准定时器，允许系统为不同应用的wake lock请求进行打包处理，节约电量消耗
   +  JobScheduler API还能做更多的事情，例如等到充电，或者连接上wifi时处理任务
-
-+  [对数据集合的遍历，性能对比](https://youtu.be/R5ON3iwx78M?list=PLWz5rJ2EKKc9CBxr3BVjPTPoDPLdPIFCE)：使用iterator，简化版语法，用索引遍历；
-![IterateCollectionPerformanceCompare.png](assets/IterateCollectionPerformanceCompare.png)
-
++  S2E1: Battery Drain and Networking
+  +  捆绑网络请求，按批次执行，可降低激活网络、等待休眠过程的均摊成本；使用JobScheduler可以实现更多的优化策略；
+  +  预取与压缩
+  +  Android Studio中的Networking Traffic Tool
+  +  adb工具查看电量消耗：`adb shell dumpsys batterystats > xxx.txt`, `python historian.py xxx.txt > xxx.html`
+  +  利用`BatteryManager`在代码中检测是否正在充电（也可使用JobScheduler来做）
++  S2E2: Wear & Sensors
+  +  首先我们需要尽量使用Android平台提供的既有运动数据，而不是自己去实现监听采集数据，因为大多数Android Watch自身记录Sensor数据的行为是有经过做电量优化的。
+  +  其次在Activity不需要监听某些Sensor数据的时候需要尽快释放监听注册。
+  +  还有我们需要尽量控制更新的频率，仅仅在需要刷新显示数据的时候才触发获取最新数据的操作。
+  +  另外我们可以针对Sensor的数据做批量处理，待数据累积一定次数或者某个程度的时候才更新到UI上。
+  +  最后当Watch与Phone连接起来的时候，可以把某些复杂操作的事情交给Phone来执行，Watch只需要等待返回的结果。
++  S2E3: Smooth Android Wear Animation
+  +  动画优化例1：在一个圆形的钟表图上，我们把时钟的指针抠出来当做单独的图片进行旋转会比旋转一张完整的圆形图的所形成的帧率要高56%
+  +  动画优化例2：把背景图片单独拎出来设置为一个独立的View，通过setLayerType()方法使得这个View强制用Hardware来进行渲染
+  +  动画优化例3：使用PropertyAnimation或者ViewAnimation来操作实现，Android系统会自动对这些Animation做一定的优化处理
++  S2E4: Android Wear Data Batching
+  +  仅仅在真正需要刷新界面的时候才发出请求
+  +  尽量把计算复杂操作的任务交给Phone来处理
+  +  Phone仅仅在数据发生变化的时候才通知到Wear
+  +  把零碎的数据请求捆绑一起再进行操作
++  S2E5: Object Pools
+  +  避免对象的频繁创建与销毁，减少内存抖动；避免重量级对象的创建与销毁，降低创建开销；
+  +  lazy分配 v.s. 预分配
+  +  慎用，需要手动释放，谨防内存泄漏；为了确保所有的对象能够正确被释放，需要保证加入对象池的对象和其他外部对象没有互相引用的关系。
++  S2E6: To Index or Iterate?
+  +  for index
+  
+  ```java
+  int size = list.size();
+  for (int i = 0; i < size; i++) {
+    Object object = list.get(i);
+    ...
+  }
+  ```
+  +  Iterator
+  
+  ```java
+  for (Iterator it = list.iterator(); it.hasNext(); ) {
+    Object object = it.next();
+    ...
+  }
+  ```
+  +  for simplified
+  
+  ```java
+  for (Object object : list) {
+    ...
+  }
+  ```
+  +  性能对比
+  
+Fcn | Time taken(ms)
+--- | ---
+for index (ArrayList) | 2603
+for index (Vector) | 4664
+for simple (ArrayList) | 5133
+Iterator (ArrayList) | 5142
+for simple (Vector) | 11783
+Iterator (Vector) | 11778
++  S2E7: The Magic of LRU Cache
+  +  安卓系统提供了LruCache类，已实现LRU算法
+  +  慎用，手动释放缓存的对象，谨防内存泄漏
++  S2E8: Using LINT for Performance Tips，无甚可记
++  S2E9: Hidden Cost of Transparency
+  +  通常来说，对于不透明的View，显示它只需要渲染一次即可，可是如果这个View设置了alpha值，会至少需要渲染两次
+  +  在某些情况下，一个包含alpha的View有可能会触发该View在HierarchyView上的父View都被额外重绘一次
+  +  在动画开始时，`setLayerType(View.LAYER_TYPE_HARDWARE, null)`，动画结束后，`setLayerType(View.LAYER_TYPE_NONE, null)`；在API >= 16时，可以只调用`ViewPropertyAnimator.alpha(0.0f).withLayer()`接口即可；
+  +  使用shadow时，重写View的`hasOverlappingRendering()`接口，返回false；
+  +  只有当确定瓶颈是这部分view的渲染时，才有必要这样优化；
 ## Square团队的建议
 +  [Eliminating Code Overhead by Jake Wharton](https://www.youtube.com/watch?v=b6zKBZcg5fk&feature=youtu.be)
   +  CPU
