@@ -189,6 +189,8 @@
 +  S1E15: Battery Drain and WakeLocks
   +  WakeLock使用非精准定时器，允许系统为不同应用的wake lock请求进行打包处理，节约电量消耗
   +  JobScheduler API还能做更多的事情，例如等到充电，或者连接上wifi时处理任务
+  
+  
 +  S2E1: Battery Drain and Networking
   +  捆绑网络请求，按批次执行，可降低激活网络、等待休眠过程的均摊成本；使用JobScheduler可以实现更多的优化策略；
   +  预取与压缩
@@ -259,6 +261,86 @@ Iterator (Vector) | 11778
   +  在动画开始时，`setLayerType(View.LAYER_TYPE_HARDWARE, null)`，动画结束后，`setLayerType(View.LAYER_TYPE_NONE, null)`；在API >= 16时，可以只调用`ViewPropertyAnimator.alpha(0.0f).withLayer()`接口即可；
   +  使用shadow时，重写View的`hasOverlappingRendering()`接口，返回false；
   +  只有当确定瓶颈是这部分view的渲染时，才有必要这样优化；
++  S2E10: Avoiding Allocations in onDraw()，记住，实践即可
++  S2E11: Tool: Strict Mode
+  +  开发者选项Strict Mode，如果存在潜在ANR隐患（主线程磁盘IO，网络请求等），屏幕会闪现红色
+  +  也有代码的API，`StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()...build());`和`StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()...build());`，如果有隐患，屏幕会闪烁，并且有log输出
++  S2E12: Custom Views and Performance，避免以下问题：
+  +  Useless calls to onDraw()，仅在View内容发生变化时才调用`View.invalidate()`；尽量使用ClipRect等方法来提高绘制的性能；
+  +  Useless pixels，减少绘制时不必要的元素，对于那些不可见的元素不要绘制；
+  +  Wasted CPU cycles，不在屏幕上的元素，可以使用Canvas.quickReject把他们给剔除；另外尽量使用GPU来进行UI的渲染，这样能够极大的提高程序的整体表现性能；
++  S2E13: Batching Background Work Until Later，上文有涉及
++  S2E14: Smaller Pixel Formats
+  +  dalvik虚拟机不会自动进行内存整理
+  +  Android为图片提供了4种解码格式：ARGB_8888, RGB_565, ARGB_4444, ALPHA_8，但是实际测试的时候，如果图片不变，显示图片的View区域不变，也不限制Bitmap只有View那么大，单纯设置`bitmapOption.inPreferredConfig`好像没什么用
+  +  可以通过将解码的Bitmap大小设置为View大小的两倍（单位是dp），实测内存基本可以降到1/16（当然前提是图片比View大很多），而且视觉效果基本一样
++  S2E15: Smaller PNG Files，以下建议结合[微信安卓团队的分享](https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=208008519&idx=1&sn=278b7793699a654b51588319b15b3013&scene=1&srcid=1007GhzCdgN0wjTjeQsPB4eD&key=2877d24f51fa5384290d7d8aa605c55ff1a8c3028340b6fbdb3d476a1fda87667eebd1129604641229b2cd82db1c6ee8&ascene=0&uin=MzMwMTQwNjU1&devicetype=iMac+MacBookPro11%2C2+OSX+OSX+10.11+build(15A284)&version=11020201&pass_ticket=q9AwYL2XRcpIhDNnzuhAhmTsVmpQnGy5XGihyNIkjYhsXqdSuOTUKGgil6IsiPyL)
+  +  没有透明度的文件，都可以用jpg
+  +  对于体积特别大(超过50k)的图片资源可以考虑有损压缩，jpg采用优图压缩，png尝试采用pngquant压缩，输出视觉判断是否可行；
+  +  对assets中的图片资源也使用aapt的crunch做图片预处理；
+  +  crunch有可能会使图片变大，在这种情况，我们可以替换成原图。需要注意的是对于.9.png，由于crunch过程中去除了黑边，所以不能替换；
+  +  对于没有透明区域的png图片，可以转成jpg格式。
+  +  Webp：既保留png格式的优点，又能够减少图片大小
++  S2E16: Pre-scaling Bitmaps
+  +  `bitmapOption.inSampleSize`属性，可等比例缩放图片，而且不会加载原图到内存
+  +  inScaled，inDensity，inTargetDensity的属性来对解码图片做处理
+  +  inJustDecodeBounds，只会先读取图片尺寸，不会加载到内存
++  S2E17: Re-using Bitmaps
+  +  设置了in`bitmapOption.Bitmap`后，系统会尝试使用已有的Bitmap来保存新的图片，避免内存的反复创建，但是这一方法有些不足：
+    +  在SDK 11 -> 18之间，重用的bitmap大小必须是一致的
+    +  从SDK 19开始，新申请的bitmap大小必须小于或者等于已经赋值过的bitmap大小
+    +  新申请的bitmap与旧的bitmap必须有相同的解码格式
+  +  可以结合对象池，给不同解码格式，不同大小的图片准备不同的Bitmap并进行复用，不过这样做难度较大
+  +  开源图片加载库[Glide](https://github.com/bumptech/glide)，[Fresco](https://github.com/facebook/fresco)
++  S2E18: The Performance Lifecycle
+  +  Gather：测试收集数据
+  +  Insight：分析数据
+  +  Action：解决问题
+  +  再次进行测试，验证效果
++  S2E19: Tools not Rules，上述建议需要灵活应用
++  S2E20: Memory Profiling 101，上文已述
+
+
++  S3E1: Fun with ArrayMaps; S3E2: Beware Autoboxing; S3E3: SparseArray Family Ties
+  +  Java原生容器类只支持对象，primitive类型会自动装箱/拆箱，存在一定时间开销，而且没有放入KV时也会分配内存，空间开销会大很多
+  +  安卓系统提供了功能类似的容器实现：ArrayMap，空间开销更低
+    +  使用两个数组实现，一个保存排好序的key的hash值，另一个保存key-value
+    +  查找时对hash数组进行二分查找，找到后访问key-value数组，如果对应位置key不同，则是因为有碰撞，则向上向下两路查找
+    +  插入、删除涉及到数组元素的插入与删除，效率低一些
+    +  数据量在1K个key-value对时，时间性能几乎无差异，但是空间性能提升很多
+    +  仍使用对象作为KV，仅仅是避免不用的内存分配
+  +  避免混用原生类型与对应box类型，自动装箱/拆箱会涉及到对象的创建，时间、空间均有一定开销
+  +  SparseBooleanArray(int -> boolean), SparseIntArray(int -> int), SparseLongArray(int -> long), LongSparseArray(long -> Object), 千以下时可以考虑使用
++  S3E4: The price of ENUMs
+  +  enum会占用更多的磁盘空间（编译的class文件）和运行时内存
++  S3E5: Trimming and Sharing Memory
+  +  可以处理`onLowMemory()`，`onTrimMemory()`
+  +  onTrimMemory()的回调可以发生在Application，Activity，Fragment，Service，Content Provider。
+  +  从Android 4.4开始，ActivityManager提供了isLowRamDevice()的API，通常指的是Heap Size低于512M或者屏幕大小<=800*480的设备。
++  S3E6: DO NOT LEAK VIEWS
+  +  当屏幕发生旋转的时候，activity很容易发生泄漏
+  +  异步回调也很容易发生泄漏
+  +  内部非静态Handler子类实例也容易发生泄漏
+  +  避免使用Static对象
+  +  避免把View添加到没有清除机制的容器里面
++  S3E7: Location & Battery Drain
+  +  频率越高，耗电越大
+  +  精度越高，耗电越大
+  +  setFastestInterval()，LocationRequest.setPriority()
++  S3E8: Double Layout Taxation
+  +  避免在高层级节点使用会两次layout的Layout：RelativeLayout，使用weight的LinearLayout/GridLayout
+  +  扁平化view hierarchy，减少层级
+  +  ListView/RecyclerView这样的item view里面也要尤其注意渲染性能
+  +  在任何时候都请避免调用requestLayout()的方法，因为一旦调用了requestLayout，会导致该layout的所有父节点都发生重新layout的操作
+  +  可以使用Systrace来跟踪特定的某段操作
++  S3E9: Network Performance 101
+  +  打包批量发送请求
+  +  适当预取
+  +  适当压缩
++  S3E10: Effective Network Batching
++  S3E11: Optimizing Network Request Frequencies
++  S3E12: Effective Prefetching
+
 ## Square团队的建议
 +  [Eliminating Code Overhead by Jake Wharton](https://www.youtube.com/watch?v=b6zKBZcg5fk&feature=youtu.be)
   +  CPU
