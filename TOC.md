@@ -1,9 +1,3 @@
-# 技术笔记
-
-Piasy 日常学习之余记下的笔记。
-
-## Android&Java
-
 +  基础
   +  [安卓基础](Android-Java/AndroidBasic.md)
   +  [使用Fragment](Android-Java/Fragments.md)
@@ -36,8 +30,8 @@ Piasy 日常学习之余记下的笔记。
 +  最佳实践
   +  [MVP(Model-View-Presenter)模式](Android-Java/MVP.md)
   +  [Rx在Android中的最佳实践](Android-Java/RxAndroidBestPractice.md)
-  +  [SnapChat公司安卓团队的建议](https://github.com/futurice/android-best-practices)
-  +  [UI上的一些高效方式/最佳实践](https://github.com/pedrovgs/EffectiveAndroidUI)
+  +  [SnapChat公司安卓团队的建议](Android-Java/android-best-practices.md)
+  +  [UI上的一些高效方式/最佳实践](Android-Java/EffectiveAndroidUI.md)
   
 +  深入
   +  [安卓性能优化](Android-Java/AndroidPerformancePatterns.md)
@@ -52,9 +46,9 @@ Piasy 日常学习之余记下的笔记。
   +  [Rx](Android-Java/Rx.md)
   +  [依赖注入](Android-Java/DependencyInjection.md)
   
-## 杂谈
++ 杂谈
 
-  +  [函数调用时，传递参数应该是不可变的（Immutable）](misc/BetterDesignWithImmutableParams.md)
-  +  [List.toArray()再强转是一定会失败的](http://stackoverflow.com/a/17909134/3077508)
-  +  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)
-  +  [深入Java深浅拷贝、immutable、unmodifiable](misc/copy.md)
+ +  [函数调用时，传递参数应该是不可变的（Immutable）](misc/BetterDesignWithImmutableParams.md)
+ +  [List.toArray()再强转是一定会失败的](Android-Java/3077508.md)
+ +  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)
+ +  [深入Java深浅拷贝、immutable、unmodifiable](misc/copy.md)
