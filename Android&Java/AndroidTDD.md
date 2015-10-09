@@ -93,12 +93,30 @@
   +  Espresso
     +  ViewMatchers/ViewActions/ViewAssertions
     +  同步问题：自动处理UI Event/AsyncTask。当使用Retrofit时，可以为测试代码生成测试用的RestAdapter，指定Excutor为AsyncTask：  
-    ```java
-    new RestAdapter.Builder()
-    .setExecutors(AsyncTask.THREAD_POOL_EXECUTOR, new MainThreadExecutor())
-    .build();
-    ```
+    
+	    ```java
+	    new RestAdapter.Builder().setExecutors(AsyncTask.THREAD_POOL_EXECUTOR, 
+	    new MainThreadExecutor())
+	    .build();
+	    ```
+    
     +  idle resources
+    +  测试Save and restore state，触发代码：
+
+	    ```java
+		private void rotateScreen() {
+		  Context context = InstrumentationRegistry.getTargetContext();
+		  int orientation 
+		    = context.getResources().getConfiguration().orientation;
+		
+		  Activity activity = activityRule.getActivity();
+		  activity.setRequestedOrientation(
+		      (orientation == Configuration.ORIENTATION_PORTRAIT) ?
+		          ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : 
+		          ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+	    ```
+    
   +  UIAutomator
 +  和一些其他框架的整合
   +  Dagger2

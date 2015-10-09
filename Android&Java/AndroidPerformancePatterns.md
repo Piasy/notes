@@ -99,10 +99,16 @@
 +  Tools
   +  Host Tools
     +  Systrace
+    	+  Alerts and the Frames, 提示非常详尽，排查性能问题很方便
+		+  但是不知道怎么开启，monitor开启报错，命令行开启也报错，是手机系统的原因？
     +  AllocationTracker
+    	+  AS集成，点击按钮，对APP进行操作，再点击按钮结束，capture将在AS中打开，查看哪里分配了内存，排查内存分配性能问题利器
     +  Traceview
+    	+  根据Traceview的结果，查看耗时排名靠前的方法，分析原因，提高性能
     +  Hierarchyviewer
+    	+  查看当前view hierarchy中每个view的绘制实践，绘制较慢的该工具会给出提示（不同颜色）
     +  MAT (Memory Analysis Tool)
+    	+  先通过heap dump把堆快照导出，再通过MAT进行分析（实践？）
     +  Memory Monitor
     +  meminfo
   +  On-device tools

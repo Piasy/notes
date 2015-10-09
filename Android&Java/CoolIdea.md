@@ -159,6 +159,7 @@ android {
 +  [Chrome custom tabs](https://medium.com/ribot-labs/exploring-chrome-customs-tabs-on-android-ef427effe2f4)
 +  执行定时任务，可能的实现方式有：[Alarm](http://developer.android.com/reference/android/app/AlarmManager.html), [JobScheduler](https://developer.android.com/reference/android/app/job/JobScheduler.html), API 21+, [JobSchedulerCompat](https://github.com/evant/JobSchedulerCompat) API 10+, [GcmNetworkManager](https://developers.google.com/android/reference/com/google/android/gms/gcm/GcmNetworkManager), [分享](https://plus.google.com/+AndroidDevelopers/posts/GdNrQciPwqo)。
 +  xml需要预览的内容，统统用tools:属性，否则会有运行时开销，[参考](http://huteri.me/2015/07/11/beware-of-setting-image-resources-for-preview-purpose-in-xml/)
++  RenderScript例子：[HealingBrush](https://plus.google.com/+RomainGuy/posts/M3ueUxUpBs1)
 
 ##Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
@@ -190,6 +191,14 @@ android {
 +  [Google play service条形码/二维码识别](http://android-developers.blogspot.co.uk/2015/08/barcode-detection-in-google-play.html)
 +  [Google play service人脸识别](http://android-developers.blogspot.co.uk/2015/08/face-detection-in-google-play-services.html)
 +  [Google Eddystone with the Proximity Beacon API](https://medium.com/ribot-labs/exploring-google-eddystone-with-the-proximity-beacon-api-bc9256c97e05)，Beacon是一些蓝牙低能耗发射器，它们能够向附近的电子设备发射信息，提供基于附近位置的服务。
++  Play Service 8.1.0发布了，总方法数达4W之多，不过还好google提供了分功能模块的依赖包，[模块列表](https://developers.google.com/android/guides/setup)，[各模块方法量统计](https://docs.google.com/spreadsheets/d/1XuxyP8_BOrpU30QUO-0s7NK2dUfy-IEqy5nOf1BhZ9M/edit#gid=0)
 
 ##最佳实践
 +  使用[Headless Fragment](Fragments.md#使用fragment进行后台处理headless-fragment)把部分Activity公用的逻辑封装起来，避免将只被部分Activity公用的逻辑加到所有Activity的父类中。
++  通过Intent调起其他应用时，需要先检查是否有应用可以响应此Intent：
+
+	```java
+	if (sendIntent.resolveActivity(getPackageManager()) != null) {
+	    startActivity(sendIntent);
+	}
+	```

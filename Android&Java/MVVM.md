@@ -14,3 +14,5 @@
 +  http://stablekernel.com/blog/mvvm-on-android-using-the-data-binding-library
 +  https://medium.com/@fabioCollini/android-data-binding-f9f9d3afc761
 +  https://blog.stylingandroid.com/data-binding-part-1/
++  https://realm.io/news/data-binding-android-boyar-mount/
++  https://medium.com/ribot-labs/approaching-android-with-mvvm-8ceec02d5442

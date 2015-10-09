@@ -1,6 +1,6 @@
-#Effective Java一书笔记
+# Effective Java一书笔记
 
-##对象的创建与销毁
+## 对象的创建与销毁
 +  Item 1: 使用static工厂方法，而不是构造函数创建对象：仅仅是创建对象的方法，并非Factory Pattern
   +  优点
     +  命名、接口理解更高效，通过工厂方法的函数名，而不是参数列表来表达其语义
@@ -76,7 +76,7 @@
     +  定义一个私有的匿名Object子类对象，重写其finalize方法，在其中进行父类要做的工作
     +  因为当父类对象被回收时，finalizer guardian也会被回收，它的finalize方法就一定会被触发
 
-##Object的方法
+## Object的方法
 尽管Object不是抽象类，但是其定义的非final方法设计的时候都是希望被重写的，finalize除外。
 +  Item 8: 当重写equals方法时，遵循其语义
   +  能不重写equals时就不要重写
@@ -152,7 +152,7 @@
     +  优先比较重要的域
     +  谨慎使用返回差值的方式，有可能会溢出
 
-##Classes and Interfaces
+## Classes and Interfaces
 +  Item 13: 最小化类、成员的可见性
   +  封装（隐藏）：公开的接口需要暴露，而接口的实现则需要隐藏，使得接口与实现解耦，降低模块耦合度，增加可测试性、稳定性、可维护性、可优化性、可修改性
   +  如果一个类只对一个类可见，则应该将其定义为私有的内部类，而没必要public的类都应该定义为package private
@@ -264,7 +264,7 @@
     +  如果nested class在整个外部类内都需要可见，或者定义代码太长，应使用member class
     +  能static就一定要static，即便需要对外部类进行引用，对于生命周期独立于外部类的，也应该通过WeakReference进行引用，避免内存泄漏；至于生命周期和外部类一致的，则不必这样
 
-##Generics
+## Generics
 +  Item 23: Don’t use raw types in new code
   +  Java泛型，例如`List<E>`，真正使用的时候都是`List<String>`等，把E替换为实际的类型
   +  Java泛型从1.5引入，为了保持兼容性，实现的是伪泛型，类型参数信息在编译完成之后都会被擦除，其在运行时的类型都是raw type，类型参数保存的都是Object类型，`List<E>`的raw type就是`List`
@@ -455,7 +455,7 @@
     }
   ```
 
-##Enums and Annotations
+## Enums and Annotations
 +  Item 30: Use enums instead of int constants
   +  类型安全
   +  可以为常量提供数据和方法的绑定
@@ -587,3 +587,27 @@
     +  `@Target(ElementType.METHOD)`能限定其应用的程序元素
     +  还有其他meta-annotations，如`@IntDef`
   +  annotations接收的参数如果是数组，为其赋值一个单独的元素也是合法的
++  Item 36: Consistently use the Override annotation
+  +  `@Override`会使得重写的准确性得到检查
+  +  重载和重写的区别：一个只是函数名一样，通过参数列表决定执行哪个版本，是编译时多态；一个是通过虚函数机制实现，是运行时多态；
++  Item 37: Use marker interfaces to define types
+  +  定义一个空的接口，表明某个类型的属性，例如`Serializable`
+  +  另一种方式是使用annotation，表明者其具有某种属性
+  +  marker interface的优点
+    +  定义了一个类型，可以进行instanceof判断，可以声明参数类型
+    +  比annotation更简洁
+  +  marker annotation的优点
+    +  当一个类型（通过interface或者annotation）被声明后，如果想要加入更多的信息，annotation更方便，即annotation对修改是开放的，因为它的属性可以有默认值，而interface则不行，定义了方法就必须实现
+    +  annotation可以被应用到更多代码的元素中，不仅仅是类型
+  +  实现建议
+    +  如果仅仅只应用于类型，则应该优先考虑annotation
+    +  如果希望mark的对象被限定于某个接口的实例（即为一个接口增加另外一种语义，却不改变其API），可以考虑使用marker interface
+
+## 函数
++  Item 38: Check parameters for validity
+  +  一个函数（包括构造函数）首先要做的事情就是验证参数合法性，如果不合法则应该抛出相应异常，这是对“尽早发现错误尽早抛出”原则的遵循，否则等到错误发生时将可能难以判断错误的根源所在，甚至程序不会显式报错，而是执行了错误的行为，导致更严重的后果
+  +  不由被调用函数使用，而是存起来留作后用的参数，更加要检查其合法性
+  +  Javadoc里面应该注明`@throw`项，并说明原因
+  +  非公开的API（private或package private），则不应该通过抛异常来报错，应该采用`assert`，assert可以通过配置虚拟机参数开启或关闭，如果关闭则不会被执行
+  +  灵活运用，设计API时，就应该尽量设计得通用一些，即可以接受更大范围的参数，毕竟检查参数也是有开销的
+  +  另外可以考虑抛出`RuntimeException`的子类，因为这样的异常不用放到函数的异常表中，函数的使用者也不用必须`try-catch`或者`throw`，但doc一定要写明

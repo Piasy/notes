@@ -48,6 +48,7 @@
   +  [Java同步机制](Android&Java/JavaSynchronization.md)
   +  [Rx](Android&Java/Rx.md)
   +  [依赖注入](Android&Java/DependencyInjection.md)
+  +  [自定义View/ViewGroup以高性能实现自定义UI](Android&Java/CustomViewViewGroup.md)
 
 ## Blog
 +  [函数调用时，传递参数应该是不可变的（Immutable）](misc/BetterDesignWithImmutableParams.md)

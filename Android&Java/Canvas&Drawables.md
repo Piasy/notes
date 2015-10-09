@@ -1,4 +1,4 @@
-#[Canvas & Drawables](http://developer.android.com/guide/topics/graphics/2d-graphics.html)
+## [Canvas & Drawables](http://developer.android.com/guide/topics/graphics/2d-graphics.html)
 +  绘制4个基本元素
   +  Bitmap：保存每个像素的数据
   +  Canvas：提供draw*** API，通过draw系列函数（绘制线、矩形、圆、椭圆等），把绘制结果写入到bitmap对象中
@@ -19,6 +19,33 @@
   +  SurfaceView是View的子类，支持他线程绘制，主线程不同步等待其绘制，不需要保证60 fps
 +  Drawable
   +  2D图形的高度抽象，有一系列的子类
+  
+## [Drawable Resources](http://developer.android.com/intl/zh-cn/guide/topics/resources/drawable-resource.html)
++  BitmapDrawable，用图片（.png, .jpg, or .gif）创建drawable，xml定义为：
+    ```xml
+    <bitmap
+            android:src="@mipmap/ic_launcher"
+            android:gravity="top"
+            />
+    ```
++  NinePatchDrawable，点9图（.9.png），可以在两个方向上拉伸而不会变形
++  LayerDrawable，通过xml定义`<layer-list>`，里面定义多个`<item>`来定义多层的drawable
++  StateListDrawable，通过xml定义`<selector>`，里面定义多个`<item>`来定义具有不同状态的drawable，实现按钮点击态/激活态的常用方法
++  LevelListDrawable，通过xml定义`<level-list>`，里面有多个`<item>`来实现类似于wifi信号强度这样的drawable，例子：
+    ```xml
+    <level-list xmlns:android="http://schemas.android.com/apk/res/android">
+      <item android:maxLevel="0" android:drawable="@drawable/ic_wifi_signal_1" />
+      <item android:maxLevel="1" android:drawable="@drawable/ic_wifi_signal_2" />
+      <item android:maxLevel="2" android:drawable="@drawable/ic_wifi_signal_3" />
+      <item android:maxLevel="3" android:drawable="@drawable/ic_wifi_signal_4" />
+    </level-list>
+    ```
+    ImageView有`setImageLevel(int)`方法，可以设置显示哪个强度
++  TransitionDrawable，通过xml定义`<transition>`，里面有多个`<item>`，类似于`<layer-list>`，但是支持不同layer之间的淡入淡出，通过TransitionDrawable的`startTransition(int)`、`resetTransition()`来显示某一层
++  InsetDrawable，把它设置为一个View的背景时，可以与View的边界有距离，即：背景小于View本身，可以实现那种边框留白，内部有背景的View，而不需要外部用一个layout嵌套
++  ClipDrawable，把源drawable裁剪后显示，可以通过随时间改变裁剪区域来做出图片逐渐展开的效果
++  ScaleDrawable，把源drawable缩放后显示，类似还有RotateDrawable，GradientDrawable
++  ShapeDrawable，定义基本几何类型
   
 ## [AndroidFillableLoaders](http://jorgecastillo.xyz/2015/08/16/android-fillable-loaders/)
 +  PNG可以导出为SVG
