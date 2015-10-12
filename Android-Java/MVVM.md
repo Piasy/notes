@@ -16,3 +16,5 @@
 +  https://blog.stylingandroid.com/data-binding-part-1/
 +  https://realm.io/news/data-binding-android-boyar-mount/
 +  https://medium.com/ribot-labs/approaching-android-with-mvvm-8ceec02d5442
++  https://github.com/LyndonChin/MasteringAndroidDataBinding/blob/master/README.md
++  Android Data Binding 1.0-rc4 is now available and fixes the issues with gradle plugin 1.4-beta6

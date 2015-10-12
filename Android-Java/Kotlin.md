@@ -1,6 +1,6 @@
-#Kotlin学习笔记
+# Kotlin学习笔记
 
-##Basic Syntax
+## Basic Syntax
 +  可见性  
 Classes, objects, interfaces, constructors, functions, properties and their setters can have visibility modifiers. 
   +  private：包及子包私有；`foo.bar`为`foo`的子包
@@ -26,3 +26,7 @@ Classes, objects, interfaces, constructors, functions, properties and their sett
   +  命名参数：调用函数的时候，可以通过参数名为其赋值，可以不按函数声明的参数顺序传参；结合默认参数，可以使得函数调用非常简洁
   +  函数体有block（分支、跳转）时，不支持返回类型推导
   +  vararg支持：函数的最后一个参数可以通过vararg修饰，达到var args的目的`fun asList<T>(vararg ts: T): List<T> {...}`
+  
+## To read
++  http://antonioleiva.com/kotlin/
++  http://antonioleiva.com/collection-operations-kotlin/

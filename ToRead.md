@@ -11,11 +11,12 @@
   +  Official Android Train
   +  Material design
   +  Effective Java
+  +  Zygote
 
 ## 基础扩展，第二梯队
 +  VSync
 +  [Android Project Butter: VSync, Triple buffer, **Choreographer**](http://blog.csdn.net/innost/article/details/8272867)
-+  [自定义View，ViewGroup以高性能实现UI](https://medium.com/android-news/prefmatters-using-custom-views-in-android-to-improve-performance-part-1-4dc9bdd75396)
++  [~~自定义View，ViewGroup以高性能实现UI~~](https://medium.com/android-news/prefmatters-using-custom-views-in-android-to-improve-performance-part-1-4dc9bdd75396)
 
 ## 再次深入，第三梯队
 +  【源码】Choreographer
