@@ -118,6 +118,23 @@
     +  Animator duration scale
     +  Screenrecord
     +  Show hardware layer updates
++  [Speed up your app](https://speakerdeck.com/udinic/speed-up-your-app-droidcon-nyc-2015)
+  +  Rules
+    +  Always Measure
+    +  Use[Experience] Slow Device
+    +  Consider Trade-Offs
+  +  Memory tips
+    +  Bitmap's pixel format
+    +  Context Awareness
+    +  HashMap v.s. ArrayMap/Sparce*Array
+  +  LeakCanary
+  +  Alpha
+    +  TextView: setTextColor() instead of setAlpha()
+    +  ImageView: setImageAlpha() instead of setAlpha()
+    +  CustomView: handle alpha yourself by overriding onSetAlpha(), overriding hasOverlappingRendering()
+  +  Hardware Acceleration
+    +  view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+    +  view.animate()....withLayer().start()
 
 ## 谷歌安卓团队对于性能优化的建议
 +  [Android performance patterns系列视频](https://www.youtube.com/playlist?list=PLWz5rJ2EKKc9CBxr3BVjPTPoDPLdPIFCE)已经出到了第三季，国内也有安卓大神整理翻译的[中文文字版](http://hukai.me/android-performance-patterns/)，但就像读书一样，大神写了完整的书，看的时候还是要做个笔记的。以下只是针对自身情况的笔记，仅供参考。

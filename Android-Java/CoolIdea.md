@@ -1,6 +1,6 @@
-#一些很棒的点子
+# 一些很棒的点子
 
-##系统API
+## 系统API
 +  自Android 5.0之后，用户的“最近任务”（recent tasks）视图，可以自定义了，支持自定义图标、标题、顶栏色彩；参考：[developers](https://developer.android.com/guide/components/recents.html)，[blog](https://www.bignerdranch.com/blog/polishing-your-Android-overview-screen-entry)；
 +  全新的Android编译系统：[Jack & Jill](http://tools.android.com/tech-docs/jackandjill)
 +  [使用LinearLayout的divider属性，设置为shape drawable，控制其子元素之间的间距](http://cyrilmottier.com/2014/11/17/grid-spacing-on-android)
@@ -8,7 +8,9 @@
 +  [Android 5.0引入TextView的CSS样式fontFeatureSettings](http://blog.sqisland.com/2014/11/android-stacked-fractions.html)
 +  [利用Action Intent尽可能利用用户手机上已有的APP功能，还不需要相关的权限](http://ryanharter.com/blog/2014/11/26/whats-your-intent)
 +  [TextView的高级玩法：CompoundDrawable，shadow，Typeface自定义字体，Shader，HTML渲染（支持自定义tag）、Span（SpannableString：字符级别、段落级别、对其），自定义Span（立式分数、彩虹效果、彩虹动效、可点击URL、Emoji...）](http://chiuki.github.io/advanced-android-textview/)，[用xml定义drawable动画](http://chiuki.github.io/advanced-android-textview/#/3)
+
 	![AdvancedTextView.png](assets/AdvancedTextView.png)
+  
 +  [Android integration of multiple icon providers such as FontAwesome, Entypo, Typicons,...](https://github.com/JoanZapata/android-iconify)
 +  [Shape Drawable：形状、圆角、边框、填充、渐变色填充等](http://trinea.iteye.com/blog/1483949)
 +  [View绘制时加上特效：Shader，图像渲染、线性渐变、环形渐变、扫描渐变、组合渐变](http://blog.csdn.net/ldj299/article/details/6166071)
@@ -47,71 +49,14 @@
   +  FragmentActivity的子类（AppCompatActivity等）均有此lifecycle方法
   +  FragmentActivity的onResume函数调用的时候，所有的Fragment都还没有onResume，Activity并不能保证保存的状态已被恢复，而在这种情况下，是不能进行fragment的transaction的，而在onResumeFragments则能保证调用的时候activity已经恢复了状态
   +  [read more](Fragments.md#)
-+  MultiDex  
-MultiDex会导致build变慢，在Dalvik虚拟机上（未使用ART技术时），APP启动速度也会变慢，因为ClassLoader要从第二个（甚至更多个）dex文件中加载类；  
-有时候还会导致build过程中的dex步骤报OOM错误；新提出的Jack&Jill构建技术将解决这一问题；  
-```java
-UNEXPECTED TOP-LEVEL ERROR:
-java.lang.OutOfMemoryError: GC overhead limit exceeded
-  at com.android.dx.cf.code.ExecutionStack.copy(ExecutionStack.java:66)
-  at 
-  ...
-```  
-在build.gradle中加入以下片段即可解决：  
-```groovy
-android {
-  // ...
-  dexOptions {
-    javaMaxHeapSize “2048M”
-  }
-}
-```
-+  [缩小APK包体积的Tips](http://cyrilmottier.com/2014/08/26/putting-your-apks-on-diet/)
-  +  Proguard
-  +  Lint
-  +  不必为每种dpi打包资源文件（图标）
-  +  移除第三方库中不必要的资源文件  
-  ```groovy
-	defaultConfig {
-	    resConfigs "en", "de", "fr", "it"
-	    resConfigs "nodpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"
-	}
-  ```
-  +  图片压缩，9-patches
-  +  Limit the number of architectures, armabi, x86 is enough
-  +  Reuse whenever possible：图标如果只是颜色不同、旋转，则可以只打包一个，然后通过tint/tintMode/ColorFilter/RotateDrawable来重复利用
-  +  Render in code when appropriate
-  +  Going even further? Server side packaging，根据设备具体细节打包资源，但是有一定风险。
 +  [使用ViewPager的同时不用Fragment作为显示的内容](https://www.bignerdranch.com/blog/viewpager-without-fragments)
 +  [Notification中加入联系人信息之后，通知消息的显示将有更高的优先级](https://plus.google.com/+AndroidDevelopers/posts/7QBWvNXs2mD)
-+  [xml中使用tools属性来辅助IDE](https://speakerdeck.com/rock3r/tools-of-the-trade-droidcon-nyc-2015)
++  [xml中使用tools属性来辅助IDE预览](https://speakerdeck.com/rock3r/tools-of-the-trade-droidcon-nyc-2015)
+  +  xml需要预览的内容，统统用tools:属性，否则会有运行时开销，[参考](http://huteri.me/2015/07/11/beware-of-setting-image-resources-for-preview-purpose-in-xml/)
   +  辅助lint：类似于@SuppressWarnings（tools:ignore），@TargetApi（tools:targetApi），指定locale（tools:locale）
   +  辅助预览layout：tool:context, tools:showIn, tools:menu, tools:actionBarNavMode, 指定frament的layout（tools:layout），tools:listheader/listitem/listfooter
   +  Support Annotations: @Nullable/NonNull, resources ids(), range, collection size, TypeDef, Thread(MainThread/UiThread/BinderThread/WorkerThread), "Architecture"(CallSuper/CheckResult/VisibleForTesting), Permission{  RequiresPermission(Manifest.permission.BLUTOOTH)  }, proguard(Keep)
   +  ViewDebug: @ViewDebug.ExportedProperty
-+  [Speed up your app](https://speakerdeck.com/udinic/speed-up-your-app-droidcon-nyc-2015)
-  +  Rules
-    +  Always Measure
-    +  Use[Experience] Slow Device
-    +  Consider Trade-Offs
-  +  Systrace
-  +  Traceview
-  +  Memory Profiling(AS + Eclipse MAT)
-  +  Memory tips
-    +  Bitmap's pixel format
-    +  Context Awareness
-    +  HashMap v.s. ArrayMap/Sparce*Array
-  +  LeakCanary
-  +  GPU Profiling
-  +  Hierarchy Viewer
-  +  Overdraw
-  +  Alpha
-    +  TextView: setTextColor() instead of setAlpha()
-    +  ImageView: setImageAlpha() instead of setAlpha()
-    +  CustomView: handle alpha yourself by overriding onSetAlpha(), overriding hasOverlappingRendering()
-  +  Hardware Acceleration
-    +  view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-    +  view.animate()....withLayer().start()
 +  [Percent layout library](https://developer.android.com/tools/support-library/features.html#percent)
   +  为什么要有Percent？
     +  LinearLayout的layout_weight属性可以实现按需+比例分配空间，但是当相对定位与比例分配都需要使用的时候，就不得不使用两层Layout来实现了，有损性能；另注：当LinearLayout只有一个子View使用layout_weight属性时，将需要按比例分配的长/宽属性置为0，可以提高性能，因为layout_weight被使用时会有两遍measure，而如果置为0，使用layout_weight的子View第一遍measure就可以省略。
@@ -158,13 +103,12 @@ android {
   +  使用xml定义animation
 +  [Chrome custom tabs](https://medium.com/ribot-labs/exploring-chrome-customs-tabs-on-android-ef427effe2f4)
 +  执行定时任务，可能的实现方式有：[Alarm](http://developer.android.com/reference/android/app/AlarmManager.html), [JobScheduler](https://developer.android.com/reference/android/app/job/JobScheduler.html), API 21+, [JobSchedulerCompat](https://github.com/evant/JobSchedulerCompat) API 10+, [GcmNetworkManager](https://developers.google.com/android/reference/com/google/android/gms/gcm/GcmNetworkManager), [分享](https://plus.google.com/+AndroidDevelopers/posts/GdNrQciPwqo)。
-+  xml需要预览的内容，统统用tools:属性，否则会有运行时开销，[参考](http://huteri.me/2015/07/11/beware-of-setting-image-resources-for-preview-purpose-in-xml/)
 +  RenderScript例子：[HealingBrush](https://plus.google.com/+RomainGuy/posts/M3ueUxUpBs1)
 
-##Material design
+## Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
 
-##构建/工具
+## 构建/工具
 +  [利用buildSrc工程和Codemodel自动生成代码](http://www.thedroidsonroids.com/blog/how-to-generate-java-sources-using-buildsrc-gradle-project)，buildSrc目录下的代码将作为gradle插件被编译，并自动添加到工程的依赖中
 +  第三方库在manifest中声明的权限，可能app中并不会使用，可以[通过`uses-permission`标签的`tools:node="remove"`属性，使得gradle在进行manifest merge时，移除该权限](http://blog.forkingcode.com/2015/09/the-unexpected-permission.html)，例子：
 ```xml
@@ -173,8 +117,49 @@ android {
 <uses-permission 
     android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove"/>
 ```
++  MultiDex
+    
+    MultiDex会导致build变慢，在Dalvik虚拟机上（未使用ART技术时），APP启动速度也会变慢，因为ClassLoader要从第二个（甚至更多个）dex文件中加载类；  
+    有时候还会导致build过程中的dex步骤报OOM错误；新提出的Jack&Jill构建技术将解决这一问题；
+    
+    ```java
+    UNEXPECTED TOP-LEVEL ERROR:
+    java.lang.OutOfMemoryError: GC overhead limit exceeded
+      at com.android.dx.cf.code.ExecutionStack.copy(ExecutionStack.java:66)
+      at 
+      ...
+    ```
+      
+    在build.gradle中加入以下片段即可解决：
+    
+    ```groovy
+    android {
+      // ...
+      dexOptions {
+        javaMaxHeapSize “2048M”
+      }
+    }
+    ```
 
-##有意思的第三方库
++  [缩小APK包体积的Tips](http://cyrilmottier.com/2014/08/26/putting-your-apks-on-diet/)
+  +  Proguard
+  +  Lint
+  +  不必为每种dpi打包资源文件（图标）
+  +  移除第三方库中不必要的资源文件  
+  ```groovy
+	defaultConfig {
+	    resConfigs "en", "de", "fr", "it"
+	    resConfigs "nodpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"
+	}
+  ```
+  +  图片压缩，9-patches
+  +  Limit the number of architectures, armabi, x86 is enough
+  +  Reuse whenever possible：图标如果只是颜色不同、旋转，则可以只打包一个，然后通过tint/tintMode/ColorFilter/RotateDrawable来重复利用
+  +  Render in code when appropriate
+  +  Going even further? Server side packaging，根据设备具体细节打包资源，但是有一定风险。
++  使用pre-dex jar来减小最终打包app的大小，避免multi-dex的发生，但需要保证在使用某个库的类之前，pre-dex jar已经被加载，[详情](https://medium.com/@Macarse/lazy-loading-dex-files-d41f6f37df0e)
+
+## 有意思的第三方库
 +  [基于UDP组播的Intent发送和接收](http://www.androidzeitgeist.com/2014/11/introducing-android-network-intents17.html)
 +  [将SQLite操作封装为rx API](http://beust.com/weblog/2015/06/01/easy-sqlite-on-android-with-rxjava/)，封装思想值得借鉴
 +  [Prism](https://blog.stylingandroid.com/prism-fundamentals-part-1)，为各种部件（View，Window，StatusBar）设置颜色、背景，API简洁，功能强大；
@@ -186,14 +171,14 @@ android {
 +  [Favor composition over inheritance，Adapter组合复用](https://github.com/sockeqwe/AdapterDelegates)
 +  [Drawble上加蒙色，减小包大小](http://andraskindler.com/blog/2015/tinting_drawables/)
 
-##Google API
+## Google API
 +  [Nearby API](https://developers.google.com/nearby/)
 +  [Google play service条形码/二维码识别](http://android-developers.blogspot.co.uk/2015/08/barcode-detection-in-google-play.html)
 +  [Google play service人脸识别](http://android-developers.blogspot.co.uk/2015/08/face-detection-in-google-play-services.html)
 +  [Google Eddystone with the Proximity Beacon API](https://medium.com/ribot-labs/exploring-google-eddystone-with-the-proximity-beacon-api-bc9256c97e05)，Beacon是一些蓝牙低能耗发射器，它们能够向附近的电子设备发射信息，提供基于附近位置的服务。
 +  Play Service 8.1.0发布了，总方法数达4W之多，不过还好google提供了分功能模块的依赖包，[模块列表](https://developers.google.com/android/guides/setup)，[各模块方法量统计](https://docs.google.com/spreadsheets/d/1XuxyP8_BOrpU30QUO-0s7NK2dUfy-IEqy5nOf1BhZ9M/edit#gid=0)
 
-##最佳实践
+## 最佳实践
 +  使用[Headless Fragment](Fragments.md#使用fragment进行后台处理headless-fragment)把部分Activity公用的逻辑封装起来，避免将只被部分Activity公用的逻辑加到所有Activity的父类中。
 +  通过Intent调起其他应用时，需要先检查是否有应用可以响应此Intent：
 
