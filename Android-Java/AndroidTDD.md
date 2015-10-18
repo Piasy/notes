@@ -41,15 +41,15 @@
   ![androidstack-02.png](assets/androidstack-02.png)  
   Remove all business logic from app component classes (e.g., Activitys, Fragments, Services) and place that logic into “business objects”, POJO objects whose dependencies are injected, android-specific implementations of android-agnostic interfaces.  
   Delegate all application specific behavior to POJO objects whose dependencies are Android-specific implementations of Android-agnostic interfaces.
-  +  Non-UI App Components  
-  把业务逻辑（比如根据数据类型执行不同操作、检查数据合法性等）从组件类中抽离出来，业务逻辑类对于组件类的依赖也不要直接使用使用，而是通过定义接口来实现耦合，这样就能使得业务逻辑类与SDK解耦。  
-  业务逻辑类的依赖通过依赖注入框架注入，便于测试时mock。  
-  而剩下的组件类工作简单，只负责转发业务逻辑类的功能请求，就没必要进行测试了。
-  +  UI App Component Classes  
-  通过MVP模式，将UI组件类和业务逻辑类解耦，同时移除对SDK组件类的依赖；  
-  pre-act-state，post-act-state，测试对象的依赖中，如果mock框架（如Mockito）可以mock，OK；如果不能mock（例如Activity，BroadcastReceiver），则可以通过定义接口的形式替换这些依赖，而接口的实现则是简单直接的转发，无需测试；pre-act-state便可以设置完毕，调用被测函数后，验证post-act-state即可。
-  +  Dependency Inject  
-  可以使用Constructor inject的类就不要使用Field inject。前者更利于单元测试。其实除了SDK组件类，其他的类基本上都可以使用Constructor inject。
+  +  Non-UI App Components
+    +  把业务逻辑（比如根据数据类型执行不同操作、检查数据合法性等）从组件类中抽离出来，业务逻辑类对于组件类的依赖也不要直接使用，而是通过定义接口来进行转发调用，这样就能使得业务逻辑类与SDK解耦。
+    +  业务逻辑类的依赖通过依赖注入框架注入，便于测试时mock。
+    +  而剩下的组件类工作简单，只负责转发业务逻辑类的功能请求，就没必要进行测试了。
+  +  UI App Component Classes
+    +  通过MVP模式，将UI组件类和业务逻辑类解耦，同时移除对SDK组件类的依赖；
+    +  pre-act-state，post-act-state，测试对象的依赖中，如果mock框架（如Mockito）可以mock，OK；如果不能mock（例如Activity，BroadcastReceiver），则可以通过定义接口的形式替换这些依赖，而接口的实现则是简单直接的转发，无需测试；pre-act-state便可以设置完毕，调用被测函数后，验证post-act-state即可。
+  +  Dependency Inject
+    +  可以使用Constructor inject的类就不要使用Field inject。前者更利于单元测试。其实除了SDK组件类，其他的类基本上都可以使用Constructor inject。
   +  无需依赖第三方框架（Robolectric，Dagger）
 +  单元测试的目标
   +  在非安卓系统组件相关的代码，直接每个方法进行测试，很好理解
@@ -85,6 +85,10 @@
         ```
         另外有一点需要指出的是，要想RxJava的hook起作用，必须要在`Schedulers`类初始化之前进行hook，那么在测试的时候，只能通过实现自定义的TestRunner来做到了，在TestRunner的构造函数中进行reset和hook就OK了。而RxAndroid的hook则没这么麻烦，在测例的setUp函数中进行就OK。
     +  RxJava还能设置`ObservableExecutionHook`，示例：`RxJavaPlugins.getInstance().registerObservableExecutionHook(new DebugHook(new DebugNotificationListener() {...}`
+  +  网络库：Retrofit，OkHttp
+    +  Retrofit提供了retrofit-mock模块，用于测试retrofit，详情可见[retrofit-mock测例](https://github.com/square/retrofit/blob/master/retrofit-mock%2Fsrc%2Ftest%2Fjava%2Fretrofit%2FMockRetrofitTest.java)。
+    +  对于2.0中的adapter-rxjava，retrofit也提供了adapter-rxjava-mock模块，详情可见[adapter-rxjava-mock测例](https://github.com/square/retrofit/blob/master/retrofit-adapters%2Frxjava-mock%2Fsrc%2Ftest%2Fjava%2Fretrofit%2Fmock%2FRxJavaBehaviorAdapterTest.java)。
+    +  另外，OkHttp也提供了MockWebServer，也可以利用起来，详见[converter-gson测例](https://github.com/square/retrofit/blob/master/retrofit-converters%2Fgson%2Fsrc%2Ftest%2Fjava%2Fretrofit%2FGsonConverterFactoryTest.java)。
 
 ## 集成测试
 +  集成测试的级别是什么？wiki定义为：把各个经过单元测试的模块组合起来，作为一个整体进行测试，是验证测试的前一步。
@@ -116,6 +120,8 @@
 		          ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 	    ```
+  +  Retrofit
+    +  不要mock所有的对象，在集成测试阶段，直接mock定义的service即可，让调用Service时返回mock的对象即可
     
   +  UIAutomator
 +  和一些其他框架的整合

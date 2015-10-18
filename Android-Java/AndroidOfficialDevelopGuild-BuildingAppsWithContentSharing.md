@@ -36,7 +36,7 @@
 		<files-path path="images/" name="myimages" />
 	</paths>
 	```
-  +  `<paths>`标签可以有多个子标签，`<files-path>`指定app的files目录下的分享目录名，`<external-path>`指定外部存储的分享目录名，`<cache-path>`指定app的cache目录下的分享目录名；分享路径只能在xml中描述；
+  +  `<paths>`标签可以有多个子标签，`<files-path>`指定app的files目录下的分享目录名，`<external-path>`指定外部存储（`Environment.getExternalStorageDirectory()`）的分享目录名，`<cache-path>`指定app的cache目录下的分享目录名；分享路径只能在xml中描述；
   +  如上配置后，需要访问files/images/default_image.jpg时，对应uri为：`content://com.example.myapp.fileprovider/myimages/default_image.jpg`
   +  Receive File Requests
     +  定义一个Selection Activity，响应Intent action，例如：`ACTION_PICK`

@@ -42,7 +42,7 @@
     ```
     ImageView有`setImageLevel(int)`方法，可以设置显示哪个强度
 +  TransitionDrawable，通过xml定义`<transition>`，里面有多个`<item>`，类似于`<layer-list>`，但是支持不同layer之间的淡入淡出，通过TransitionDrawable的`startTransition(int)`、`resetTransition()`来显示某一层
-+  InsetDrawable，把它设置为一个View的背景时，可以与View的边界有距离，即：背景小于View本身，可以实现那种边框留白，内部有背景的View，而不需要外部用一个layout嵌套
++  InsetDrawable，把它设置为一个View的背景时，可以与View的背景区域小于其bound，但是应用场景呢？
 +  ClipDrawable，把源drawable裁剪后显示，可以通过随时间改变裁剪区域来做出图片逐渐展开的效果
 +  ScaleDrawable，把源drawable缩放后显示，类似还有RotateDrawable，GradientDrawable
 +  ShapeDrawable，定义基本几何类型

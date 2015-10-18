@@ -104,6 +104,8 @@
 +  [Chrome custom tabs](https://medium.com/ribot-labs/exploring-chrome-customs-tabs-on-android-ef427effe2f4)
 +  执行定时任务，可能的实现方式有：[Alarm](http://developer.android.com/reference/android/app/AlarmManager.html), [JobScheduler](https://developer.android.com/reference/android/app/job/JobScheduler.html), API 21+, [JobSchedulerCompat](https://github.com/evant/JobSchedulerCompat) API 10+, [GcmNetworkManager](https://developers.google.com/android/reference/com/google/android/gms/gcm/GcmNetworkManager), [分享](https://plus.google.com/+AndroidDevelopers/posts/GdNrQciPwqo)。
 +  RenderScript例子：[HealingBrush](https://plus.google.com/+RomainGuy/posts/M3ueUxUpBs1)
++  安卓6.0引入的运行时权限系统，如果APP使用`ACTION_SEND`分享文件，并使用了`file://`形式的Uri，那么接收APP将需要`READ_EXTERNAL_STORAGE`权限，否则将会崩溃；而如果使用`content://`形式Uri，接收APP将不需要权限；所以应该使用后者形式；
++  安卓6.0引入了App Links，将限制一个Intent只能被通过App link验证的APP打开，具体验证方式可以参考官方文档；`packageManager.queryIntentActivities(intent, MATCH_DEFAULT_ONLY);`将至多返回一个结果；`MATCH_ALL`这个flag起作用的前提是尚无通过验证的APP，否则也只会有一个结果；[详见](https://medium.com/google-developer-experts/intent-resolving-in-android-m-c17d39d27048)；
 
 ## Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
