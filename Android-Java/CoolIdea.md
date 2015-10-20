@@ -106,6 +106,7 @@
 +  RenderScript例子：[HealingBrush](https://plus.google.com/+RomainGuy/posts/M3ueUxUpBs1)
 +  安卓6.0引入的运行时权限系统，如果APP使用`ACTION_SEND`分享文件，并使用了`file://`形式的Uri，那么接收APP将需要`READ_EXTERNAL_STORAGE`权限，否则将会崩溃；而如果使用`content://`形式Uri，接收APP将不需要权限；所以应该使用后者形式；
 +  安卓6.0引入了App Links，将限制一个Intent只能被通过App link验证的APP打开，具体验证方式可以参考官方文档；`packageManager.queryIntentActivities(intent, MATCH_DEFAULT_ONLY);`将至多返回一个结果；`MATCH_ALL`这个flag起作用的前提是尚无通过验证的APP，否则也只会有一个结果；[详见](https://medium.com/google-developer-experts/intent-resolving-in-android-m-c17d39d27048)；
++  在manifest中设置`android:windowSoftInputMode="adjustResize"`后，activity内的“可折叠”ViewGroup，例如ScrollView会在键盘弹起时减小其高度，然而如果在activit的theme中设置`android:windowFullscreen="true"`或者`android:fitsSystemWindows="false"`，那么`adjustResize`都将不起作用。
 
 ## Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)

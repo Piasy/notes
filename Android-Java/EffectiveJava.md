@@ -634,3 +634,18 @@
   +  慎用重载，重载（overload）与重写（override）的区别可以见上文，简言之，前者编译时多态，后者运行时多态
   +  重载是编译时多态，版本选择在编译期完成，根据编译期参数的类型信息来进行决策
   +  建议不要用参数类型来设计不同的重载版本，应该通过参数列表长度，或者没有父子类关系的不同参数类型，例如接受int和float的类型，后者也还是可能会有问题
++  Item 42: Use varargs judiciously
+  +  varargs的原理是调用时首先创建一个数组，然后把传入的参数放入数组，数组长度为参数个数
+  +  一个方法需要0或多个同类型数据这个需求很常见，然而也有另一个很常见的需求：需要一个或多个同类型数据，此时单纯用varargs不太优雅，可以让方法先接受一个数据，在接受一个varargs
+  +  varargs最初是为了printf和反射设计的
+  +  可以通过把传入参数从一个数组改为varargs，来改良该方法（变得更灵活），而且对已有代码“无影响”，`Arrays.asList`便是一个例子，但接受varargs最初是为了打印数组内容设计的，而不是为了把多个数据变成一个List
+  +  Don’t retrofit every method that has a final array parameter; use varargs only when a call really operates on a variable-length sequence of values.
+  +  以下两种函数声明都可能会产生问题：
+  
+    ```java
+    ReturnType1 suspect1(Object... args) { }
+    <T> ReturnType2 suspect2(T... args) { }
+    ```
+    
+     如果传入一个基本类型的数组进去（例如int[]），那么这两个方法接受的都是一个int[][]，即相当于接受了一个只有一个元素的数组，而这个数组的数据类型是int[]！而如果传入一个对象的数组，则相当于传入了数组长度个数的varargs。`Arrays.asList`方法就存在这个问题！
+  +  varargs也存在性能影响，因为每次调用都会创建、初始化一个数组。如果为了不失API灵活性，同时大部分调用的参数个数都是有限个，例如0~3个，那么可以声明5个重载版本，分别接受0~3个参数，另外加一个3个参数+varargs的版本
