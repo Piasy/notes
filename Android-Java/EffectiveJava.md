@@ -649,3 +649,19 @@
     
      如果传入一个基本类型的数组进去（例如int[]），那么这两个方法接受的都是一个int[][]，即相当于接受了一个只有一个元素的数组，而这个数组的数据类型是int[]！而如果传入一个对象的数组，则相当于传入了数组长度个数的varargs。`Arrays.asList`方法就存在这个问题！
   +  varargs也存在性能影响，因为每次调用都会创建、初始化一个数组。如果为了不失API灵活性，同时大部分调用的参数个数都是有限个，例如0~3个，那么可以声明5个重载版本，分别接受0~3个参数，另外加一个3个参数+varargs的版本
++  Item 43: Return empty arrays or collections, not nulls
+  +  可能有人认为返回null能减小内存开销，然：
+    +  永远不要过度考虑性能问题，只有当profiling显示瓶颈就是这里的时候，再考虑性能优化与代码优雅性的牺牲，当然，无副作用的优化肯定尽早采纳
+    +  可以每次需要返回空数组/集合时，返回同一个空数组/集合，这样就只需要一次内存分配
+  +  Collection的`<T> T[] toArray(T[] a)`方法，可以每次调用时传入一个空数组，因为该方法保证如果集合元素可以被放入提供的参数数组中，将不会分配新内存，当放不下时才会分配
+  +  下面实现返回集合的值的方式也是值得借鉴的
+  
+  ```java
+    // The right way to return a copy of a collection
+    public List<Cheese> getCheeseList() {
+      if (cheesesInStock.isEmpty())
+        return Collections.emptyList(); // Always returns same list
+      else
+        return new ArrayList<Cheese>(cheesesInStock);
+    }
+  ```
