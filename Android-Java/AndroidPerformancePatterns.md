@@ -135,6 +135,13 @@
   +  Hardware Acceleration
     +  view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
     +  view.animate()....withLayer().start()
+    +  硬件加速非常适用于动画的渲染，但是也有需要注意的地方，[ref](http://blog.danlew.net/2015/10/20/using-hardware-layers-to-improve-animation-performance/)
+      +  硬件加速的原理是GPU会把View绘制的结果缓存起来，后续的更新只需要重新渲染即可，省去了View的绘制，以及绘制指令的传输部分，但是硬件加速一开始的时候有额外的初始化工作（缓存）
+      +  如果View特别简单，仅仅是一个单颜色区域，那硬件加速的额外开销可能得不偿失
+      +  如果View在动画过程中不断invalidate，或者其内容不断变化，硬件加速的效果将大打折扣
+      +  如果动画发生在ViewGroup上，而其子View相对于ViewGroup也是在发生变化时，就不应该把硬件加速设置在ViewGroup上，因为动画过程中ViewGroup的内容是不断变化的（子View也在不断变化），而是应该把加速设置在各个子View上
+      +  GPU存储空间有限，仅当有必要时才使用硬件加速
+      +  profile GPU rendering和show hardware layers updates是很好的效果评估工具
 
 ## 谷歌安卓团队对于性能优化的建议
 +  [Android performance patterns系列视频](https://www.youtube.com/playlist?list=PLWz5rJ2EKKc9CBxr3BVjPTPoDPLdPIFCE)已经出到了第三季，国内也有安卓大神整理翻译的[中文文字版](http://hukai.me/android-performance-patterns/)，但就像读书一样，大神写了完整的书，看的时候还是要做个笔记的。以下只是针对自身情况的笔记，仅供参考。

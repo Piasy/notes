@@ -9,3 +9,5 @@
 >联系方式：[xz4215@gmail.com](mailto:xz4215@gmail.com)
 
 >项目地址：<https://github.com/Piasy/notes>
+
+>GitBook版本：<http://notes.piasy.com/>
