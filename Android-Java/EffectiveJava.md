@@ -684,3 +684,33 @@
   +  因此也更倾向于使用for-loop，而不是while-loop，因为后者需要使用while-loop外定义的控制变量
   +  for-loop的终结条件变量n，也应该在循环变量i初始化时计算，避免重复计算
   +  保持方法简短，一个方法只做一件事
++  Item 46: Prefer for-each loops to traditional for loops
+  +  优点之一：可以避免一些容易犯的bug
+    ```java
+      // Can you spot the bug?
+      enum Suit { CLUB, DIAMOND, HEART, SPADE }
+      enum Rank { ACE, DEUCE, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,
+                  NINE, TEN, JACK, QUEEN, KING }
+      ...
+      Collection<Suit> suits = Arrays.asList(Suit.values());
+      Collection<Rank> ranks = Arrays.asList(Rank.values());
+      List<Card> deck = new ArrayList<Card>();
+      for (Iterator<Suit> i = suits.iterator(); i.hasNext(); )
+          for (Iterator<Rank> j = ranks.iterator(); j.hasNext(); )
+              deck.add(new Card(i.next(), j.next()));
+    ```
+    
+    `i.next()`在内层循环被调用了多次。以下写法则直观且不易出错：
+    
+    ```java
+      // Preferred idiom for nested iteration on collections and arrays
+      for (Suit suit : suits)
+          for (Rank rank : ranks)
+              deck.add(new Card(suit, rank));
+    ```
+  +  此种写法不仅可用于集合和数组，任何实现`Iterable`接口的类都可以用于冒号后面的部分
+  +  缺点
+    +  有性能代价！一定会创建Iterator，对于安卓开发，不建议如此。
+    +  不能在for-each语法中进行remove，用Iterator遍历时，能remove
+    +  遍历过程中替换原有元素
+    +  Parallel iteration

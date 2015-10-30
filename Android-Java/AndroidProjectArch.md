@@ -1,5 +1,4 @@
 # Android项目架构
-======
 从功能需求、设计模式、最佳实践出发考虑
 
 ## MVP模式
@@ -86,7 +85,6 @@
   +  Code coverage
   
 # [Android Clean Architecture](https://github.com/android10/Android-CleanArchitecture)
-======
 ## 分层结构
 ![clean_architecture1.png](assets/clean_architecture1.png)  
 +  Entities: These are the business objects of the application.
@@ -114,7 +112,6 @@
 
 
 # [Flux Architecture](http://lgvalle.github.io/2015/08/04/flux-architecture/)
-======
 +  结构图  
 ![flux-graph-simple.png](assets/flux-graph-simple.png)
   +  View: Application interface. It create actions in response to user interactions. Activity or Fragment
@@ -127,3 +124,21 @@
 
 ## [RxFlux](https://medium.com/@marxallski/rxflux-android-architecture-94f77c857aa2)
 ![rxflux_arch.png](assets/rxflux_arch.png)
+
+
+# [What is all this Clean Architecture jibber-jabber about?](http://pguardiola.com/blog/clean-architecture-part-1/)
+## 基础
++  SOLID
+  +  Single Responsiblity
+  +  Open/Closed
+  +  Liskov Substitution
+  +  Interface Segregation
+  +  Dependency Inversion
++  Abstraction
+  +  面向接口编程
+  +  高内聚，低耦合
+    +  内聚：单一模块内，各个部分之间的关系
+    +  耦合：各个模块之间的关系
++  Vertical slicing
+  +  Horizontal slicing：传统方式，从服务提供方分包，例如DB, Network, ui...
+  +  Vertical slicing：源自敏捷，根据功能（use case）进行分包，而将与该功能相关的db, network, ui等部分放到同一个模块中
