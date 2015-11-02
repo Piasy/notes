@@ -714,3 +714,24 @@
     +  不能在for-each语法中进行remove，用Iterator遍历时，能remove
     +  遍历过程中替换原有元素
     +  Parallel iteration
++  Item 47: Know and use the libraries
+  +  don't reinvent the wheel
+  +  视野！
++  Item 48: Avoid float and double if exact answers are required
+  +  float和double设计为用于科学计算，“精确近似”，需要确切结果的，不要使用，例如：货币相关！应该使用BigDecimal, int, 或者long。
+  +  BigDecimal使用有些不方便，性能也比primitive类型低
++  Item 49: Prefer primitive types to boxed primitives
+  +  两种类型的区别
+    +  boxed类型，除了包含数值外，还有不同的唯一标示，即值一样，对象可以不一样，这一点很重要！
+    +  boxed类型，比primitive类型多一个值，null
+    +  boxed类型，时间、空间效率均低一些
+  +  caveats
+    +  有些操作会auto-unbox，例如：加减乘除，大小比较，但判等（`==`）不会！
+    +  Applying the `==` operator to boxed primitives is almost always wrong.
+    +  boxed类型，值为null时，会unbox为什么呢？会抛出`NullPointerException`
+    +  当boxed和primitive出现在同一个运算中，boxed类型会auto-unbox（包括判等）
+    +  大量重复的box/unbox会导致性能大幅下降
+  +  使用场景与注意事项
+    +  放到标准集合里面，必须是boxed类型
+    +  作为类型参数（泛型），必须是boxed类型
+    +  auto-box是安全的，也能省去繁琐的代码，但是auto-unbox则可能引起隐蔽的错误
