@@ -735,3 +735,11 @@
     +  放到标准集合里面，必须是boxed类型
     +  作为类型参数（泛型），必须是boxed类型
     +  auto-box是安全的，也能省去繁琐的代码，但是auto-unbox则可能引起隐蔽的错误
++  Item 50: Avoid strings where other types are more appropriate
+  +  Strings are poor substitutes for other value types. 只有当数据确实就是文本时，才适合用String。
+  +  Strings are poor substitutes for enum types.
+  +  Strings are poor substitutes for aggregate types. 把一系列数据转化为一个String（序列化），然后再反序列化，也应该用Json，如果自定义分隔符，既不优雅，也不安全。
+  +  Strings are poor substitutes for capabilities. capability是一种称呼，通常就是说不同的对象，凭借一个key去同一个地方保存、获取数据；如果用String，那么如果内容相同，那key就会冲突，不安全；ThreadLocal的发展史*。
++  Item 51: Beware the performance of string concatenation
+  +  用`+`连接n个String，时间复杂度为`O(n^2)`，因为String是immutable的，所以每次拼接都会拷贝两者的内容
+  +  使用`StringBuilder`进行拼接操作；不过对于安卓开发来说，基本没什么影响，因为在打包的过程中，这一优化会自动完成；
