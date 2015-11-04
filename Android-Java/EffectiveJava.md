@@ -743,3 +743,8 @@
 +  Item 51: Beware the performance of string concatenation
   +  用`+`连接n个String，时间复杂度为`O(n^2)`，因为String是immutable的，所以每次拼接都会拷贝两者的内容
   +  使用`StringBuilder`进行拼接操作；不过对于安卓开发来说，基本没什么影响，因为在打包的过程中，这一优化会自动完成；
++  Item 52: Refer to objects by their interfaces
+  +  如果有接口，那么函数参数、返回值、成员变量、局部变量，都应该使用接口来保持对象的引用，只有在通过构造函数创建对象时才应该引用具体的实现类型；面向接口编程更广义的实践；
+  +  面向接口编程使得程序更加灵活，切换实现类非常简单；但如果代码功能/正确性依赖于实现类特有的特性，那么切换时就需要仔细考虑一下；
+  +  当然，如果对应功能的接口不存在，那直接引用该类当然是可以的；value type; class-based framework; 或者实现类提供了接口不存在的功能
++  Item 53: Prefer interfaces to reflection
