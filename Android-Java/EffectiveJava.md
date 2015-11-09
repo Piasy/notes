@@ -748,3 +748,35 @@
   +  面向接口编程使得程序更加灵活，切换实现类非常简单；但如果代码功能/正确性依赖于实现类特有的特性，那么切换时就需要仔细考虑一下；
   +  当然，如果对应功能的接口不存在，那直接引用该类当然是可以的；value type; class-based framework; 或者实现类提供了接口不存在的功能
 +  Item 53: Prefer interfaces to reflection
+  +  反射可以访问私有成员
+  +  反射可以调用编译时不存在的类的方法，当然需要运行时已经加载
+  +  但是反射也是有代价的
+    +  编译期的类型检查完全失效，类型安全性丧失
+    +  反射代码繁琐且易出错，当然这一点有一些好的框架可以避免，例如[JOOR](https://github.com/jOOQ/jOOR)
+    +  性能下降，反射调用性能会低很多
+  +  反射常用的场景
+    +  class browsers, object inspectors, code analysis tools, and interpretive embedded systems, remote procedure call (RPC) systems
+    +  反射功能强大，也有一些不足，如果合适利用，还是非常方便的
+    +  例如编译期有些类尚未获得，但是如果有其父类/接口，则可以声明为父类/接口，只通过反射创建实例，其余代码都无需反射
++  Item 54: Use native methods judiciously
+  +  设计之初的三大用途
+    +  访问平台相关的功能，例如registries and file locks
+    +  访问老的C/C++版本的库，访问老的数据
+    +  追求性能
+  +  近年来JVM/Java的发展，性能已有很大改善，追求性能而使用JNI通常来说都已经没必要了
+  +  JNI的劣势
+    +  不安全，内存管理不受JVM控制了，溢出等问题都有可能发生了
+    +  平台相关
+    +  难以调试
+    +  Java和native层的交互是有开销的
+    +  native代码比Java代码更难懂
+  +  对于安卓应用开发来说，JNI还有一点就是隐藏实现，Java代码反编译非常容易，而native代码则难一些
++  Item 55: Optimize judiciously
+  +  只有当确实需要时，才考虑性能优化，当然一些常见的范式，初次编码时就应该遵循
+  +  Strive to write good programs rather than fast ones; speed will follow.
+  +  Strive to avoid design decisions that limit performance.
+  +  Consider the performance consequences of your API design decisions.
+  +  It is a very bad idea to warp an API to achieve good performance. 
+  +  当确实需要优化性能时：measure performance before and after each attempted optimization.
+  +  找到原因后，首先考虑的是算法的优化，然后是上层的优化
+  +  在进行优化前，对程序进行profiling，确定瓶颈，否则可能浪费精力反而性能下降
