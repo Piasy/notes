@@ -39,6 +39,7 @@
   +  [安卓性能优化](Android-Java/AndroidPerformancePatterns.md)
   +  [Memory leak专题](Android-Java/MemoryLeak.md)
   +  [有效处理手机旋转专题](Android-Java/HandleOrientationChanged.md)
+  +  [Launch mode 和 Intent flags专题](Android-Java/LaunchModeIntentFlags.md)
   +  [Canvas & Drawables](Android-Java/Canvas-Drawables.md)
   +  [《深入理解JVM》](Android-Java/InsideJVM.md)
   +  [《Effective Java 2nd Edition》](Android-Java/EffectiveJava.md)

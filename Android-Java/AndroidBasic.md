@@ -1,11 +1,11 @@
-#[Android develop basics, based on Android 5.0](http://www.vogella.com/tutorials/Android/article.html)
+# [Android develop basics, based on Android 5.0](http://www.vogella.com/tutorials/Android/article.html)
 
-##什么是Android
+## 什么是Android
 +  安卓系统架构图：  
   
 ![AndroidPlatformComponents.png](assets/AndroidPlatformComponents.png)
   
-##安卓开发工具
+## 安卓开发工具
 +  Android RunTime(ART)
   +  安卓5.0使用ART技术，在安装应用的时候，应用程序代码就被翻译为机器码，加快应用程序运行；
   +  将导致程序代码增大30%左右，但能加速运行、节约电量；

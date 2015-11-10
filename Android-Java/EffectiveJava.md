@@ -780,3 +780,7 @@
   +  当确实需要优化性能时：measure performance before and after each attempted optimization.
   +  找到原因后，首先考虑的是算法的优化，然后是上层的优化
   +  在进行优化前，对程序进行profiling，确定瓶颈，否则可能浪费精力反而性能下降
++  Item 56: Adhere to generally accepted naming conventions
+  +  包名要体现出组件的层次结构，全小写
+  +  公布到外部的，包名以公司/组织的域名开头，例如：edu.cmu, com.sun
+  +  ...
