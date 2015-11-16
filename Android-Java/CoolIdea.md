@@ -107,6 +107,7 @@
 +  安卓6.0引入的运行时权限系统，如果APP使用`ACTION_SEND`分享文件，并使用了`file://`形式的Uri，那么接收APP将需要`READ_EXTERNAL_STORAGE`权限，否则将会崩溃；而如果使用`content://`形式Uri，接收APP将不需要权限；所以应该使用后者形式；
 +  安卓6.0引入了App Links，将限制一个Intent只能被通过App link验证的APP打开，具体验证方式可以参考官方文档；`packageManager.queryIntentActivities(intent, MATCH_DEFAULT_ONLY);`将至多返回一个结果；`MATCH_ALL`这个flag起作用的前提是尚无通过验证的APP，否则也只会有一个结果；[详见](https://medium.com/google-developer-experts/intent-resolving-in-android-m-c17d39d27048)；
 +  在manifest中设置`android:windowSoftInputMode="adjustResize"`后，activity内的“可折叠”ViewGroup，例如ScrollView会在键盘弹起时减小其高度，然而如果在activit的theme中设置`android:windowFullscreen="true"`或者`android:fitsSystemWindows="false"`，那么`adjustResize`都将不起作用。
++  如果Activity使用`Theme.NoDisplay`，并且没有立即finish，那APP将会ANR，[详见](https://plus.google.com/105051985738280261832/posts/LjnRzJKWPGW)
 
 ## Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
@@ -161,8 +162,9 @@
   +  Render in code when appropriate
   +  Going even further? Server side packaging，根据设备具体细节打包资源，但是有一定风险。
 +  使用pre-dex jar来减小最终打包app的大小，避免multi-dex的发生，但需要保证在使用某个库的类之前，pre-dex jar已经被加载，[详情](https://medium.com/@Macarse/lazy-loading-dex-files-d41f6f37df0e)
++  通过gradle配置`sourceSets`让单元测试和集成测试共享代码，受此启发，可以更加高度定制化代码路径。[详见](http://blog.danlew.net/2015/11/02/sharing-code-between-unit-tests-and-instrumentation-tests-on-android/)
 
-## 有意思的第三方库
+## 有意思的第三方库/教程
 +  [基于UDP组播的Intent发送和接收](http://www.androidzeitgeist.com/2014/11/introducing-android-network-intents17.html)
 +  [将SQLite操作封装为rx API](http://beust.com/weblog/2015/06/01/easy-sqlite-on-android-with-rxjava/)，封装思想值得借鉴
 +  [Prism](https://blog.stylingandroid.com/prism-fundamentals-part-1)，为各种部件（View，Window，StatusBar）设置颜色、背景，API简洁，功能强大；
@@ -173,6 +175,7 @@
 +  [android-iconify，图标化字体应用库，支持配置大小、颜色、动效！](http://blog.joanzapata.com/iconify-just-got-a-lot-better)
 +  [Favor composition over inheritance，Adapter组合复用](https://github.com/sockeqwe/AdapterDelegates)
 +  [Drawble上加蒙色，减小包大小](http://andraskindler.com/blog/2015/tinting_drawables/)
++  [安卓平台视频录制、剪辑APP的开发](https://yalantis.com/blog/video-recording-app-development-how-we-built-instagram-for-videos/)
 
 ## Google API
 +  [Nearby API](https://developers.google.com/nearby/)

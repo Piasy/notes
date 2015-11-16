@@ -30,3 +30,4 @@ Classes, objects, interfaces, constructors, functions, properties and their sett
 ## To read
 +  http://antonioleiva.com/kotlin/
 +  http://antonioleiva.com/collection-operations-kotlin/
++  http://antonioleiva.com/plaid-kotlin-1/

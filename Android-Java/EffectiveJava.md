@@ -784,3 +784,56 @@
   +  包名要体现出组件的层次结构，全小写
   +  公布到外部的，包名以公司/组织的域名开头，例如：edu.cmu, com.sun
   +  ...
+  
+## 异常处理
++  Item 57: Use exceptions only for exceptional conditions
+  +  exceptions are, as their name implies, to be used only for exceptional conditions; they should never be used for ordinary control flow.
+  +  A well-designed API must not force its clients to use exceptions for ordinary control flow.
+    +  如果一个类的某个方法，依赖于该类当前处于某个特定状态，则应该提供一个单独的状态检查方法，例如Iterator的next和hasNext方法
+    +  另外如果不提供状态检查方法，也可以让方法在异常状态下，返回一个特定的非法值
+    +  如果该类被并发访问，且访问时未进行互斥处理，则必须使用返回非法值的方式；另外考虑到性能因素，也更倾向于返回非法值；其他情况下，都应该使用状态检查方法，可读性更好，更容易检查错误；
++  Item 58: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors
+  +  use checked exceptions for conditions from which the caller can reasonably be expected to recover.
+  +  unchecked exception: `RuntimeException`, `Error`通常都不需要、也不应该catch
+  +  Use runtime exceptions to indicate programming errors. 通常用于表示程序运行的状态违背了前提条件，违背了API的约定
+  +  all of the unchecked throwables you implement should subclass RuntimeException
++  Item 59: Avoid unnecessary use of checked exceptions
+  +  如果即便合理的调用了API也会遇到异常情形，并且捕获异常之后能够进行一些有意义的操作，才应该使用checked exception，其他情况下都应该使用RuntimeException
+  +  通常，如果一个方法会抛出checked exception，都可以将其拆分为两个方法，一个用于判断是否会抛出异常，另一部分用于处理正常情况，如果不符合约定，就抛出RuntimeException，这样使得API更易用，也更灵活；但是要考虑状态检查和执行之间，是否可能从外部其他线程修改对象的状态；
++  Item 60: Favor the use of standard exceptions
+  +  IllegalArgumentException, IllegalStateException, NullPointerException, IndexOutOfBoundsException, ConcurrentModificationException, UnsupportedOperationException
++  Item 61: Throw exceptions appropriate to the abstraction
+  +  exception translation: higher layers should catch lower-level exceptions and, in their place, throw exceptions that can be explained in terms of the higher-level abstraction.
+
+    ```java
+    // Exception Translation
+    try {
+        // Use lower-level abstraction to do our bidding
+        ...
+    } catch(LowerLevelException e) {
+        throw new HigherLevelException(...);
+    }
+    ```
+  +  While exception translation is superior to mindless propagation of excep- tions from lower layers, it should not be overused.
++  Item 62: Document all exceptions thrown by each method
+  +  Always declare checked exceptions individually, and document precisely the conditions under which each one is thrown using the Javadoc @throws tag. 不要通过声明抛出多个异常的父类来实现抛出多种异常的效果。
+  +  要为每个方法可能抛出的unchecked exception写文档，但是不要将这些异常放到方法声明的异常表中去。便于API使用者区分checked和unchecked exception。
+  +  如果一个类的很多方法都抛出同一个异常，那么可以将文档放到class doc中，而不是method doc中。
++  Item 63: Include failure-capture information in detail messages
+  +  To capture the failure, the detail message of an exception should contain the values of all parameters and fields that “contributed to the exception.”
+  +  良好设计的Exception类，应该把它需要的详细信息都作为构造函数的参数，而不是统一接收String参数；这样将把生成有意义的detail信息的任务集中在了Exception类本身，而不是其使用者。
+  +  checked exception可以为failure-capture information提供访问方法，以便于使用者在程序上进行恢复处理；虽然unchecked exception通常不会在程序中进行恢复，但是提供同样的方法也是建议的做法。
++  Item 64: Strive for failure atomicity
+  +  Generally speaking, a failed method invocation should leave the object in the state that it was in prior to the invocation. 满足此属性的方法称为 failure atomic。
+    +  immutable对象是最简单的实现方法
+    +  mutable对象要达到此效果，就需要在进行操作前，对所有的参数、field进行检查
+    +  有可能无法在函数的第一部分进行检查，但是一定要在对对象进行修改之前进行检查
+    +  还有一种不太常见的方式：函数内部捕获异常，异常发生之后先回退对象的状态，再把异常抛出去
+    +  还可以先创建一个临时的对象，在临时对象上进行操作，成功后替换原对象的值
+  +  有的情况下，failure atomic是不可能的，所以也就没必要为此做出努力了
+  +  有的情况下，为了failure atomic，会增加很多额外的开销、复杂度，也就不太必要了
+  +  当方法不满足failure atomic时，需要在文档中进行说明
++  Item 65: Don’t ignore exceptions
+  +  An empty catch block defeats the purpose of exceptions
+  +  At the very least, the catch block should contain a comment explaining why it is appropriate to ignore the exception.
+  +  忽略异常，可能导致程序在其他不相关的地方失败/崩溃，这时将很难找到/解决根本问题
