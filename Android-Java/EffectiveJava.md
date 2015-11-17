@@ -837,3 +837,35 @@
   +  An empty catch block defeats the purpose of exceptions
   +  At the very least, the catch block should contain a comment explaining why it is appropriate to ignore the exception.
   +  忽略异常，可能导致程序在其他不相关的地方失败/崩溃，这时将很难找到/解决根本问题
+  
+## 并发
++  Item 66: Synchronize access to shared mutable data
+  +  `synchronized`不仅是为了保证每个线程访问/执行时，看到的都是“正常状态”的对象（所谓正常就是没有发生多线程同时未加同步的写同一个对象，导致其状态不一致）；还能保证每个线程看到的都是最新的对象；
+  +  Java语言保证了基本类型中除了long和double的访问都是原子性的，并发写这些类型的数据而不进行同步控制，也不会有问题
+  +  有人建议访问具有原子性操作属性的对象无需进行同步控制，还能提升性能，纯属一派胡言
+  +  Java语言不会保证并发访问时，其他线程写的值能立即被读的线程感知，所以同步操作不仅仅是为了互斥访问，也是为了保证多线程之间看到的始终是最新的值
+  +  上述问题的根本原因就是[Java memory model](Android-Java/JSR133.md)
+  +  一个简单、常见、易错的例子
+    +  如何停止后台线程？首先不能调用`Thread.stop`方法，这个方法会导致data corruption
+    +  常用的方法就是用一个`boolean`变量，后台线程根据其值决定是否停止，而主线程想要停止后台线程时，修改这个变量的值即可
+    +  `boolean`的读写操作是原子性的，并发访问不加同步，不会导致data corruption，但是却无法保证主线程对变量的修改能及时被后台线程感知，甚至无法保证能被感知
+    +  指令重排，如果`done`就是个普通声明的`boolean`，以下变换在Java memory model下是允许的
+        ```java
+        while (!done)
+          i++;
+        
+        //==>
+        if (!done)
+          while (true)
+            i++;
+        ```
+    +  可想而知，如果未进行同步操作，后台线程将永远不会停止
+    +  解决方法有两种
+      +  为`done`的读写访问都加上`synchronized`，注意，读写都需要，否则没有数据同步（communication）的效果；由于`boolean`的读写访问是原子性的，所以这里的`synchronized`仅仅起数据同步的作用；
+      +  声明`done`的时候加上`volatile`关键字，`volatile`没有互斥的作用，仅仅是起数据同步的作用，在这里正好满足需求；这种方式性能比上一种要好一些；
+  +  使用`volatile`需要格外谨慎，因为它并没有互斥作用，如果声明一个`volatile int`，然后对其进行`++`操作，那将会导致data corruption，因为`++`不是原子性的
+  +  对于这种需求，可以声明为`synchronized int`；更好的方式是使用`java.util.concurrent.atomic`包下的类，安全，高效；
+  +  更根本的解决方式就是不要多线程共享mutable对象，而是共享immutable对象；甚至不要多线程共享数据；
+  +  引入框架/库时，需要考虑一下它们是否会引入多线程问题
+  +  effectively immutable：对象不是真的immutable，但是对象分享出去之后，就不会再改变了；当然这个还是很危险的，因为并没有强制的机制保证不会被修改；
+  +  小结：多线程访问共享变量时，读和写都需要进行同步操作
