@@ -879,3 +879,16 @@
     +  限制了JVM的代码优化空间
   +  共享数据的并发访问，一定要保证线程安全；如果可以在类内部，通过少量/高效的同步块保证，就不要把整个类的任何操作都加锁；如果做不到，那就不要进行任何同步，把这个责任交给使用者，给他们优化的空间，但一定要在文档中说明；
   +  如果`static`成员可以被某些方法修改，那一定要为它们加锁，因为这种情况下使用者无法保证线程安全性
++  Item 68: Prefer executors and tasks to threads
+  +  Executor Framework
+  
+  ```java
+  ExecutorService executor = Executors.newSingleThreadExecutor();
+  executor.execute(runnable);
+  executor.shutdown();
+  ```
+  +  `Executors`提供了多个工厂方法，创建`ExecutorService`，还可以直接使用`ThreadPoolExecutor`，对线程池做更精细的控制
+  +  如果程序负载轻，可以使用`Executors.newCachedThreadPool`，任务提交时如果没有空闲线程，将创建新的线程；如果负载重，用`Executors.newFixedThreadPool`更合适；
+  +  不仅不应该自己实现任务队列，甚至都应该避免直接使用线程，而是使用Executor Framework；
+  +  任务和机制被分别抽象了，前者为`Runnable`和`Callable`，后者则是executor service；
+  +  `java.util.Timer`也尽量不要用了，可以使用`ScheduledThreadPoolExecutor`；

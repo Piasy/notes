@@ -259,4 +259,10 @@
             }
         ```
         +  `createAnimator`，transition framework调用此函数的次数与scene的变化有关，例如5个view，变化后有2个被移除，1个新加入，则会调用6次：3个保持存在，2个移除，1个加入；保持存在的view，调用时两个TransitionValues都不为null，而只存在于一个状态的，另一个状态对应的TransitionValues参数为null；最终利用两个TransitionValues参数，返回一个property animator
-+  
++  Adding Animations
+  +  交叉隐现
+    +  `View.animate()`方法返回`ViewPropertyAnimator`对象，对其可以进行各种property animation
+  +  `ViewPager`的使用
+    +  通常结合`Fragment`使用
+    +  和`ListView`类似，`ViewPager`也需要一个Adapter，`FragmentStatePagerAdapter`的实现类
+    +  [ViewPagerIndicator](https://github.com/JakeWharton/ViewPagerIndicator)

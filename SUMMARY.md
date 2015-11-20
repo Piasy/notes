@@ -55,3 +55,7 @@
  +  [List.toArray()再强转是一定会失败的](Android-Java/3077508.md)
  +  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)
  +  [深入Java深浅拷贝、immutable、unmodifiable](misc/copy.md)
+
++  后端
+  +  [Feed系统的设计](Backend/Feed.md)
+  +  [关系型数据库设计范式](Backend/DBNF.md)

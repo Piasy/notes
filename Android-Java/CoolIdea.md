@@ -183,6 +183,8 @@
 +  [Google play service人脸识别](http://android-developers.blogspot.co.uk/2015/08/face-detection-in-google-play-services.html)
 +  [Google Eddystone with the Proximity Beacon API](https://medium.com/ribot-labs/exploring-google-eddystone-with-the-proximity-beacon-api-bc9256c97e05)，Beacon是一些蓝牙低能耗发射器，它们能够向附近的电子设备发射信息，提供基于附近位置的服务。
 +  Play Service 8.1.0发布了，总方法数达4W之多，不过还好google提供了分功能模块的依赖包，[模块列表](https://developers.google.com/android/guides/setup)，[各模块方法量统计](https://docs.google.com/spreadsheets/d/1XuxyP8_BOrpU30QUO-0s7NK2dUfy-IEqy5nOf1BhZ9M/edit#gid=0)
++  [利用Google的voice actions让app响应语音命令](http://blog.prolificinteractive.com/2015/11/06/implementing-google-voice-actions-into-your-android-app/)
++  [网页通过把链接设置为Intent兼容的格式，点击时可以创建Intent，供已安装的native app接收](https://paul.kinlan.me/sharing-natively-on-android-from-the-web/)
 
 ## 最佳实践
 +  使用[Headless Fragment](Fragments.md#使用fragment进行后台处理headless-fragment)把部分Activity公用的逻辑封装起来，避免将只被部分Activity公用的逻辑加到所有Activity的父类中。
