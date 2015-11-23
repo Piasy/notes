@@ -892,3 +892,22 @@
   +  不仅不应该自己实现任务队列，甚至都应该避免直接使用线程，而是使用Executor Framework；
   +  任务和机制被分别抽象了，前者为`Runnable`和`Callable`，后者则是executor service；
   +  `java.util.Timer`也尽量不要用了，可以使用`ScheduledThreadPoolExecutor`；
++  Item 69: Prefer concurrency utilities to wait and notify
+  +  正确使用`wait`和`notify`有难度，而Java又提供了更高层的抽象，何乐而不用呢？
+  +  `java.util.concurrent`包主要包含三块：
+    +  Executor Framework
+    +  concurrent collections
+    +  synchronizers
+  +  concurrent collections提供了标准容器的多线程高性能版本，它们内部进行了同步互斥操作，保证正确性；外部使用的时候，无需加锁，否则只会导致性能下降；
+    +  concurrent collections中的每一种实现，可能都有性能优化的侧重点，可能有的是多读少写高效，例如`CopyOnWriteArrayList`，所以使用时需要了解清楚其试用场景；
+    +  除非有明确的理由，否则，优先使用`ConcurrentHashMap`，而不是`Collections.synchronizedMap`或者`Hashtable`；也尽量避免在使用者那端进行同步操作；
+    +  有的concurrent collections提供了block操作接口，例如`BlockingQueue`，从中取数据的时候，如果队列为空，线程将等待，新的数据加入后，将自动唤醒等待的线程；大部分的`ExecutorService`都是采用这种方式实现的；
+  +  Synchronizers: `CountDownLatch`, `Semaphore`, `CyclicBarrier`, `Exchanger`
+    +  `CountDownLatch`: 多个线程等待另外一个或多个线程完成某种工作
+    +  注意thread starvation deadlock问题
+    +  `Thread.currentThread().interrupt()` idiom：异常可能从其他线程抛出？用此方法回到原来的线程？
+    +  计时的话，用`System.nanoTime()`而不是`System.currentTimeMillis()`，前者更准确，更明确
+  +  如果非要用`wait`和`notify`，注意以下几点：
+    +  Always use the wait loop idiom to invoke the wait method; never invoke it outside of a loop.
+    +  wait前的条件检查可以保证不会死锁，wait后的检查可以保证安全
+    +  通常情况下都应该使用`notifyAll`

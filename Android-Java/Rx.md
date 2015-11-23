@@ -1,6 +1,6 @@
-#Rx (Reactive eXtention)
+# Rx (Reactive eXtention)
 
-##细节
+## 细节
 +  just, from等操作均是在创建时执行，而非subscribe时，很显然，因为java函数调用传递的是值，所以会先eval；create, defer等操作均是在subscribe时执行；~~create多次subscribe只会执行一次，defer多次subscribe会执行多次~~（create、defer，call函数内的代码每次subscribe均会被执行）；[ref](https://github.com/Piasy/TestUnderstandRx/blob/242821254f/app%2Fsrc%2Ftest%2Fjava%2Fcom%2Fgithub%2Fpiasy%2Ftestunderstand%2Frx%2FHotColdObservableTest.java#L110)
 +  hot v.s. cold Observable
   +  cold：当Observable被subscribe时才开始发射item；（后来的subscriber同样会收到其subscribe之前发射的item；retrofit实现的是cold；每次subscribe时，发射item的代码都会被执行）
@@ -16,5 +16,19 @@
     +  subscriber unsubscribe后将不会再接收到item，但也不会有onCompleted事件，且对其他subscriber不影响；
   +  实现的功能都需要测试验证，不能凭经验、也不能看博客，也不能仅看文档；
 
-##Code review
+## 原理
++  `subscribe`原理，引用自[给 Android 开发者的 RxJava 详解](http://gank.io/post/560e15be2dca930e00da1083#toc_10)
+
+![rx_subscribe.png](assets/rx_subscribe.png)
+
+注意，选中的部分，应该是`subscribe()`而不是`subscriber()`。
+
++  `lift`变换原理，引用自[给 Android 开发者的 RxJava 详解](http://gank.io/post/560e15be2dca930e00da1083#toc_19)
+
+![rx_lift.png](assets/rx_lift.png)
+![rx_lift_2.png](assets/rx_lift_2.png)
+
++  `subscribeOn`和`observeOn`原理：也是用`lift`实现，通过相应`Operator`实现线程的切换
+
+## Code review
 +  [part I](http://artemzin.com/blog/rxjava-code-review-part-1)
