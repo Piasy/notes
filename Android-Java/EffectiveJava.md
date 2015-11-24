@@ -911,3 +911,24 @@
     +  Always use the wait loop idiom to invoke the wait method; never invoke it outside of a loop.
     +  wait前的条件检查可以保证不会死锁，wait后的检查可以保证安全
     +  通常情况下都应该使用`notifyAll`
++  Item 70: Document thread safety
+  +  一个方法的声明中加了`synchronized`并不能保证它是线程安全的，并且Javadoc也不会把这个关键字输出到文档中
+  +  线程安全也分好几个层次，文档中应该说明类/方法做到了何种程度上的线程安全
+  +  线程安全的分类
+    +  immutable，对象创建后不可修改，无需进行外部的同步操作（互斥访问控制或许更恰当）；例如：`String`, `Long`, `BigInteger`；
+    +  unconditionally thread-safe，对象可变，但是其内部进行了正确的同步操作，无需外部进行同步；例如：`ConcurrentHashMap`；
+    +  conditionally thread-safe，和绝对线程安全类似，但是有些方法需要进行外部的同步操作；例如：`Collections.synchronized`返回的容器，它们的iterator使用时需要进行同步；
+    +  not thread-safe，类自身没有任何同步操作，需要使用者自己保证线程安全；例如：`ArrayList`；
+    +  thread-hostile，由于类的实现原因，使用者无论如何也无法保证线程安全，例如未加同步的修改static成员；例如：`System.runFinalizersOnExit`；
+  +  jsr-305引入了几个注解：`Immutable`, `ThreadSafe`, `NotThreadSafe`，对应上述前四种情形，绝对线程安全与条件线程安全都属`ThreadSafe`，对于条件线程安全还应在文档中说明何种情况下是需要外部进行同步的；
+  +  如果一个类，将它用于`synchronized`的对象暴露出去了，那是很危险的，通常的做法是，内部创建一个`Object`实例，将其用于`synchronized`，但这种方式通常只适用于unconditionally thread-safe的实现。
+  
+    ```java
+      // Private lock object idiom - thwarts denial-of-service attack
+      private final Object lock = new Object();
+      public void foo() {
+        synchronized(lock) {
+          ...
+        }
+      }
+    ```
