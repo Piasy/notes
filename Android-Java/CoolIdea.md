@@ -9,7 +9,7 @@
 +  [利用Action Intent尽可能利用用户手机上已有的APP功能，还不需要相关的权限](http://ryanharter.com/blog/2014/11/26/whats-your-intent)
 +  [TextView的高级玩法：CompoundDrawable，shadow，Typeface自定义字体，Shader，HTML渲染（支持自定义tag）、Span（SpannableString：字符级别、段落级别、对其），自定义Span（立式分数、彩虹效果、彩虹动效、可点击URL、Emoji...）](http://chiuki.github.io/advanced-android-textview/)，[用xml定义drawable动画](http://chiuki.github.io/advanced-android-textview/#/3)
 
-	![AdvancedTextView.png](assets/AdvancedTextView.png)
+	![AdvancedTextView.png](../assets/AdvancedTextView.png)
   
 +  [Android integration of multiple icon providers such as FontAwesome, Entypo, Typicons,...](https://github.com/JoanZapata/android-iconify)
 +  [Shape Drawable：形状、圆角、边框、填充、渐变色填充等](http://trinea.iteye.com/blog/1483949)
@@ -94,7 +94,7 @@
     
     </android.support.percent.PercentRelativeLayout>
   ```
-  ![PercentRelativeLayout.png](assets/PercentRelativeLayout.png)
+  ![PercentRelativeLayout.png](../assets/PercentRelativeLayout.png)
   +  pitfalls
     +  当子View需要的长/宽大于给定的percent时，可以通过指定layout_width/height为wrap_content来实现大小扩展，然而似乎不起效？
     +  Percent*Layout中不要使用padding，否则总大小将小于100%，可能会导致对其问题

@@ -313,7 +313,7 @@
       }
     ```
   +  相关术语汇总  
-  ![java_generic_terms.png](assets/java_generic_terms.png)
+  ![java_generic_terms.png](../assets/java_generic_terms.png)
 +  Item 24: Eliminate unchecked warnings
   +  当出现类型不安全的强制转换时（一般都是涉及泛型，raw type），编译器会给出警告，首先要做的是尽量消除不安全的转换，消除警告
   +  实在无法消除/确定不会导致运行时的`ClassCastException`，可以通过`@SuppressWarnings("unchecked")`消除警告，但不要直接忽略该警告
@@ -932,3 +932,37 @@
         }
       }
     ```
++  Item 71: Use lazy initialization judiciously
+  +  don’t do it unless you need to
+  +  如果使用lazy initialization，那这个成员的访问方法要用`synchronized`修饰
+  +  静态成员实现lazy initialization且希望高性能，使用lazy initialization holder class idiom，例如：
+    
+    ```java
+      // Lazy initialization holder class idiom for static fields
+      private static class FieldHolder {
+        static final FieldType field = computeFieldValue();
+      }
+      
+      static FieldType getField() { return FieldHolder.field; }
+    ```
+    
+  +  实例成员要实现lazy initialization且希望高性能，使用double-check idiom，但是注意，double-check并非严格意义的线程安全，例如：
+    
+    ```java
+      // Double-check idiom for lazy initialization of instance fields 
+      private volatile FieldType field;
+      FieldType getField() {
+        FieldType result = field;
+        if (result == null) {  // First check (no locking)
+          synchronized(this) {
+            result = field;
+            if (result == null)  // Second check (with locking)
+              field = result = computeFieldValue();
+          } 
+        }
+        return result;
+      }
+    ```
+    
+    `result`这个局部变量的作用是，通常情况下，`field`已经初始化过了，这时将只会对其产生一次读操作，性能会有所提升
+  +  double-check idiom还有两个变体，各有其使用场景：single-check idiom，racy single-check idiom；前者忍受多次赋值，后者忍受多次赋值且field的操作具有原子性（primitive类型且不是long和double）；

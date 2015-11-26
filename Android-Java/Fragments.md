@@ -4,7 +4,7 @@
 +  简化对UI的重用，将UI和交互放到Fragment里面，可以方便的针对不同设备设置不同的UI（如pad显示两个fragment，phone显示一个）；
 
 ##完整生命周期
-![FullFragmentAndActivityLifeCycle.png](assets/FullFragmentAndActivityLifeCycle.png)
+![FullFragmentAndActivityLifeCycle.png](../assets/FullFragmentAndActivityLifeCycle.png)
 
 ##使用fragment
 +  直接在layout.xml里面声明一个Fragment
@@ -48,9 +48,9 @@ java.lang.IllegalStateException: Can not perform this action after onSaveInstanc
 +  当activity在后台被杀死之后，会通过onSaveInstanceState回调让程序可以保存数据（状态），其中dialog, fragment, view的状态由framework负责保存和恢复
 +  因为FragmentTransaction#commit()在onSaveInstanceState()后被调用了，系统为了防止activity state loss，抛出了该异常
 +  从3.1起，安卓系统对于Activity生命周期的维护发生了变化  
-![android_activity_life_cycle_change.png](assets/android_activity_life_cycle_change.png)
+![android_activity_life_cycle_change.png](../assets/android_activity_life_cycle_change.png)
 support库的行为：    
-![android_activity_life_cycle_change2.png](assets/android_activity_life_cycle_change2.png)
+![android_activity_life_cycle_change2.png](../assets/android_activity_life_cycle_change2.png)
 +  如何避免
   +  Be careful when committing transactions inside Activity lifecycle methods  
   只在onCreate或者响应用户的输入时才会commit，不会遇到这个问题；但如果在onActivityResult、onStart、onResume等其他生命周期函数中调用，则会有风险，尤其是onResume，推荐使用FragmentActivity#onResumeFragments()/Activity#onPostResume()中调用，而不是onResume。  

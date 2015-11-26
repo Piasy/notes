@@ -2,7 +2,7 @@
 
 ##一般情况
 +  primitive types  
-![java_primitive_types_mem_usage.png](assets/java_primitive_types_mem_usage.png)
+![java_primitive_types_mem_usage.png](../assets/java_primitive_types_mem_usage.png)
 +  Object overhead for "housekeeping" information  
 recording an object's class, ID and status flags such as whether the object is currently reachable, currently synchronization-locked etc.  
 Hotspot JVM：

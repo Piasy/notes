@@ -4,7 +4,7 @@
 
 ##第二章 Java内存区域与内存溢出异常
 +  JVM内存区域  
-![jvm_memory_area.png](assets/jvm_memory_area.png)
+![jvm_memory_area.png](../assets/jvm_memory_area.png)
   +  程序计数器：类似x86 EIP，每个线程都有一个程序计数器；执行native代码时计数器值为空；唯一不会抛出OOM的区域；
   +  Java虚拟机栈：线程私有；即函数调用栈，保存函数局部变量；
   +  Native方法栈：执行Native代码的函数调用栈；
@@ -139,7 +139,7 @@
     +  比较两个类是否相等（equals()、isAssignableFrom()、inInstance()、instanceof操作），只有在两个类是由同一个类加载器加载的前提下才有意义
     +  双亲委派模型（Parents Delegation Model）  
     BootstrapClassLoader、sum.misc.Launcher$ExtClassLoader、sun.misc.Launcher$App-ClassLoader  
-    ![java_class_loader_relation.jpeg](assets/java_class_loader_relation.jpeg)  
+    ![java_class_loader_relation.jpeg](../assets/java_class_loader_relation.jpeg)  
     除了BootstrapClassLoader，其他所有的类加载器都应有父类加载器，而且父子关系不是以继承方式实现，而是以组合方式：一个类加载器收到类加载请求后，首先调用父类加载器的加载方法，每一层次均如此，如果父类加载器无法完成加载，子加载器才尝试自己加载。  
     保证Java类体系的正确性。自定义ClassLoader一般把加载逻辑放在findClass中。
     ```java

@@ -86,7 +86,7 @@
   
 # [Android Clean Architecture](https://github.com/android10/Android-CleanArchitecture)
 ## 分层结构
-![clean_architecture1.png](assets/clean_architecture1.png)  
+![clean_architecture1.png](../assets/clean_architecture1.png)  
 +  Entities: These are the business objects of the application.
 +  Use Cases: These use cases orchestrate the flow of data to and from the entities. Are also called Interactors.
 +  Interface Adapters: This set of adapters convert data from the format most convenient for the use cases and entities. Presenters and Controllers belong here.
@@ -94,10 +94,10 @@
 +  Dependency Rule: source code dependencies can only point inwards and nothing in an inner circle can know anything at all about something in an outer circle.  
 
 ## 安卓项目层次结构示例
-![clean_architecture_android.png](assets/clean_architecture_android.png)
+![clean_architecture_android.png](../assets/clean_architecture_android.png)
 
 ## 使用Rx后的层次结构示例
-![clean_architecture_evolution.png](assets/clean_architecture_evolution.png)  
+![clean_architecture_evolution.png](../assets/clean_architecture_evolution.png)  
 +  Presentation layer: UI tests with Espresso 2 and Android Instrumentation.
 +  Presenter && View test: 针对接口进行单元测试；对UI简单交互结果逻辑的测试（如：Activity跳转，Fragment切换，相关接口调用）；
 +  Domain layer: JUnit + Mockito since it is a regular Java module.
@@ -113,7 +113,7 @@
 
 # [Flux Architecture](http://lgvalle.github.io/2015/08/04/flux-architecture/)
 +  结构图  
-![flux-graph-simple.png](assets/flux-graph-simple.png)
+![flux-graph-simple.png](../assets/flux-graph-simple.png)
   +  View: Application interface. It create actions in response to user interactions. Activity or Fragment
   +  Dispatcher: Central hub through which pass all actions and whose responsibility is to make them arrive to every Store. An event bus.
   +  Store: Maintain the state for a particular application domain. They respond to actions according to current state, execute business logic and emit a change event when they are done. This event is used by the view to update its interface. Simple POJOs with two main attributes: Type: a String identifying the type of event; Data: a Map with the payload for this action.
@@ -123,7 +123,7 @@
     +  ...
 
 ## [RxFlux](https://medium.com/@marxallski/rxflux-android-architecture-94f77c857aa2)
-![rxflux_arch.png](assets/rxflux_arch.png)
+![rxflux_arch.png](../assets/rxflux_arch.png)
 
 
 # [What is all this Clean Architecture jibber-jabber about?](http://pguardiola.com/blog/clean-architecture-part-1/)

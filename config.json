@@ -2,7 +2,7 @@
     "name": "Android&Java 技术笔记",
     "introduction": "个人笔记汇总。",
     "path": {
-	"images":"Android-Java/assets",
+	"images":"assets",
 	"toc" : "SUMMARY.md"
     }
 }

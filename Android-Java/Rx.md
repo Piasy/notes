@@ -19,14 +19,14 @@
 ## 原理
 +  `subscribe`原理，引用自[给 Android 开发者的 RxJava 详解](http://gank.io/post/560e15be2dca930e00da1083#toc_10)
 
-![rx_subscribe.png](assets/rx_subscribe.png)
+![rx_subscribe.png](../assets/rx_subscribe.png)
 
 注意，选中的部分，应该是`subscribe()`而不是`subscriber()`。
 
 +  `lift`变换原理，引用自[给 Android 开发者的 RxJava 详解](http://gank.io/post/560e15be2dca930e00da1083#toc_19)
 
-![rx_lift.png](assets/rx_lift.png)
-![rx_lift_2.png](assets/rx_lift_2.png)
+![rx_lift.png](../assets/rx_lift.png)
+![rx_lift_2.png](../assets/rx_lift_2.png)
 
 +  `subscribeOn`和`observeOn`原理：也是用`lift`实现，通过相应`Operator`实现线程的切换
 

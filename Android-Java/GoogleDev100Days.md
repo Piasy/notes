@@ -25,7 +25,7 @@ Snackbar
   AppBarLayout可以和RecyclerView响应，RecyclerView通过`app:layout_behavior`属性指定Behavior子类，AppBarLayout的元素通过`app:layout_scrollFlags`属性指定对滑动事件的响应方式；
   +  Collapsing Toolbars  
   把Toolbar直接作为AppBarLayout的子元素，无法满足Toolbar的不同元素以不同方式响应滑动操作的需求，为此，可以在中间加一层CollapsingToolbarLayout；可以实现顶部自定义布局，随滚动而变化为bar，再滚动则消失，反向滚动则显示的炫酷效果  
-  !video[patterns-scrolling-techniques_flex_space_image_xhdpi_003.webm](assets/patterns-scrolling-techniques_flex_space_image_xhdpi_003.webm)  
+  !video[patterns-scrolling-techniques_flex_space_image_xhdpi_003.webm](../assets/patterns-scrolling-techniques_flex_space_image_xhdpi_003.webm)  
   +  Custom views  
   自定义View可以通过定义[Coordinator.Behavior](http://developer.android.com/reference/android/support/design/widget/CoordinatorLayout.Behavior.html)的子类来与CoordinatorLayout进行合作，从而实现自定义的显示效果；
   

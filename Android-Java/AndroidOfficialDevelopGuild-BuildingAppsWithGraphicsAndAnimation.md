@@ -85,7 +85,7 @@
         +  Resource file support：支持在xml中定义动效
         +  Lifecycle callbacks：具备生命周期回调，便于响应动效状态进行逻辑操作
     +  原理  
-    ![transitions_diagram.png](assets/transitions_diagram.png)
+    ![transitions_diagram.png](../assets/transitions_diagram.png)
     +  Scene
         +  记录View hierarchy的状态
         +  支持从xml创建/从ViewGroup对象创建

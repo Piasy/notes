@@ -11,7 +11,7 @@
   
 文件结构如下图：  
 
-![xflavour_folder_structure.png](assets/xflavour_folder_structure.png)
+![xflavour_folder_structure.png](../assets/xflavour_folder_structure.png)
 
 ##Basic Project
 +  工程结构：创建新工程时，自动会生成main和androidTest目录，分别存放工程文件和测试代码；androidTest目录下不需要manifest文件，将自动生成；
@@ -168,7 +168,7 @@ productFlavors {
 
 ##[语法](http://trickyandroid.com/gradle-tip-2-understanding-syntax/)
 +  基于Groovy；closure是很常见的基本元素；调用方法如下：  
-![groovy_closure_invoke_syntax.png](assets/groovy_closure_invoke_syntax.png)
+![groovy_closure_invoke_syntax.png](../assets/groovy_closure_invoke_syntax.png)
 +  build.gradle：
   +  `buildscript`是在gradle系统中定义的一个方法，接受一个closure作为参数；
   +  gradle脚本所有的顶层代码都是delegate到`Project`实例context上；

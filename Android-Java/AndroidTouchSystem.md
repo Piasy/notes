@@ -43,11 +43,11 @@
   +  如果listener没有消费事件，将调用`View.onTouchEvent()`，即自己处理点击事件
 +  例子
   +  View对事件不感兴趣  
-  ![ignorant_view_example.png](assets/ignorant_view_example.png)
+  ![ignorant_view_example.png](../assets/ignorant_view_example.png)
   +  View对事件感兴趣  
-  ![interested_view_example.png](assets/interested_view_example.png)
+  ![interested_view_example.png](../assets/interested_view_example.png)
   +  事件被ViewGroup intercept  
-  ![intercept_example.png](assets/intercept_example.png)
+  ![intercept_example.png](../assets/intercept_example.png)
 +  小结
   +  手势以ACTION_DOWN起始，以ACTION_UP结束
   +  ACTION_DOWN，在每一层View上都会调用`dispatchTouchEvent()`，该View会判断是否对接下来的手势感兴趣，后续的点击事件将直接传递到感兴趣的View

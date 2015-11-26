@@ -38,7 +38,7 @@
   +  static方法对测试非常不利，因为其对象依赖、方法依赖无法mock，而其post-act-state也通常无法assert，开发过程中应尽量避免
 +  实践部分  
   架构图  
-  ![androidstack-02.png](assets/androidstack-02.png)  
+  ![androidstack-02.png](../assets/androidstack-02.png)  
   Remove all business logic from app component classes (e.g., Activitys, Fragments, Services) and place that logic into “business objects”, POJO objects whose dependencies are injected, android-specific implementations of android-agnostic interfaces.  
   Delegate all application specific behavior to POJO objects whose dependencies are Android-specific implementations of Android-agnostic interfaces.
   +  Non-UI App Components

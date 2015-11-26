@@ -180,7 +180,7 @@
   +  在某个View第一次被渲染时，会创建DisplayList，当这个View要显示到屏幕上时，会执行GPU的绘制指令来进行渲染。如果后续有移动这个View的位置等操作而需要再次渲染这个View时，只需要额外操作一次渲染指令即可。如果修改了View中的某些可见组件，将需要进行创建DisplayList、执行渲染指令整个过程。
   +  上述步骤可简化为下图，需要的时间取决于View的复杂度，View重绘引起的View hierarchy的变化的复杂度
   
-  ![layout_three_steps.png](assets/layout_three_steps.png)
+  ![layout_three_steps.png](../assets/layout_three_steps.png)
   +  可用工具：Profile GPU Rendering查看渲染的表现性能；Show GPU view updates查看视图更新的操作；HierarchyViewer查看界面布局结构；
   +  目标/要点：使布局扁平化，移除非必要组件，避免使用嵌套layout（尤其是根节点方向的RelativeLayout和有weight的LinearLayout）
 +  S1E7: Overdraw, Cliprect, QuickReject
@@ -191,7 +191,7 @@
 +  S1E8: Memory Churn and performance
   +  Android的堆内存分代回收模型如下图示
   
-  ![memory_mode_generation.png](assets/memory_mode_generation.png)
+  ![memory_mode_generation.png](../assets/memory_mode_generation.png)
   +  GC时会暂停所有其他线程，导致GC频繁的可能原因
     +  Memory Churn（内存抖动），大量对象被创建，然后立即被销毁，例如在onDraw等函数中创建对象
     +  瞬间产生大量的对象会严重占用Young Generation的内存区域，当达到阀值，剩余空间不够的时候，也会触发GC。同时可能触发其他区域（代）的GC
@@ -421,7 +421,7 @@ Iterator (Vector) | 11778
 
 ## [NimbleDroid的建议](http://blog.nimbledroid.com/2015/09/17/how-to-make-your-application-fluid.html)
 +  性能优化的流程
-![perf_tune_process.png](assets/perf_tune_process.png)
+![perf_tune_process.png](../assets/perf_tune_process.png)
 +  Recommendation 1: limit app startup to 2 seconds
 +  Recommendation 2: eliminate hung methods
 +  Recommendation 3: measure as often as you can，怎么、什么粒度的profiling呢？

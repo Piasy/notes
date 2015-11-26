@@ -3,7 +3,7 @@
 ## 什么是Android
 +  安卓系统架构图：  
   
-![AndroidPlatformComponents.png](assets/AndroidPlatformComponents.png)
+![AndroidPlatformComponents.png](../assets/AndroidPlatformComponents.png)
   
 ## 安卓开发工具
 +  Android RunTime(ART)

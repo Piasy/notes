@@ -1,13 +1,13 @@
 #MVP(Model-View-Presenter)模式
 
 ##[工作流程](http://hannesdorfmann.com/android/mosby/)
-![MVP.png](assets/MVP.png)
+![MVP.png](../assets/MVP.png)
 +  view通常会持有presenter的引用；
 +  presenter持有view和model的引用；
 +  model应该包括数据和对数据的获取或者修改操作；
 
 ##具体来说
-![MVP1.png](assets/MVP1.png)
+![MVP1.png](../assets/MVP1.png)
 +  MVP之间应该尽量解耦，可以通过定义接口来实现，相互持有的是接口引用；
 +  view应该尽可能听从presenter的指令，而不是自己控制，如：接受presenter的showLoading指令之后才显示正在加载；
 +  与用户的交互由view负责，显示的细节由view负责；
@@ -28,7 +28,7 @@
 +  Use inheritance wisely  
 	正确利用继承，基类拥有基本特点，子类增加新特性；避免“子类爆炸”；
 +  Don’t see MVP as an MVC variant  
-![mvp-controller.png](assets/mvp-controller.png)  
+![mvp-controller.png](../assets/mvp-controller.png)  
 	Controller负责控制View(UI)和用户交互时应该执行的动作（调用Presenter的哪个方法）；当被Presenter调用显示方法时，如何显示（动效、数据使用方式）；
 +  Take separation of Model, View and Presenter serious  
 	写代码的时候，认真思考每一行代码的功能应该属于哪个模块，目前的位置是否合适？
@@ -54,7 +54,7 @@
 	静态的页面并不需要MVP
 +  Only display one Model per MVP view  
 	一个V显示多个M会为代码增加复杂性，尤其是当需要保存ViewState时；合理的做法是将V拆分为独立的V，每个V只负责显示一个M；V可以是fragment，也可以是View/ViewGroup；例子：
-	![menu-refactored.jpg](assets/menu-refactored.jpg)
+	![menu-refactored.jpg](../assets/menu-refactored.jpg)
 +  Android Services  
 	Service显然属于业务逻辑部分，由presenter与之通信是合理的；
 +  Use LCE only if you have LCE Views  
