@@ -966,3 +966,12 @@
     
     `result`这个局部变量的作用是，通常情况下，`field`已经初始化过了，这时将只会对其产生一次读操作，性能会有所提升
   +  double-check idiom还有两个变体，各有其使用场景：single-check idiom，racy single-check idiom；前者忍受多次赋值，后者忍受多次赋值且field的操作具有原子性（primitive类型且不是long和double）；
++  Item 72: Don’t depend on the thread scheduler
+  +  依赖线程调度器的正确性、性能的程序，很可能是无法移植的
+  +  好的多线程程序，同时运行的线程数不应该多于CPU内核数
+  +  线程无法进行有意义的工作时，就不应继续运行，忙等是不好的实现方式
+  +  另外一个线程（task）的工作也不能太少，否则线程切换的开销都会大于线程执行的时间，此时性能可想而知很低
+  +  `Thread.yield` has no testable semantics. 所以不要用`Thread.yield`，当程序的有些线程因为线程过多而无法获得CPU时间时，应该减少线程数。
+  +  线程优先级是Java平台中移植性最差的部分，所以也不要用
++  Item 73: Avoid thread groups
+  +  如果设计的类需要处理一些逻辑上有关联的线程，应该考虑 thread pool executors 
