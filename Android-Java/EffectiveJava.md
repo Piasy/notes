@@ -975,3 +975,19 @@
   +  线程优先级是Java平台中移植性最差的部分，所以也不要用
 +  Item 73: Avoid thread groups
   +  如果设计的类需要处理一些逻辑上有关联的线程，应该考虑 thread pool executors 
+
+## Serialization
++  Item 74: Implement Serializable judiciously
+  +  实现`Serializable`接口之后，一旦类发布出去，就不能随意更改实现方式了，否则序列化-反序列化时可能失败，这降低了灵活性
+  +  序列化-反序列化的格式也是暴露的API之一，而默认的格式是和内部具体实现细节绑定的，所以默认格式把内部实现细节也暴露出去了
+  +  自定义序列化-反序列化格式（`ObjectOutputStream.putFields`, `ObjectInputStream.readFields`），可以缓解上述问题，但是这又带来了新的实现复杂度
+  +  `serialVersionUID`问题
+  +  会增加bug、安全漏洞的可能性，因为反序列化得到的对象，其状态是无法保证的
+  +  会增加发布新版时的测试工作
+  +  被设计于用来被继承的类，谨慎实现`Serializable`接口，同样，设计的接口也谨慎继承`Serializable`接口
+  +  内部类不应该实现`Serializable`接口
++  Item 75: Consider using a custom serialized form
+  +  Do not accept the default serialized form without first considering whether it is appropriate.
+  +  The default serialized form is likely to be appropriate if an object’s physical representation is identical to its logical content.
+  +  Even if you decide that the default serialized form is appropriate, you often must provide a readObject method to ensure invariants and security.
+  +  Regardless of what serialized form you choose, declare an explicit serial version UID in every serializable class you write.

@@ -17,6 +17,7 @@
 +  VSync
 +  [Android Project Butter: VSync, Triple buffer, **Choreographer**](http://blog.csdn.net/innost/article/details/8272867)
 +  [~~自定义View，ViewGroup以高性能实现UI~~](https://medium.com/android-news/prefmatters-using-custom-views-in-android-to-improve-performance-part-1-4dc9bdd75396)
++  [安卓逆向工程](http://www.fasteque.com/android-reverse-engineering-101-part-1/)
 
 ## 再次深入，第三梯队
 +  【源码】Choreographer

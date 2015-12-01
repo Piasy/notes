@@ -46,3 +46,16 @@
 ## [自定义View实例](https://medium.com/android-news/prefmatters-using-custom-views-in-android-to-improve-performance-part-1-4dc9bdd75396)
 
 ## [自定义ViewGroup实例](https://medium.com/android-news/perfmatters-introduction-to-custom-viewgroups-to-improve-performance-part-2-f14fbcd47c)
+
+## View的位置相关的几个概念
++  X, Y, Z
+  +  View左上角在屏幕坐标系上的坐标
+  +  `getX: mLeft + getTranslationX()`
++  left, top, right, bottom
+  +  相对于parent的位置（在parent中的位置），不建议代码修改
++  translationX, translationY, translationZ
+  +  View相对于left, top, elevation的位置
+  +  对X, Y, Z的设置，实际上是通过对这三个属性设置实现的
+  +  所以X, Y, Z可以由translationX, translationY, translationZ及left, top, elevation计算出来
++  height, measured height, width measured width
++  GlobalVisibleRect, LocalVisibleRect

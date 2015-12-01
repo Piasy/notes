@@ -79,6 +79,10 @@ function* quips(name) {
     +  重构复杂循环。
     +  构建与迭代相关的工具。
   +  lazy计算。仅当需要时进行计算。
++  `.next`可选参数
++  `.return`
++  `.throw`
++  `yield*`
   
 ## 模板字符串
 ```javascript
@@ -266,3 +270,36 @@ element[isMoving] = true;
   +  调用`Symbol()`
   +  调用`Symbol.for(string)`，如果同一个描述的symbol已经存在，将返回已存在的symbol对象
   +  使用标准定义的symbol，例如：`Symbol.iterator`。标准根据一些特殊用途定义了少许的几个symbol。
+
+## 集合
++  已经有了一种类似哈希表的东西：对象（Object）。
++  作为查询表使用的对象，不能既支持方法又保证避免冲突。
++  因而，要么得用`Object.create(null)`而非直接写`{}`，要么得小心地避免把`Object.prototype.toString`之类的内置方法名作为键名来存储数据。
++  对象的键名总是字符串（当然，ES6 中也可以是`Symbol`）而不能是另一个对象。
++  没有有效的获知属性个数的方法。
++  纯粹的对象不可遍历，也就是，它们不能配合`for-of`循环或`...`操作符等语法。
++  集合数据的访问，不能再通过属性方式了，只能通过暴露出来的接口（`get`等）。
++  `Set`, `Map`, `WeakMap`, `WeakSet`
+
+## 代理（Proxy）
++  对象的14种内部方法。
++  `var proxy = new Proxy(target, handler);`
++  代理的行为很简单：将代理的所有内部方法转发至目标。简单来说，如果调用`proxy.[[Enumerate]]()`，就会返回`target.[[Enumerate]]()`。
++  句柄对象的方法可以覆写任意代理的内部方法。
+
+## 类（Class），继承
+...
++  实例属性，方法？
++  静态属性，方法？
++  `prototype`？
+
+## `let`和`const`
++  ES6之前，只有两种作用域：全局，函数，没有代码块作用域
++  `var`是函数作用域
++  变量提升（hoisting）
++  ES6引入了新的作用域：代码块作用域；`let`和`const`都是这一作用域；
+
+## 模块
++  import, export, default
++  import as, import _, import *
++  export as, export *
