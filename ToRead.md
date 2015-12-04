@@ -22,3 +22,4 @@
 ## 再次深入，第三梯队
 +  【源码】Choreographer
 +  【源码】Message/Looper: Asynchronous Message, Synchronization Barrier
++  【源码】Activity/Fragment的显示、切换原理

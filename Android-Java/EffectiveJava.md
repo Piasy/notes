@@ -991,3 +991,68 @@
   +  The default serialized form is likely to be appropriate if an object’s physical representation is identical to its logical content.
   +  Even if you decide that the default serialized form is appropriate, you often must provide a readObject method to ensure invariants and security.
   +  Regardless of what serialized form you choose, declare an explicit serial version UID in every serializable class you write.
++  Item 76: Write `readObject` methods defensively
+  +  `readObject`方法的功效和public的构造函数一样
+  +  反序列化的时候，`readObject`如果不进行深拷贝、以及数据合法性验证，就会导致生成的对象数据非法，同时，也有可能获得反序列化后对象内部成员的引用（rogue object reference attacks）
+  +  不要使用`writeUnshared`和`readUnshared`方法，它们并不安全
+  +  前文应该提到过，非final类，构造函数以及`readObject`方法中，不能调用可重载的方法
++  Item 77: For instance control, prefer enum types to readResolve
+  +  if you depend on readResolve for instance control, all instance fields with object reference types must be declared transient. 否则可能会无法达到实例控制的目的。
+  +  The accessibility of readResolve is significant.
+    +  final类，应该置为private
++  Item 78: Consider serialization proxies instead of serialized instances
+  +  为需要实现`Serializable`的类添加一个内部类，它的构造函数接收外部类的实例，并将其field拷贝到自身的field，并且实现`readResolve`方法，创建外部类实例，创建方法可以是构造函数、static factory函数，在其中就可以进行实例控制了
+  
+    ```java
+      // Serialization proxy for Period class
+      private static class SerializationProxy implements Serializable { 
+        private final Date start;
+        private final Date end;
+        
+        SerializationProxy(Period p) {
+          this.start = p.start;
+          this.end = p.end;
+        }
+        
+        // readResolve method for Period.SerializationProxy 
+        private Object readResolve() {
+          return new Period(start, end);  // Uses public constructor
+        }
+        
+        private static final long serialVersionUID = 234098243823485285L; // Any number will do (Item 75)
+      }
+    ```
+  
+  +  外部类实现一个`writeReplace`方法
+  
+    ```java
+      // writeReplace method for the serialization proxy pattern
+      private Object writeReplace() {
+        return new SerializationProxy(this);
+      }
+    ```
+    
+  +  外部类实现`readObject`方法，并在其中抛出异常
+  
+    ```java
+      // readObject method for the serialization proxy pattern
+      private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+        throw new InvalidObjectException("Proxy required");
+      }
+    ```
+
+## 写在最后
+
+这应该是我这辈子第一本认真读完的技术书籍，终于读完了，全书78个item，耗时102天。
+
+本科期间，无论是课本、扩展阅读，都没有认真读过任何一本，多是以讲义为主，工作（实习）之后，也多是以文档为主，实在汗颜。
+
+之前读过《深入理解Java虚拟机》，但也只读了其中一部分；《七周七语言》连第一周都未完成就将其束之高阁；《Android内核剖析》太过艰涩，加之书上的代码与实际看到的代码差别较大，也没能看多少；在百度入职之前，重温了一部分《C++编程思想》的内容，奈何C++确实太过复杂，简直杯水车薪；《Go语言编程》倒应该是完成度最高的，基础部分都看了一遍，但那也只是入门级的学习了下，理解了语法之后就开始毕业设计的编码了，也没有深入学习...
+
+仔细想来，优秀的代码也几乎没有拜读过，github上star了三百多个项目，也基本没深入过它们的原理。
+
+还好，自己能认识到这个问题，一年多以来，一直保持饥渴的姿态，学习各种新技术，阅读众多优秀的文章、博客，并于今年3月份开始，记录技术笔记，并将其托管到github上，将输入的东西进行第一次简单地提炼，然后输出，既是当时巩固了一下所学知识，也供日后回顾时使用。
+
+技术成长路漫漫，基础需要夯实，前沿需要紧跟，术业亦需专攻，日后仍需孜孜不倦，持续前进。
+
+NEVER STOP
