@@ -120,6 +120,9 @@
 		          ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 	    ```
+      
+    +  [Espresso测试RecyclerView](http://blog.egorand.me/testing-a-sorted-list-with-espresso/)
+      
   +  Retrofit
     +  不要mock所有的对象，在集成测试阶段，直接mock定义的service即可，让调用Service时返回mock的对象即可
     

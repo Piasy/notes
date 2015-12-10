@@ -5,11 +5,17 @@
   +  [安卓系统点击事件处理框架](Android-Java/AndroidTouchSystem.md)
   +  [官方Material design手册](Android-Java/AndroidOfficialMaterialDesignGuild.md)
   +  [官方开发手册](Android-Java/AndroidOfficialDevelopGuild.md)
+    +  [Getting Started](AndroidOfficialDevelopGuild-GettingStarted.md)
+    +  [Building Apps with Content Sharing](AndroidOfficialDevelopGuild-BuildingAppsWithContentSharing.md)
+    +  [Building Apps with Multimedia](AndroidOfficialDevelopGuild-BuildingAppsWithMultimedia.md)
+    +  [Building Apps with Graphics & Animation](AndroidOfficialDevelopGuild-BuildingAppsWithGraphicsAndAnimation.md)
+    +  [Developer tools](AndroidOfficialDevelopGuild-Tools.md)
   +  [官方分发手册](Android-Java/AndroidOfficialDistributeGuild.md)
   +  [各个安卓版本引入的主要新特性](Android-Java/NewInAndroid.md)  
   
 +  构建
   +  [Gradle](Android-Java/Gradle.md)
+  +  [ProGuard](Android-Java/ProGuard.md)
   
 +  测试
   +  [AndroidTDD](Android-Java/AndroidTDD.md)
@@ -18,7 +24,7 @@
 +  定制
   +  [MaterialDesign](Android-Java/MaterialDesign.md)
   +  [使用style修饰View](Android-Java/StylingViews.md)
-  +  [安卓系统动效](Android-Java/AndroidAnimation.md)
+  +  [安卓系统动效专题](Android-Java/AndroidAnimation.md)
   
 +  视野
   +  [一些很棒的点子](Android-Java/CoolIdea.md)

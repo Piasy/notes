@@ -1,4 +1,4 @@
-# 安卓系统动效
+# 安卓系统动效专题
 
 ## [系统API](https://developer.android.com/training/material/animations.html#Transitions)
 
