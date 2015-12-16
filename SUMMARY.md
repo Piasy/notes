@@ -39,7 +39,7 @@
 +  最佳实践
   +  [MVP(Model-View-Presenter)模式](Android-Java/MVP.md)
   +  [Rx在Android中的最佳实践](Android-Java/RxAndroidBestPractice.md)
-  +  [SnapChat公司安卓团队的建议](Android-Java/android-best-practices.md)
+  +  [Futurice公司安卓团队的建议](Android-Java/android-best-practices.md)
   +  [UI上的一些高效方式/最佳实践](Android-Java/EffectiveAndroidUI.md)
   
 +  深入
