@@ -8,4 +8,6 @@
 
 ## [Building Apps with Graphics & Animation](AndroidOfficialDevelopGuild-BuildingAppsWithGraphicsAndAnimation.md)
 
+## [Building Apps with Connectivity & the Cloud](AndroidOfficialDevelopGuild-BuildAppWithConnectivity.md)
+
 ## [Developer tools](AndroidOfficialDevelopGuild-Tools.md)
