@@ -195,3 +195,15 @@
 	    startActivity(sendIntent);
 	}
 	```
+  
++  [#qualitymatters](http://artemzin.com/blog/android-development-culture-the-document-qualitymatters/)
+  +  Fail fast, fail early
+  +  Pull Requests, Code Review and Continuous Integration
+  +  Code quality, SOLID
+  +  Static Code/Resources Analysis
+  +  Unit tests
+  +  Code Coverage
+  +  Functional (UI) tests
+  +  Integration tests
+  +  Developer Settings Menu (aka Debug Drawer)
+  
