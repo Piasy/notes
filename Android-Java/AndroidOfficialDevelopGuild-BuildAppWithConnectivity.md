@@ -26,3 +26,17 @@
     +  `mManager.setDnsSdResponseListeners(channel, dnsSdServiceResponseListener, dnsSdTxtRecordListener)`
     +  `mManager.addServiceRequest`
     +  `mManager.discoverServices`
+
+## Performing Network Operations
++  进行网络通信
+  +  大部分都采用HTTP协议，选择HTTP client很重要，[OkHttp](https://github.com/square/okhttp)已被安卓6.0作为系统默认HTTP client
+  +  进行网络连接之前，需呀检查一下网络是否可用（仅仅是检查是否接入网络，并不能检测是否可以访问互联网）：`ConnectivityManager.getNetworkInfo(type)`，`ConnectivityManager.getActiveNetworkInfo()`和`NetworkInfo.isConnected()`
+  +  也可以把网络访问出错的处理集中起来，总之，要么所有网络访问之前都进行网络检查，要么网络访问出错之后集中处理，这样代码更简洁优雅
+  +  网络访问不能在UI线程上执行，使用[RxAndroid](https://github.com/ReactiveX/RxAndroid)可以方便的进行异步操作
++  管理网络使用
+  +  通常，为用户提供以下设置选项，比较好：同步频率，是否仅在wifi下联网等
+  +  监听网络状态变化：使用一个监听`ConnectivityManager.CONNECTIVITY_ACTION`广播的`BroadcastReceiver`，接收网络状态变化事件
+  +  在代码中注册/反注册`BroadcastReceiver`，可以控制其活跃期
+  +  如果在manifest中声明，则其活跃期将是系统启动到系统关闭，此时可以通过`PackageManager.setComponentEnabledSetting(...)`方法启用/禁用组件
++  解析XML
+  +  安卓系统内置有xml解析器：[`XmlPullParser`](http://developer.android.com/intl/zh-cn/reference/org/xmlpull/v1/XmlPullParser.html)
