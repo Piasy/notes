@@ -48,6 +48,7 @@
   +  [有效处理手机旋转专题](Android-Java/HandleOrientationChanged.md)
   +  [Launch mode 和 Intent flags专题](Android-Java/LaunchModeIntentFlags.md)
   +  [Canvas & Drawables](Android-Java/Canvas-Drawables.md)
+  +  [自定义View/ViewGroup以高性能实现自定义UI](Android-Java/CustomViewViewGroup.md)
   +  [《深入理解JVM》](Android-Java/InsideJVM.md)
   +  [《Effective Java 2nd Edition》](Android-Java/EffectiveJava.md)
   +  [Java对象内存使用](Android-Java/JavaObjectMemoryUsage.md)

@@ -1,4 +1,4 @@
-# 自定义View/ViewGroup以高性能实现自定义UI
+# 自定义View/ViewGroup以及高性能实现自定义UI
 
 ## [View绘制流程](http://a.codekk.com/detail/Android/lightSky/%E5%85%AC%E5%85%B1%E6%8A%80%E6%9C%AF%E7%82%B9%E4%B9%8B%20View%20%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B)
 当 Activity 接收到焦点的时候，它会被请求绘制布局，该请求由 Android framework 处理。绘制是从根节点开始，对布局树进行 measure 和 draw。整个 View 树的绘图流程在ViewRoot.java类的performTraversals()函数展开，该函数所做的工作可简单概况为是否需要重新计算视图大小(measure)、是否需要重新安置视图的位置(layout)、以及是否需要重绘(draw)。
