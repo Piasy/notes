@@ -36,11 +36,17 @@
   +  关于final用法，反射原理，注解原理，java编译过程，GC等一些常见问题
   +  activity orientation change
   +  长连接，心跳机制
+  +  [安卓音频处理高性能方案](http://googlesamples.github.io/android-audio-high-performance/?linkId=19578000)
   
   +  Android performance patterns, ~~S1, S2, S3~~（[笔记](Android-Java/AndroidPerformancePatterns.md)）, S4
   +  [安卓逆向工程](http://www.fasteque.com/android-reverse-engineering-101-part-1/)
   
   +  ~~Effective Java~~（[笔记](Android-Java/EffectiveJava.md)）
+  +  《Android源码设计模式解析与实战》
+  +  《APP研发录》
+  +  [《深入理解安卓：卷一》](http://wiki.jikexueyuan.com/project/deep-android-v1/)
+  +  [《深入理解安卓：卷二》](http://wiki.jikexueyuan.com/project/deep-android-v2/)
+  +  savedInstanceState专题
   +  [Advanced RxJava](http://akarnokd.blogspot.jp/)
   +  【源码】[RxJava](https://github.com/ReactiveX/RxJava)
   +  【源码】[Retrofit](https://github.com/square/retrofit)

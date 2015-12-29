@@ -108,6 +108,7 @@
 +  安卓6.0引入了App Links，将限制一个Intent只能被通过App link验证的APP打开，具体验证方式可以参考官方文档；`packageManager.queryIntentActivities(intent, MATCH_DEFAULT_ONLY);`将至多返回一个结果；`MATCH_ALL`这个flag起作用的前提是尚无通过验证的APP，否则也只会有一个结果；[详见](https://medium.com/google-developer-experts/intent-resolving-in-android-m-c17d39d27048)；
 +  在manifest中设置`android:windowSoftInputMode="adjustResize"`后，activity内的“可折叠”ViewGroup，例如ScrollView会在键盘弹起时减小其高度，然而如果在activit的theme中设置`android:windowFullscreen="true"`或者`android:fitsSystemWindows="false"`，那么`adjustResize`都将不起作用。
 +  如果Activity使用`Theme.NoDisplay`，并且没有立即finish，那APP将会ANR，[详见](https://plus.google.com/105051985738280261832/posts/LjnRzJKWPGW)
++  [安卓音频处理高性能方案](http://googlesamples.github.io/android-audio-high-performance/?linkId=19578000)
 
 ## Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
@@ -121,30 +122,6 @@
 <uses-permission 
     android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove"/>
 ```
-+  MultiDex
-    
-    MultiDex会导致build变慢，在Dalvik虚拟机上（未使用ART技术时），APP启动速度也会变慢，因为ClassLoader要从第二个（甚至更多个）dex文件中加载类；  
-    有时候还会导致build过程中的dex步骤报OOM错误；新提出的Jack&Jill构建技术将解决这一问题；
-    
-    ```java
-    UNEXPECTED TOP-LEVEL ERROR:
-    java.lang.OutOfMemoryError: GC overhead limit exceeded
-      at com.android.dx.cf.code.ExecutionStack.copy(ExecutionStack.java:66)
-      at 
-      ...
-    ```
-      
-    在build.gradle中加入以下片段即可解决：
-    
-    ```groovy
-    android {
-      // ...
-      dexOptions {
-        javaMaxHeapSize “2048M”
-      }
-    }
-    ```
-
 +  [缩小APK包体积的Tips](http://cyrilmottier.com/2014/08/26/putting-your-apks-on-diet/)
   +  Proguard
   +  Lint
@@ -161,7 +138,6 @@
   +  Reuse whenever possible：图标如果只是颜色不同、旋转，则可以只打包一个，然后通过tint/tintMode/ColorFilter/RotateDrawable来重复利用
   +  Render in code when appropriate
   +  Going even further? Server side packaging，根据设备具体细节打包资源，但是有一定风险。
-+  使用pre-dex jar来减小最终打包app的大小，避免multi-dex的发生，但需要保证在使用某个库的类之前，pre-dex jar已经被加载，[详情](https://medium.com/@Macarse/lazy-loading-dex-files-d41f6f37df0e)
 +  通过gradle配置`sourceSets`让单元测试和集成测试共享代码，受此启发，可以更加高度定制化代码路径。[详见](http://blog.danlew.net/2015/11/02/sharing-code-between-unit-tests-and-instrumentation-tests-on-android/)
 
 ## 有意思的第三方库/教程

@@ -17,6 +17,7 @@
 +  构建
   +  [Gradle](Android-Java/Gradle.md)
   +  [ProGuard](Android-Java/ProGuard.md)
+  +  [Multidex专题](Android-Java/MultiDex.md)
   
 +  测试
   +  [AndroidTDD](Android-Java/AndroidTDD.md)
@@ -63,6 +64,7 @@
  +  [List.toArray()再强转是一定会失败的](Android-Java/3077508.md)
  +  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)
  +  [深入Java深浅拷贝、immutable、unmodifiable](misc/copy.md)
+ +  [面向对象六大原则(SOLID+)](misc/OOP6Principles.md)
 
 +  后端
   +  [Feed系统的设计](Backend/Feed.md)

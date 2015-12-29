@@ -135,3 +135,11 @@
     +  思路2：修改生产代码的component创建/获取途径，使得测试时可以设置测试用的component（能够注入测试依赖）；后期不用切换AS的build variant就能进行重构；一定程度上打破了封装性；
     +  最终的实践：Application的component提供set方法，在测试的时候set进去mock的component，Activity采用SubComponent的形式，从AppComponent中取得mock的依赖；把需要mock的依赖都放到AppComponent中，减小对封装的打破；
   +  StorIO
+  
+## 回归测试
++  验证功能无回退
++  对于视觉检查来说，[screenshot-tests-for-android](https://github.com/facebook/screenshot-tests-for-android)似乎不错
+  +  首先需要确认，当前版本是正确的（通过了单元测试与集成测试）
+  +  在此基础上，对渲染数据的静态场景，生成截屏
+  +  以后在相同场景下（测例），再次截屏，并进行对比
+  

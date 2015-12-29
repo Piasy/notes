@@ -1,9 +1,9 @@
-#[Gradle：全新安卓构建系统](http://tools.android.com/tech-docs/new-build-system/user-guide)
+# [Gradle：全新安卓构建系统](http://tools.android.com/tech-docs/new-build-system/user-guide)
 
-##优势
+## 优势
 +  支持多渠道、多APK打包；
 
-##Multi-flavor
+## Multi-flavor
 +  src目录下有main文件夹，这是app的base部分；
 +  支持多种flavor/variant，例如debug，release，paid，free等，分别在src目录下创建相应的文件夹，编写相应的代码；main文件夹下的代码是共用的，而相应文件下下的代码只在相应flavor/variant中使用；
 +  每个文件夹下都可以编写自己的java代码，使用自己的res资源文件等；
@@ -13,7 +13,7 @@
 
 ![xflavour_folder_structure.png](../assets/xflavour_folder_structure.png)
 
-##Basic Project
+## Basic Project
 +  工程结构：创建新工程时，自动会生成main和androidTest目录，分别存放工程文件和测试代码；androidTest目录下不需要manifest文件，将自动生成；
 +  可以通过配置，修改/重新指定各种文件的位置：
     ```gradle
@@ -59,7 +59,7 @@
   +  不同buildTypes的sourceSets可以重新指定；会创建对应的assemble&lt;BuildTypeName&gt; task；
   +  main和不同类型的manifest文件将会合并；资源文件也将合并，同名的将以具体build type覆盖main中的资源；
   
-##依赖、安卓库、多工程配置
+## 依赖、安卓库、多工程配置
 +  声明依赖
   +  本地jar文件：  
     ```gradle
@@ -97,11 +97,11 @@
   +  创建新的build type，就可以使用对应的&lt;buildtype&gt;Compile声明依赖；
 +  library project最终将打包为.aar文件，包含编译后的代码、资源文件；library在被其他工程引用时，其依赖只有compile类型的才会被继承；
 
-##命令行运行
+## 命令行运行
 +  如果不clean，将采用递增式编译，即之前已编译、且无修改的部分，将不会编译；
 +  第一次运行的时候加上`-–daemon`选项，将让gradle后台运行，后续编译将节省gradle初始化的时间；
 
-##创建自定义task
+## 创建自定义task
 +  添加task  
     ```gradle  
     
@@ -151,7 +151,7 @@
     }
     ```
     
-##巧用Product Flavor
+## 巧用Product Flavor
 不同的版本，使用不同的服务器配置，不同的icon，不同的包名等，使用product flavor非常方便；可以在product flavor配置里面设置控制变量，主代码根据控制变量来控制行为；
 ```gradle
 productFlavors {
@@ -166,7 +166,7 @@ productFlavors {
 资源文件（drawable，string，style等）、代码文件，都可以为不同的flavor创建相应的文件夹，进行个性化配置；
 
 
-##[语法](http://trickyandroid.com/gradle-tip-2-understanding-syntax/)
+## [语法](http://trickyandroid.com/gradle-tip-2-understanding-syntax/)
 +  基于Groovy；closure是很常见的基本元素；调用方法如下：  
 ![groovy_closure_invoke_syntax.png](../assets/groovy_closure_invoke_syntax.png)
 +  build.gradle：
