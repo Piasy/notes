@@ -26,6 +26,9 @@
 +  Verification with timeout
 +  (new) Better generic support with deep stubs (Since 1.10.0)
   
+## Assertion框架
++  [Google出品的Truth](https://github.com/google/truth)，及其[使用介绍blog](http://jeremie-martinez.com/2015/11/05/truth-android/)
+  
 ## 单元测试：[The Square Way](http://www.philosophicalhacker.com/2015/04/10/against-android-unit-tests/)
 +  单元测试是方法级别的测试，需要测试的是一个类的公开接口/方法，测试其逻辑正确性，如果发现一个类的某个方法所使用的依赖难以mock，it's a smell，重构吧
 +  基础理论部分
