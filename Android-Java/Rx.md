@@ -32,5 +32,21 @@
     +  subscriber unsubscribe后将不会再接收到item，但也不会有onCompleted事件，且对其他subscriber不影响；
   +  实现的功能都需要测试验证，不能凭经验、也不能看博客，也不能仅看文档；
 
+## [应用场景](http://blog.csdn.net/theone10211024/article/details/50435325)
++  Scheduler线程切换
++  Retrofit结合RxJava做网络请求框架
++  RxJava代替EventBus进行数据传递：RxBus
++  解决嵌套回调（callback hell）问题
++  RxJava进行数组、list的遍历
++  使用debounce做textSearch
++  使用interval做周期性操作。当有“每隔xx秒后执行yy操作”类似的需求的时候，想到使用interval
++  使用timer做定时操作。当有“x秒后执行y操作”类似的需求的时候，想到使用timer
++  使用merge合并两个数据源
++  使用combineLatest合并最近N个结点
++  使用concat和first做缓存
++  使用throttleFirst防止按钮重复点击
++  使用schedulePeriodically做轮询请求
++  响应式的界面
+
 ## Code review
 +  [part I](http://artemzin.com/blog/rxjava-code-review-part-1)

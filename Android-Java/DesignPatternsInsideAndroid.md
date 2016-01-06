@@ -69,3 +69,19 @@
     +  最终view的创建都是通过`createView`函数完成，在其中通过反射创建view实例
     +  `inflate`函数会解析xml布局文件，深度优先遍历，逐层创建view（通过`createViewFromTag`函数），并最终形成一棵view的树
   
+## Builder模式
++  [AutoValue](https://github.com/google/auto/tree/master/value)及其在Android平台的版本[AutoParcel](https://github.com/frankiesardo/auto-parcel)，不仅支持immutable，还支持builder模式
++  `WindowManager`
+  +  实现类为`WindowManagerImpl`
+  +  Activity, Fragment, Dialog等组建的view显示，都是通过的`Window::setContentView()`方法来实现的
+  +  `Window`是抽象类，其实现类为`PhoneWindow`，**它的setContentView方法，怎么和WindowManager关联起来的？？**
+  +  `WindowManager`添加、移除view的实现工作在`WindowManagerGlobal`类中
+  +  `ViewRootImpl`是framework层与native层通信的桥梁，继承自`Handler`
+  +  WMS只负责管理手机屏幕上View的z-order，即View的图层顺序，WMS管理的是属于某个window下的view
+
+## 原型模式
++  在已有对象的基础上构造新对象，通常是clone；clone的效率通常比new的效率高，但不绝对；需要注意深浅拷贝的问题。
++  Intent的查找与匹配
+  +  系统启动之后，`PackageManagerService`会扫描系统内所有的APP，解析其manifest文件，得到所有APP注册的所有各类组件，保存在系统中（内存）；后续使用Intent进行跳转时，通过查找保存的组件信息，得知应该启动哪个APP（组件）；
+  +  显式Intent：直接指定了响应Activity；隐式Intent：只指定了Action；
+  +  启动Activity时，会向PackageManagerService查询intent对应的activity，在`PackageManagerService::queryIntentActivities(...)`方法中；

@@ -11,6 +11,7 @@
     +  [Building Apps with Graphics & Animation](Android-Java/AndroidOfficialDevelopGuild-BuildingAppsWithGraphicsAndAnimation.md)
     +  [Building Apps with Connectivity & the Cloud](Android-Java/AndroidOfficialDevelopGuild-BuildAppWithConnectivity.md)
     +  [Building Apps with Contacts & Sign-In](Android-Java/AndroidOfficialDevelopGuild-BuildAppWithContactsAndSignIn.md)
+    +  [Best Practices for Interaction and Engagement](Android-Java/AndroidOfficialDevelopGuild-BestPractice4InteractionAndEngagement.md)
     +  [Developer tools](Android-Java/AndroidOfficialDevelopGuild-Tools.md)
   +  [官方分发手册](Android-Java/AndroidOfficialDistributeGuild.md)
   +  [各个安卓版本引入的主要新特性](Android-Java/NewInAndroid.md)  

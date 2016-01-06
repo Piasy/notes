@@ -41,3 +41,6 @@ startActivity(intent);
 // Sets the special extended data for navigation
 editIntent.putExtra("finishActivityOnSaveCompleted", true);
 ```
+
+## [Adding Sign-In](http://developer.android.com/intl/zh-cn/training/sign-in/index.html)
+Google提供的授权API，让用户可以使用Google账户授权登录app，享用Google账户关联的优势。

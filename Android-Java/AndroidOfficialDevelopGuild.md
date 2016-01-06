@@ -10,4 +10,8 @@
 
 ## [Building Apps with Connectivity & the Cloud](AndroidOfficialDevelopGuild-BuildAppWithConnectivity.md)
 
+## [Building Apps with Contacts & Sign-In](AndroidOfficialDevelopGuild-BuildAppWithContactsAndSignIn.md)
+
+## [Best Practices for Interaction and Engagement](AndroidOfficialDevelopGuild-BestPractice4InteractionAndEngagement.md)
+
 ## [Developer tools](AndroidOfficialDevelopGuild-Tools.md)
