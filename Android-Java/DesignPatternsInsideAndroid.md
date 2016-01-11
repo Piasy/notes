@@ -85,3 +85,11 @@
   +  系统启动之后，`PackageManagerService`会扫描系统内所有的APP，解析其manifest文件，得到所有APP注册的所有各类组件，保存在系统中（内存）；后续使用Intent进行跳转时，通过查找保存的组件信息，得知应该启动哪个APP（组件）；
   +  显式Intent：直接指定了响应Activity；隐式Intent：只指定了Action；
   +  启动Activity时，会向PackageManagerService查询intent对应的activity，在`PackageManagerService::queryIntentActivities(...)`方法中；
+
+## 工厂方法
++  用工厂去创建产品（对象），工厂和产品都可以提供抽象类，具体类，以达到实现解耦的目的
++  App的启动过程
+  +  `ActivityThread::main()`是app的执行起点
+  +  `thread.attach(false)`把ActivityThread绑定到ActivityManagerService
+  +  `thread.attach(false)`调用了`IActivityManager::attachApplication`方法，其实现在`ActivityManagerService`中
+  +  `IActivityManager::attachApplication`方法中间接调用了`IApplicationThread::bindApplication`和`ActivityManagerService::attachApplicationLocked`

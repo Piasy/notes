@@ -141,6 +141,23 @@
 +  通过gradle配置`sourceSets`让单元测试和集成测试共享代码，受此启发，可以更加高度定制化代码路径。[详见](http://blog.danlew.net/2015/11/02/sharing-code-between-unit-tests-and-instrumentation-tests-on-android/)
 +  [DDMS MAT分析内存分配、内存泄漏](https://acadgild.com/blog/analyze-manage-android-devices-memory-allocation-through-ddms-mat/)
 +  [自定义Lint的规则，进行定制的代码检查](http://jeremie-martinez.com/2015/12/15/custom-lint-rules/)
++  gradle配置测试显示log
+
+    ```gradle
+    android {
+    ...
+
+    testOptions.unitTests.all {
+        testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        outputs.upToDateWhen { false }
+        showStandardStreams = true
+        }
+    }
+    }
+    ```
+    
++  gradle配置`minSdkVersion 21`可以加快开发时的打包速度
 
 ## 有意思的第三方库/教程
 +  [基于UDP组播的Intent发送和接收](http://www.androidzeitgeist.com/2014/11/introducing-android-network-intents17.html)
