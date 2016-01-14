@@ -203,3 +203,84 @@
 
   +  Displaying Progress in a Notification
     +  `setProgress (int max, int progress, boolean indeterminate)`可以为通知栏消息设置进度条，支持实时进度、持续模式
+    
++  Supporting Swipe-to-Refresh
+  +  官方有[SwipeRefreshLayout](http://developer.android.com/reference/android/support/v4/widget/SwipeRefreshLayout.html)
+  +  民间有[Ultra Pull To Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)
+  +  滑到底部触发加载更多可以使用[Mugen](https://github.com/vinaysshenoy/mugen)
+  
++  Adding Search Functionality
+  +  在App Bar中添加[SearchView](http://developer.android.com/reference/android/widget/SearchView.html)，注意它有support版本
+  
+    res/menu/options_menu.xml：
+    
+    ```xml
+        <?xml version="1.0" encoding="utf-8"?>
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:id="@+id/search"
+                android:title="@string/search_title"
+                android:icon="@drawable/ic_search"
+                android:showAsAction="collapseActionView|ifRoom"
+                android:actionViewClass="android.widget.SearchView" />
+        </menu>
+    ```
+    
+    ```java
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.options_menu, menu);
+
+            return true;
+        }
+    ```
+  
+  +  创建可搜索的配置
+  
+    res/xml/searchable.xml，配置SearchView的label，hint
+    
+    ```xml
+        <?xml version="1.0" encoding="utf-8"?>
+        <searchable xmlns:android="http://schemas.android.com/apk/res/android"
+                android:label="@string/app_name"
+                android:hint="@string/search_hint" />
+    ```
+    
+    manifest
+    
+    ```xml
+        <activity ... >
+            ...
+            <meta-data android:name="android.app.searchable"
+                    android:resource="@xml/searchable" />
+
+        </activity>
+    ```
+    
+    ```java
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.options_menu, menu);
+
+            // Associate searchable configuration with the SearchView
+            SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchView searchView =
+                    (SearchView) menu.findItem(R.id.search).getActionView();
+            searchView.setSearchableInfo(
+                    searchManager.getSearchableInfo(getComponentName()));
+
+            return true;
+        }
+    ```
+    
+  +  当用户提交一个query时，SearchView会发出一个`ACTION_SEARCH` intent，需要在manifest文件中声明响应此intent
+
++  Making Your App Content Searchable by Google
+  +  Google对如何优化对app内的内容、网站的搜索，提供了[相应的建议](http://developer.android.com/intl/zh-cn/training/app-indexing/enabling-app-indexing.html)
+  +  Deep Links，通过在manifest中声明感兴趣的Intent，可以在用户在其他app内触发此intent时启动自己的app，intent可以设置action, category, scheme来进行过滤
+
++  [优化app的assistant内容](http://developer.android.com/intl/zh-cn/training/articles/assistant.html)
+
++  [app link，让自己的app成为自己网站uri的默认打开方式](http://developer.android.com/intl/zh-cn/training/app-links/index.html)

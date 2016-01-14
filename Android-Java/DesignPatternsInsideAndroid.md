@@ -88,8 +88,19 @@
 
 ## 工厂方法
 +  用工厂去创建产品（对象），工厂和产品都可以提供抽象类，具体类，以达到实现解耦的目的
-+  App的启动过程
-  +  `ActivityThread::main()`是app的执行起点
-  +  `thread.attach(false)`把ActivityThread绑定到ActivityManagerService
-  +  `thread.attach(false)`调用了`IActivityManager::attachApplication`方法，其实现在`ActivityManagerService`中
-  +  `IActivityManager::attachApplication`方法中间接调用了`IApplicationThread::bindApplication`和`ActivityManagerService::attachApplicationLocked`
++  Activity的启动过程
+  +  `ActivityThread::main()`是app的执行起点  ==>
+  +  `thread.attach(false)`把ActivityThread绑定到ActivityManagerService，它调用了`ActivityManagerService::attachApplication`方法  ==>
+  +  `ActivityManagerService::attachApplication`方法中间接调用了`ActivityThread.ApplicationThread::bindApplication`和`ActivityManagerService::attachApplicationLocked`，前者把ApplicationThread对象绑定到ActivityManagerService  ==>
+  +  `ActivityManagerService::attachApplicationLocked`  ==>
+  +  `ActivityManagerService::realStartActivityLocked`  ==>
+  +  `ActivityThread.ApplicationThread::scheduleLaunchActivity`  ==>
+  +  `ActivityThread.H::handleMessage`  ==>
+  +  `ActivityThread::handleLaunchActivity`  ==>  
+  +  `ActivityThread::performLaunchActivity`  ==>
+  +  `Instrumentation::callActivityOnCreate`  ==>
+  +  `Activity::performCreate`  ==>
+  +  `Activity::onCreate`
+
+## 抽象工厂
+四种角色：抽象的工厂类，定义工厂的接口；具体的工厂类，实现生产产品；抽象的产品类，定义产品的接口；具体的产品类，实现产品的功能；
