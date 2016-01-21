@@ -14,4 +14,6 @@
 
 ## [Best Practices for Interaction and Engagement](AndroidOfficialDevelopGuild-BestPractice4InteractionAndEngagement.md)
 
+## [Best Practices for User Interface](AndroidOfficialDevelopGuild-BestPractice4UserInterface.md)
+
 ## [Developer tools](AndroidOfficialDevelopGuild-Tools.md)

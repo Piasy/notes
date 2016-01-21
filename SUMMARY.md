@@ -12,6 +12,7 @@
     +  [Building Apps with Connectivity & the Cloud](Android-Java/AndroidOfficialDevelopGuild-BuildAppWithConnectivity.md)
     +  [Building Apps with Contacts & Sign-In](Android-Java/AndroidOfficialDevelopGuild-BuildAppWithContactsAndSignIn.md)
     +  [Best Practices for Interaction and Engagement](Android-Java/AndroidOfficialDevelopGuild-BestPractice4InteractionAndEngagement.md)
+    +  [Best Practices for User Interface](Android-Java/AndroidOfficialDevelopGuild-BestPractice4UserInterface.md)
     +  [Developer tools](Android-Java/AndroidOfficialDevelopGuild-Tools.md)
   +  [官方分发手册](Android-Java/AndroidOfficialDistributeGuild.md)
   +  [各个安卓版本引入的主要新特性](Android-Java/NewInAndroid.md)  
@@ -60,6 +61,7 @@
   +  [Java同步机制](Android-Java/JavaSynchorinization.md)
   +  [Rx](Android-Java/Rx.md)
   +  [依赖注入](Android-Java/DependencyInjection.md)
+  +  [AOP](Android-Java/AOP.md)
   
 + 杂谈
 
@@ -77,3 +79,4 @@
   +  [React基础](Frontend/React-basic.md)
   +  [深入浅出ES6系列](Frontend/ES6.md)
   +  [Flux基础](Frontend/Flux.md)
+  +  [JSTips](https://github.com/loverajoel/jstips)

@@ -104,3 +104,29 @@
 
 ## 抽象工厂
 四种角色：抽象的工厂类，定义工厂的接口；具体的工厂类，实现生产产品；抽象的产品类，定义产品的接口；具体的产品类，实现产品的功能；
+
+## 策略模式
++  某一需求可以有多种实现算法，将每种算法独立封装，且它们之间可以相互替换（实现相同的接口）。策略模式让算法独立于使用它们的客户端而独立变化。
++  安卓系统动画原理
+  +  `view.startAnimation()`，动画是怎么实现的？随时间改变view属性的值；
+  +  整个过程是怎样的？绘制时利用`TimeInterpolator`获取绘制的时间百分比，再利用`TypeEvaluator`把百分比计算为属性值，设置给view；
+  +  怎么做到随时间流逝持续进行上述过程？
+    +  `View::startAnimation(Animation animation)`在设置了animation之后，调用`invalidate`，invalidate最终调用到`ViewGroup::drawChild(Canvas canvas, View child, long drawingTime)`  ==>
+    +  `View::draw(Canvas canvas, ViewGroup parent, long drawingTime)`  ==>
+    +  `View::applyLegacyAnimation(ViewGroup parent, long drawingTime, Animation a, boolean scalingRequired)` ==>
+    +  `applyLegacyAnimation`函数中，完成了动画初始化、动画操作、界面刷新（本次动画操作完成后，再次invalidate）
+    +  动画操作在`Animator::getTransformation(long currentTime, Transformation outTransformation)`函数中实现
+  +  `ValueAnimator`原理
+    +  动画属性都保存在`PropertyValuesHolder`类中
+    +  `ValueAnimator::start()`调用后，将会把动画指令发送给内部的`ValueAnimator.AnimationHandler`类，而handler则使用`Choreographer`来进行定时的刷新
+    +  刷新时调用了`ValueAnimator::doAnimationFrame(long frameTime)`  ==>
+    +  `ValueAnimator::animationFrame(long currentTime)`  ==>
+    +  `ValueAnimator::animateValue(float fraction)`  ==>
+    +  具体实现类（例如`ObjectAnimator`）的重载中，`ObjectAnimator::animateValue(float fraction)`  ==>
+    +  `PropertyValuesHolder::setAnimatedValue(Object target)`，在其中通过反射，为view设置属性
+  +  `ValueAnimator`的代码使用反射工作，设置动画属性时传入的是字符串，容易产生错误，有两个不错的库对这一点进行了优化：[ViewAnimator](https://github.com/florent37/ViewAnimator), [AnimatorCompat](https://github.com/zzz40500/AnimatorCompat)
+
+## 状态模式
+一个对象的行为取决于它的状态，最直接的实现是各个函数中对状态进行判断（if-else或switch），采取不同的行为。状态模式则是把状态抽象为一个类，不同状态下的行为封装为不同的状态实现类。改变对象的状态时，只需要修改其状态对象，即可达到修改其行为的目的。
+
+

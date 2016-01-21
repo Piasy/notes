@@ -124,19 +124,22 @@
 		}
 	    ```
       
-    +  [Espresso测试RecyclerView](http://blog.egorand.me/testing-a-sorted-list-with-espresso/)
+    +  [Espresso测试RecyclerView](http://blog.egorand.me/testing-a-sorted-list-with-espresso/)，[recycler view的espresso view matcher](https://github.com/dannyroa/espresso-samples)及[stackoverflow问题](http://stackoverflow.com/questions/34138945/espresso-matcher-for-nested-recyclerview)
       
   +  Retrofit
     +  不要mock所有的对象，在集成测试阶段，直接mock定义的service即可，让调用Service时返回mock的对象即可
     
   +  UIAutomator
+    +  https://medium.com/@hitherejoe/handling-android-runtime-permissions-in-ui-tests-981f9dc11a4e
 +  和一些其他框架的整合
   +  Dagger2
     +  生产代码的依赖都是通过依赖注入框架注入，本应是有利于测试的，但是如何通过依赖注入框架把mock的依赖注入进去呢？
     +  总的来说，都是通过使得main和test使用不同的module，test的module provide mock的依赖，main的module provide真实的依赖
     +  思路1：利用flavor/build variant，专门创建一个用于注入测试依赖的variant，其中维护测试依赖的component；不用打破生产代码的封装特性；但是增加了维护成本，有两套component需要维护，而且这两套component必须切换AS的build variant才能切换，不能同时维护；
     +  思路2：修改生产代码的component创建/获取途径，使得测试时可以设置测试用的component（能够注入测试依赖）；后期不用切换AS的build variant就能进行重构；一定程度上打破了封装性；
-    +  最终的实践：Application的component提供set方法，在测试的时候set进去mock的component，Activity采用SubComponent的形式，从AppComponent中取得mock的依赖；把需要mock的依赖都放到AppComponent中，减小对封装的打破；
+    +  思路3：集成测试代码使用测试专用的Application类（生产代码app的子类），自定义test runner，使得测试运行时使用测试app类，在其中初始化dagger component，完美。
+    +  http://blog.sqisland.com/2015/12/mock-application-in-espresso.html
+    +  http://blog.egorand.me/reliable-functional-tests-with-espresso-and-dagger/
   +  StorIO
   
 ## 回归测试

@@ -109,6 +109,7 @@
 +  在manifest中设置`android:windowSoftInputMode="adjustResize"`后，activity内的“可折叠”ViewGroup，例如ScrollView会在键盘弹起时减小其高度，然而如果在activit的theme中设置`android:windowFullscreen="true"`或者`android:fitsSystemWindows="false"`，那么`adjustResize`都将不起作用。
 +  如果Activity使用`Theme.NoDisplay`，并且没有立即finish，那APP将会ANR，[详见](https://plus.google.com/105051985738280261832/posts/LjnRzJKWPGW)
 +  [安卓音频处理高性能方案](http://googlesamples.github.io/android-audio-high-performance/?linkId=19578000)
++  [Activity响应`ACTION_PROCESS_TEXT`的intent，会在用户选择文本时，提供为其服务的机会](https://medium.com/google-developers/custom-text-selection-actions-with-action-process-text-191f792d2999)
 
 ## Material design
 +  [Material design中的Snackbar](https://github.com/nispok/snackbar/)，[带有Context的Toast：Crouton](https://github.com/keyboardsurfer/Crouton)
