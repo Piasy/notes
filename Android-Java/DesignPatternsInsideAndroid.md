@@ -129,4 +129,29 @@
 ## 状态模式
 一个对象的行为取决于它的状态，最直接的实现是各个函数中对状态进行判断（if-else或switch），采取不同的行为。状态模式则是把状态抽象为一个类，不同状态下的行为封装为不同的状态实现类。改变对象的状态时，只需要修改其状态对象，即可达到修改其行为的目的。
 
+## 安卓事件输入系统
++  `InputReader`，从硬件的事件（CPU中断）中，读取输入事件，并封装为`Event`对象，然后分发给`InputDispatcher`
++  `InputDispatcher`负责接收来自`InputReader`的事件，并分发给合适的窗口，同时监控ANR
++  `InputReaderThread`，`InputDispatcherThread`，`InputManager`，`InputManagerService`，`WindowManagerService`
 
+## 观察者模式
+又称订阅模式，定义了对象间一对多的依赖关系，当特定的对象（subject）变化时，所有依赖它的对象（observer）都会得到通知并自动更新。
+
++  ListView中的观察者模式
+  +  更改adapter数据集之后，会调用`notifyDataSetChanged`
+  +  会调用其内部的observer的`onChanged`方法
+  +  内部的observer是AdapterView的内部类（非静态），其onChanged方法会触发AdapterView重新布局，达到刷新UI的目的
++  BroadcastReceiver中的观察者模式
+  +  代码注册receiver过程：`registerReceiver` ==> `ContextWrapper::registerReceiver` ==>
+  +  `ContextImpl::registerReceiver` ==> `ContextImpl::registerReceiverInternal`
+    +  `LoadedApk::getReceiverDispatcher`函数创建了一个`IIntentReceiver`对象（Binder对象）
+    +  `ActivityManagerNative.getDefault().registerReceiver`向ActivityManagerService注册receiver，并把`IIntentReceiver`传递进去，用于ActivityManagerService通知activity接收广播  ==>
+  +  `ActivityManagerProxy::registerReceiver` ===>
+  +  `ActivityManagerService::registerReceiver`
+    +  sticky处理：如果是sticky intent，最后一次发送此广播的时候，ActivityManagerService会把这个intent保存起来，后面注册相同action的接收器时，就会得到最后一次的广播，并重放
+    +  receiver会保存在ActivityManagerService中，并且会把receiver和filter进行关联
++  发送广播
+  +  sendBroadcast会把广播通过binder发送给ActivityManagerService，后者通难过广播的action找到相应的接收器，然后把广播放进自己的消息队列中
+  +  ActivityManagerService的消息队列循环中会处理这个广播，通过binder分发给注册的ReceiverDispatcher，后者把这个广播放到注册Activity所在线程的消息队列中
+  +  ReceiverDispatcher的内部类Args在注册Activity所在线程的消息队列循环中处理这个广播，即调用`receiver.onReceive`
++  ActivityManagerService使用一个map保存了filter与receiver，注册就是加入map，发送就是查询map并完成分发

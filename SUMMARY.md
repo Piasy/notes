@@ -13,6 +13,7 @@
     +  [Building Apps with Contacts & Sign-In](Android-Java/AndroidOfficialDevelopGuild-BuildAppWithContactsAndSignIn.md)
     +  [Best Practices for Interaction and Engagement](Android-Java/AndroidOfficialDevelopGuild-BestPractice4InteractionAndEngagement.md)
     +  [Best Practices for User Interface](Android-Java/AndroidOfficialDevelopGuild-BestPractice4UserInterface.md)
+    +  [Best Practices for User Input](Android-Java/AndroidOfficialDevelopGuild-BestPractice4UserInput.md)
     +  [Developer tools](Android-Java/AndroidOfficialDevelopGuild-Tools.md)
   +  [官方分发手册](Android-Java/AndroidOfficialDistributeGuild.md)
   +  [各个安卓版本引入的主要新特性](Android-Java/NewInAndroid.md)  
@@ -49,13 +50,14 @@
 +  深入
   +  [安卓性能优化](Android-Java/AndroidPerformancePatterns.md)
   +  [Memory leak专题](Android-Java/MemoryLeak.md)
-  +  [有效处理手机旋转专题](Android-Java/HandleOrientationChanged.md)
+  +  [处理App运行时配置的变化（屏幕方向，语言等）](Android-Java/HandlingRuntimeChanges.md)
   +  [Launch mode 和 Intent flags专题](Android-Java/LaunchModeIntentFlags.md)
   +  [Canvas & Drawables](Android-Java/Canvas-Drawables.md)
   +  [自定义View/ViewGroup以高性能实现自定义UI](Android-Java/CustomViewViewGroup.md)
   +  [《深入理解JVM》](Android-Java/InsideJVM.md)
   +  [《Effective Java 2nd Edition》](Android-Java/EffectiveJava.md)
   +  [《Android源码设计模式解析与实战》](Android-Java/DesignPatternsInsideAndroid.md)
+  +  [《深入理解Android 5源代码》](Android-Java/UnderstandAndroidSourceCode.md)
   +  [Java对象内存使用](Android-Java/JavaObjectMemoryUsage.md)
   +  [Java Memory model](Android-Java/JSR133.md)
   +  [Java同步机制](Android-Java/JavaSynchorinization.md)
@@ -74,9 +76,13 @@
 +  后端
   +  [Feed系统的设计](Backend/Feed.md)
   +  [关系型数据库设计范式](Backend/DBNF.md)
+  +  [REST API设计](Backend/REST.md)
   
 +  前端
   +  [React基础](Frontend/React-basic.md)
   +  [深入浅出ES6系列](Frontend/ES6.md)
   +  [Flux基础](Frontend/Flux.md)
   +  [JSTips](https://github.com/loverajoel/jstips)
+
++  MOOC
+  +  [Effective Thinking Through Mathematics: 1.2](UTAustinX_UT.9.01x/1.2_The_Puzzle_about_a_Meanie_Genie.md)

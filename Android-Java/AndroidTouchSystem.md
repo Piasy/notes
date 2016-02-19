@@ -103,6 +103,7 @@
     +  onFling() (快速滚动后释放手指)
   +  `ScaleGestureDetector`
     +  onScaleBegin(), onScale(), onScaleEnd()
+  +  一个扩展的gesture detector库：[android-gesture-detectors](https://github.com/Almeros/android-gesture-detectors)
   +  通过`OnTouchListener`或者`onTouchEvent()`进行处理
   +  缺点
     +  Consume UP events and exposes no interface for CANCEL events

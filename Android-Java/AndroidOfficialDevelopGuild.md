@@ -16,4 +16,6 @@
 
 ## [Best Practices for User Interface](AndroidOfficialDevelopGuild-BestPractice4UserInterface.md)
 
+## [Best Practices for User Input](AndroidOfficialDevelopGuild-BestPractice4UserInput.md)
+
 ## [Developer tools](AndroidOfficialDevelopGuild-Tools.md)

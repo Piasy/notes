@@ -34,3 +34,80 @@
   +  减少invalidate()的调用，但是要注意，当view的内容发生变化需要更新时，必须要调用，否则不会生效；
   +  减少requestLayout()的调用，它可能会导致多次遍历整个view树；同时也应该使得布局扁平化，不要太深的嵌套；
   +  如果ui过于复杂，可以考虑自定义ViewGroup以对ui进行加速处理；这时ViewGroup的子view是满足特定条件的，可以减少measure, layout的必要；
+
+## Creating Backward-Compatible UIs
++  通过抽象出接口，来定义UI的API，再根据不同的系统版本，选择不同的实现，以达到兼容的目的；
++  新版系统直接proxy到新的系统API，旧的版本采取自定义实现方式；
+
+## [Implementing Accessibility](http://developer.android.com/training/accessibility/index.html)
+...
+
+## Managing the System UI
++  包括状态栏（顶部），导航栏（底部虚拟按键区域）
++  API 14+，让status bar可见性为gone，指定theme为`@style/Theme.AppCompat.Light.NoActionBar.FullScreen`或者`@android:style/Theme.Holo.NoActionBar.Fullscreen`
+
+    ```xml
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    ```
++  API 14+，让navigation bar可见性为gone
+
+    ```java
+    View decorView = getWindow().getDecorView();
+    // Hide both the navigation bar and the status bar.
+    // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+    // a general rule, you should design your app to hide the status bar whenever you
+    // hide the navigation bar.
+    int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+    decorView.setSystemUiVisibility(uiOptions);
+    ```
+
++  注意，上述方式有以下问题
+  +  用户点击任何区域，都会导致navigation bar出现，且保持可见（属性被清除）；
+  +  一旦属性被清除，需要重新设置，使得navigation bar重新隐藏；
+  +  所以需要`decorView.setOnSystemUiVisibilityChangeListener`，监听system ui可见性变化，在可见时，通过postDelayed，再次隐藏之；
++  API 19+，以后，引入了`SYSTEM_UI_FLAG_IMMERSIVE`和`SYSTEM_UI_FLAG_IMMERSIVE_STICKY`，前者同样存在上述问题；
++  更完整的可以参考最新版AndroidStudio(2.0 preview 7)创建的`FullscreenActivity`模板；
++  响应system ui可见性的变化
+
+    ```java
+    View decorView = getWindow().getDecorView();
+    decorView.setOnSystemUiVisibilityChangeListener
+            (new View.OnSystemUiVisibilityChangeListener() {
+        @Override
+        public void onSystemUiVisibilityChange(int visibility) {
+            // Note that system bars will only be "visible" if none of the
+            // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                // TODO: The system bars are visible. Make any desired
+                // adjustments to your UI, such as showing the action bar or
+                // other navigational controls.
+            } else {
+                // TODO: The system bars are NOT visible. Make any desired
+                // adjustments to your UI, such as hiding the action bar or
+                // other navigational controls.
+            }
+        }
+    });
+    ```
+
+## Material Design for Developers
+更多参见material design专题，包括：
+
++  material theme及其定制;
++  CardView, RecyclerView, item animation;
++  Custom shadows and view clipping;
++  Vector drawables, tint, palette;
++  Custom animations: ripple, reveal, activity transition, shared element transition, curved motion, Animate View State Changes, Animate Vector Drawables;
+
+兼容性维护：
+
++  各种backport；
++  Define Alternative Styles；
++  Provide Alternative Layouts；
++  Support Library；
