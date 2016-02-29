@@ -202,4 +202,4 @@
   +  Functional (UI) tests
   +  Integration tests
   +  Developer Settings Menu (aka Debug Drawer)
-  
++  `inflater.inflate`，第二个参数不要传递null，第三个参数在`Fragment::onCreateView`和recycler view holder的`onCreateViewHolder`时，都必须传false；

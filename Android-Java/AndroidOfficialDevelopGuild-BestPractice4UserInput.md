@@ -78,3 +78,6 @@
   +  方向键：`android:nextFocusUp`, `android:nextFocusDown`, `android:nextFocusLeft`, 
   `android:nextFocusRight`
 +  直接响应键盘按键：Activity等类实现了`KeyEvent.Callback`接口可以监听键盘事件
+
+## Supporting Game Controllers
++  Activity/View的输入事件回调有对游戏手柄等专业设备的支持
