@@ -71,3 +71,52 @@
   +  `sp<IServiceManager> defaultServiceManager();`这一方法实现了单例模式，单例保存在`gDefaultServiceManager`中
   +  创建单例：`gDefaultServiceManager = interface_cast<IServiceManager>(ProcessState::self()->getContextObject(NULL));`
   +  简化为：`gDefaultServiceManager = new BpServiceManager(new BpBinder(0));`
+
+## [Android启动运行在独立进程的Service](http://blog.csdn.net/luoshengyang/article/details/6677029)
++  跨进程，当然就会使用binder机制
++  包括三次跨进程通信
+  +  从主进程（调用startService的进程）调用到ActivityManagerService进程中，完成新进程的创建，新进程开始执行
+  +  从新进程调用到ActivityManagerService进程中，新进程告知ActivityManagerService自己已经准备就绪
+  +  从ActivityManagerService进程又回到新进程中，传递了相关信息，最终将服务启动起来
+
+## [Android应用程序的Activity启动过程](http://blog.csdn.net/luoshengyang/article/details/6685853)
++  step2: Activity.startActivity => 
++  step3: Activity.startActivityForResult
++  step4: Instrumentation.execStartActivity => 
++  step5: ActivityManagerProxy.startActivity == binder ==> 
++  step6: ActivityManagerService.startActivity => 
++  step6: ActivityManagerService.startActivityAsUser => 
++  step7: ActivityStackSupervisor.startActivityMayWait =>
++  step8: ActivityStackSupervisor.startActivityLocked =>
++  step9: ActivityStackSupervisor.startActivityUncheckedLocked =>
++  step10: ActivityStack.resumeTopActivityLocked =>  （此函数有两次调用，不同参数执行路径不同）
++  step11: ActivityStack.startPausingLocked =>
++  step12: ApplicationThreadProxy.schedulePauseActivity == binder ==>
++  step13: ActivityThread$ApplicationThread.schedulePauseActivity =>
++  step14: ActivityThread.queueOrSendMessage =>  (PAUSE_ACTIVITY)
++  step15: ActivityThread$H.handleMessage =>
++  step16: ActivityThread.handlePauseActivity =>  （在此处调用前一activity的onPause回调）
++  step17: ActivityManagerProxy.activityPaused == binder ==>
++  step18: ActivityManagerService.activityPaused =>
++  step19: ActivityStack.activityPaused =>
++  step20: ActivityStack.completePauseLocked =>
++  step21: ActivityStack.resumeTopActivityLocked =>
++  step22: ActivityStack.startSpecificActivityLocked =>  （如果对应进程不存在，则创建进程）
++  step23: ActivityManagerService.startProcessLocked =>
++  step24: ActivityThread.main =>
++  step25: ActivityManagerProxy.attachApplication == binder ==>
++  step26: ActivityManagerService.attachApplication =>
++  step27: ActivityManagerService.attachApplicationLocked =>
++  step28: ActivityStack.realStartActivityLocked =>
++  step29: ApplicationThreadProxy.scheduleLaunchActivity == binder ==>
++  step30: ApplicationThread.scheduleLaunchActivity =>
++  step31: ActivityThread.queueOrSendMessage =>  (LAUNCH_ACTIVITY)
++  step32: ActivityThread$H.handleMessage =>
++  step33: ActivityThread.handleLaunchActivity =>
++  step34: ActivityThread.performLaunchActivity =>  （此处通过反射创建新activity对象，然后通过mInstrumentation调用新activity的onCreate/onResume等回调）
+
++  Step1 - Step 11：Launcher通过Binder进程间通信机制通知ActivityManagerService，它要启动一个Activity；
++  Step 12 - Step 16：ActivityManagerService通过Binder进程间通信机制通知Launcher进入Paused状态；
++  Step 17 - Step 24：Launcher通过Binder进程间通信机制通知ActivityManagerService，它已经准备就绪进入Paused状态，于是ActivityManagerService就创建一个新的进程，用来启动一个ActivityThread实例（**how?**），即将要启动的Activity就是在这个ActivityThread实例中运行；
++  Step 25 - Step 27：ActivityThread通过Binder进程间通信机制将一个ApplicationThread类型的Binder对象传递给ActivityManagerService，以便以后ActivityManagerService能够通过这个Binder对象和它进行通信；
++  Step 28 - Step 35：ActivityManagerService通过Binder进程间通信机制通知ActivityThread，现在一切准备就绪，它可以真正执行Activity的启动操作了。

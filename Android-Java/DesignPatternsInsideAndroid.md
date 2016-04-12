@@ -48,7 +48,7 @@
   }
   ```
   
-  +  this指针逃逸问题
+  +  [this指针逃逸问题](http://blog.itpub.net/28912557/viewspace-762047/)
   
     在DCL单例实现中，`sInstance = new Singleton(context);`实际上大致会进行三个操作：
     

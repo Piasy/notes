@@ -300,6 +300,10 @@ element[isMoving] = true;
 +  ES6引入了新的作用域：代码块作用域；`let`和`const`都是这一作用域；
 
 ## 模块
++  export: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
++  import: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
++  module: https://hacks.mozilla.org/2015/08/es6-in-depth-modules/, 译文：http://www.infoq.com/cn/articles/es6-in-depth-modules
++  另一篇博文：http://wengeezhang.com/?p=241
 +  import, export, default
 +  import as, import _, import *
 +  export as, export *
