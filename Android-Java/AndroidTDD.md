@@ -33,13 +33,14 @@ Mock框架、单元测试框架、集成测试框架是TDD所需的主要工具�
 Dagger, Robolectric and Instrumentation](http://artemzin.com/blog/
 how-to-mock-dependencies-in-unit-integration-and-functional-tests-
 dagger-robolectric-instrumentation/)
++ [
+Testing made sweet with a Mockito](https://speakerdeck.com/jeroenmols/testing-made-sweet-with-a-mockito)
   
 ## Assertion框架
 +  [Google出品的Truth](https://github.com/google/truth)，
 及其[使用介绍blog](http://jeremie-martinez.com/2015/11/05/truth-android/)
   
-## 单元测试：[The Square Way](http://www.philosophicalhacker.com/
-2015/04/10/against-android-unit-tests/)
+## 单元测试：[The Square Way](http://www.philosophicalhacker.com/2015/04/10/against-android-unit-tests/)
 +  单元测试是方法级别的测试，需要测试的是一个类的公开接口/方法，测试其逻辑正确性，
 如果发现一个类的某个方法所使用的依赖难以mock，it's a smell，重构吧
 +  基础理论部分
@@ -154,6 +155,8 @@ dagger-robolectric-instrumentation/)
 	    ```
     
     +  idle resources
+      +  https://github.com/JakeWharton/okhttp-idling-resource
+      +  https://github.com/AzimoLabs/ConditionWatcher
     +  测试Save and restore state，触发代码：
 
 	    ```java
@@ -177,8 +180,7 @@ dagger-robolectric-instrumentation/)
     espresso-matcher-for-nested-recyclerview)
       
   +  Retrofit
-    +  不要mock所有的对象，在集成测试阶段，直接mock定义的service即可，
-    让调用Service时返回mock的对象即可
+    +  不要mock所有的对象，在集成测试阶段，直接mock service 返回的数据即可，https://github.com/andrzejchm/RESTMock
     
   +  UIAutomator
     +  https://medium.com/@hitherejoe/handling-android-runtime-permissions-in-ui-tests-981f9dc11a4e
