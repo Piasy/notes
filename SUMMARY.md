@@ -4,6 +4,7 @@
   +  [使用Fragment](Android-Java/Fragments.md)
   +  [安卓系统点击事件处理框架](Android-Java/AndroidTouchSystem.md)
   +  [官方Material design手册](Android-Java/AndroidOfficialMaterialDesignGuild.md)
+  +  [《50 Android Hacks》一书](Android-Java/50AndroidHacks.md)
   +  官方开发手册
     +  [Getting Started](Android-Java/AndroidOfficialDevelopGuild-GettingStarted.md)
     +  [Building Apps with Content Sharing](Android-Java/AndroidOfficialDevelopGuild-BuildingAppsWithContentSharing.md)
@@ -66,6 +67,7 @@
   +  [Rx](Android-Java/Rx.md)
   +  [依赖注入](Android-Java/DependencyInjection.md)
   +  [AOP](Android-Java/AOP.md)
+  +  [《App研发录》一书](Android-Java/App-Dev-Notes.md)
   
 + 杂谈
 
@@ -74,6 +76,7 @@
  +  [使用词法分析、语法分析工具进行带语法文本处理](misc/Parcer.md)
  +  [深入Java深浅拷贝、immutable、unmodifiable](misc/copy.md)
  +  [面向对象六大原则(SOLID+)](misc/OOP6Principles.md)
+ +  [暗时间：学会正确思考](misc/DarkTime.md)
 
 +  后端
   +  [Feed系统的设计](Backend/Feed.md)
@@ -85,6 +88,7 @@
   +  [深入浅出ES6系列](Frontend/ES6.md)
   +  [Flux基础](Frontend/Flux.md)
   +  [JSTips](https://github.com/loverajoel/jstips)
+  +  [JavaScript 语言精粹](Frontend/JavascriptGoodParts.md)
 
 +  MOOC
   +  [Effective Thinking Through Mathematics](MOOC/UTAustinX_UT.9.01x.md)
